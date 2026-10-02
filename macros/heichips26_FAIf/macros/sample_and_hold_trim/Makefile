@@ -101,6 +101,29 @@ sim-xschem: ## Run TB simulation with Xschem in batch mode (usage: make sim-xsch
 	cd $(XSCHEM_TB_DIR)/simulations && ngspice -b $(TB).spice
 .PHONY: sim-xschem
 
+# PVT points for sim-xschem-pvt, each as <mos corner>:<cap corner>:<temperature in degC>:<VDDA in V>
+# Default: hot/slow and cold/fast, each at VDDA - 10 % and + 10 % (nominal TT/27 C/3.3 V is sim-xschem)
+# Override with: make sim-xschem-pvt PVT="ss:wcs:125:2.97 tt:typ:27:3.3"
+PVT ?= ss:wcs:125:2.97 ss:wcs:125:3.63 ff:bcs:-40:2.97 ff:bcs:-40:3.63
+
+sim-xschem-pvt: ## Run TB at every PVT point, outputs get a _<corner>_<temp>C_<vdd>V suffix (usage: make sim-xschem-pvt [TB=<testbenchname>] [PVT="<corner>:<cap>:<temp>:<vdd> ..."])
+	mkdir -p $(XSCHEM_TB_DIR)/simulations
+	cd $(XSCHEM_TB_DIR) && xschem -r -x -q --rcfile xschemrc --command ' \
+		xschem set netlist_type spice; \
+		set netlist_dir $(abspath $(XSCHEM_TB_DIR)/simulations); \
+		xschem netlist \
+	' $(TB).sch
+	cd $(XSCHEM_TB_DIR)/simulations && rm -f $(TB)_pvt.txt && for p in $(PVT); do \
+		set -- $$(echo $$p | tr ':' ' '); \
+		tag=_$$1_$$(echo $$3 | tr '-' 'm')C_$$(echo $$4 | tr '.' 'p')V; \
+		sed -e "s/mos_tt/mos_$$1/g" -e "s/cap_typ/cap_$$2/g" $(TB).spice > $(TB)$$tag.spice; \
+		ngspice -b -D pvt_corner=$$1 -D pvt_temp=$$3 -D pvt_vdd=$$4 -D pvt_tag=$$tag $(TB)$$tag.spice || exit 1; \
+		if [ -f $(TB)_pvt.txt ]; then tail -n +2 $(TB)$$tag.txt >> $(TB)_pvt.txt; else cp $(TB)$$tag.txt $(TB)_pvt.txt; fi; \
+	done
+	@echo "===== PVT summary: $(XSCHEM_TB_DIR)/simulations/$(TB)_pvt.txt ====="
+	@cat $(XSCHEM_TB_DIR)/simulations/$(TB)_pvt.txt
+.PHONY: sim-xschem-pvt
+
 sim-view-xschem: ## Plot Xschem simulation results (usage: make sim-view-xschem [SCRIPT=<scriptname>])
 	SHOW_PLOTS=1 python3 $(SIM_PLOT_DIR)/$(SCRIPT).py
 .PHONY: sim-view-xschem
@@ -127,10 +150,11 @@ sim-cace: ## Run CACE simulations and collect result plots
 	rm -rf _runs _docs netlist
 .PHONY: sim-cace
 
-sim-all: ## Simulate the macro
-	$(MAKE) sim-xschem TB=inverter_tb_ac_ol
-	$(MAKE) sim-xschem TB=inverter_tb_tran
-	$(MAKE) sim-xschem TB=inverter_tb_dc_vout
+sim-all: ## Simulate the macro (nominal and PVT points of the S&H testbenches)
+	$(MAKE) sim-xschem TB=sample_and_hold_trim_tb_tran
+	$(MAKE) sim-xschem TB=sample_and_hold_trim_tb_vs_notrim
+	$(MAKE) sim-xschem-pvt TB=sample_and_hold_trim_tb_tran
+	$(MAKE) sim-xschem-pvt TB=sample_and_hold_trim_tb_vs_notrim
 #	$(MAKE) sim-cace
 .PHONY: sim-all
 # ================================================================================================

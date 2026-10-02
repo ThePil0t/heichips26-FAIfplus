@@ -60,6 +60,10 @@ N 1210 -370 1350 -370 {lab=SH_OUT}
 N 850 -320 1300 -320 {lab=VDD}
 N 850 -310 1300 -310 {lab=VSS}
 N 1510 -240 1510 -200 {lab=cap_en[3:0]}
+N 980 -270 980 -240 {lab=cap_en[0]}
+N 1120 -270 1120 -240 {lab=cap_en[1]}
+N 1260 -270 1260 -240 {lab=cap_en[2]}
+N 1400 -270 1400 -240 {lab=cap_en[3]}
 C {aswitch.sym} 580 -370 0 0 {name=x1}
 C {title.sym} 160 0 0 0 {name=l1 author="Stefan Schippers"}
 C {sg13cmos5l_pr/cap_cmomi.sym} 790 -160 0 0 {name=C1
@@ -152,3 +156,7 @@ C {/home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/asw_inv/schemati
 C {lab_pin.sym} 850 -320 0 0 {name=p6 sig_type=std_logic lab=VDD}
 C {lab_pin.sym} 850 -310 0 0 {name=p7 sig_type=std_logic lab=VSS}
 C {ipin.sym} 1510 -200 3 0 {name=p8 lab=cap_en[3:0]}
+C {lab_pin.sym} 980 -240 3 0 {name=p9 sig_type=std_logic lab=cap_en[0]}
+C {lab_pin.sym} 1120 -240 3 0 {name=p10 sig_type=std_logic lab=cap_en[1]}
+C {lab_pin.sym} 1260 -240 3 0 {name=p11 sig_type=std_logic lab=cap_en[2]}
+C {lab_pin.sym} 1400 -240 3 0 {name=p12 sig_type=std_logic lab=cap_en[3]}

@@ -46,3 +46,7 @@ set xschem_execute_scripts yes
 # Add current directory to xschem library path
 append_xschem_library_path_unique [file join [file dirname [info script]] ../../schematic/xschem]
 append_xschem_library_path_unique [file dirname [info script]]
+# Sub-cells of the S&H and the input buffer used in the testbenches
+append_xschem_library_path_unique [file join [file dirname [info script]] ../../../aswitch/schematic/xschem]
+append_xschem_library_path_unique [file join [file dirname [info script]] ../../../asw_inv/schematic/xschem]
+append_xschem_library_path_unique [file join [file dirname [info script]] ../../../opamp/schematic/xschem]
