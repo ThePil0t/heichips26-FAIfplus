@@ -131,8 +131,10 @@ sim-view-xschem: ## Plot Xschem simulation results (usage: make sim-view-xschem 
 sim-all: ## Simulate the macro (nominal and PVT points of the S&H testbenches)
 	$(MAKE) sim-xschem TB=sample_and_hold_trim_tb_tran
 	$(MAKE) sim-xschem TB=sample_and_hold_trim_tb_vs_notrim
+	$(MAKE) sim-xschem TB=sample_and_hold_trim_tb_ac
 	$(MAKE) sim-xschem-pvt TB=sample_and_hold_trim_tb_tran
 	$(MAKE) sim-xschem-pvt TB=sample_and_hold_trim_tb_vs_notrim
+	$(MAKE) sim-xschem-pvt TB=sample_and_hold_trim_tb_ac
 .PHONY: sim-all
 # ================================================================================================
 
