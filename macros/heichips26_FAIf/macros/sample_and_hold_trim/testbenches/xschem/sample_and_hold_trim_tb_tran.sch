@@ -134,14 +134,16 @@ value="
   else
     set pvt_corner = tt
   end
-  if $?pvt_tag
-  else
-    set pvt_tag = ''
-  end
   set ext_txt = .txt
   set ext_raw = .raw
-  set outtxt = \\"@schname\\\\$pvt_tag$ext_txt\\"
-  set outraw = \\"@schname\\\\$pvt_tag$ext_raw\\"
+  ** output names: <tb><pvt_tag>.<ext>, the tag only exists for PVT runs
+  if $?pvt_tag
+    set outtxt = \\"@schname\\\\$pvt_tag$ext_txt\\"
+    set outraw = \\"@schname\\\\$pvt_tag$ext_raw\\"
+  else
+    set outtxt = \\"@schname\\\\$ext_txt\\"
+    set outraw = \\"@schname\\\\$ext_raw\\"
+  end
 
   echo corner temp_C vdd_V code hold vin_V pedestal_mV droop_mV_per_ms feedthrough_dB tacq_us trk_err_mV > $outtxt
   unset appendwrite

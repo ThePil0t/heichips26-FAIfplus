@@ -144,16 +144,19 @@ value="
   else
     set pvt_corner = tt
   end
-  if $?pvt_tag
-  else
-    set pvt_tag = ''
-  end
   set ext_txt = .txt
   set ext_cv = _chold.txt
   set ext_raw = .raw
-  set outtxt = \\"@schname\\\\$pvt_tag$ext_txt\\"
-  set outcv = \\"@schname\\\\$pvt_tag$ext_cv\\"
-  set outraw = \\"@schname\\\\$pvt_tag$ext_raw\\"
+  ** output names: <tb><pvt_tag>.<ext>, the tag only exists for PVT runs
+  if $?pvt_tag
+    set outtxt = \\"@schname\\\\$pvt_tag$ext_txt\\"
+    set outcv = \\"@schname\\\\$pvt_tag$ext_cv\\"
+    set outraw = \\"@schname\\\\$pvt_tag$ext_raw\\"
+  else
+    set outtxt = \\"@schname\\\\$ext_txt\\"
+    set outcv = \\"@schname\\\\$ext_cv\\"
+    set outraw = \\"@schname\\\\$ext_raw\\"
+  end
 
   echo corner temp_C vdd_V code channel hold vin_V pedestal_mV droop_mV_per_ms feedthrough_dB tacq_us trk_err_mV > $outtxt
   echo corner temp_C vdd_V code channel vhold_V chold_pF > $outcv
@@ -248,6 +251,8 @@ value="
       alterparam VLEV = $lev
       reset
       option temp = $temp_c
+      ** after reset only the netlist .save (i(vvdda)) is active: save the hold nodes explicitly
+      save v(sh_out_trim) v(sh_out_nmin) v(sh_out_nmax)
       ac lin 1 1e6 1e6
       foreach ch $chans
         let c_pf = imag(1/v(sh_out_$ch))/(2*pi*1e6)*1e12 - cload_pf

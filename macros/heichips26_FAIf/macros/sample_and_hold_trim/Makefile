@@ -59,7 +59,6 @@ RENDER_DIR      := final/render
 NET_SCH_DIR     := netlist/schematic
 NET_LAY_DIR     := netlist/layout
 NET_PEX_DIR     := netlist/pex
-CACE_DIR        := verification/cace
 LVS_RPT_DIR     := verification/lvs
 DRC_RPT_DIR     := verification/drc
 
@@ -102,9 +101,10 @@ sim-xschem: ## Run TB simulation with Xschem in batch mode (usage: make sim-xsch
 .PHONY: sim-xschem
 
 # PVT points for sim-xschem-pvt, each as <mos corner>:<cap corner>:<temperature in degC>:<VDDA in V>
-# Default: hot/slow and cold/fast, each at VDDA - 10 % and + 10 % (nominal TT/27 C/3.3 V is sim-xschem)
+# Default: hot/slow, cold/fast and hot/fast (worst leakage), each at VDDA - 10 % and + 10 %
+# (nominal TT/27 C/3.3 V is sim-xschem)
 # Override with: make sim-xschem-pvt PVT="ss:wcs:125:2.97 tt:typ:27:3.3"
-PVT ?= ss:wcs:125:2.97 ss:wcs:125:3.63 ff:bcs:-40:2.97 ff:bcs:-40:3.63
+PVT ?= ss:wcs:125:2.97 ss:wcs:125:3.63 ff:bcs:-40:2.97 ff:bcs:-40:3.63 ff:bcs:125:2.97 ff:bcs:125:3.63
 
 sim-xschem-pvt: ## Run TB at every PVT point, outputs get a _<corner>_<temp>C_<vdd>V suffix (usage: make sim-xschem-pvt [TB=<testbenchname>] [PVT="<corner>:<cap>:<temp>:<vdd> ..."])
 	mkdir -p $(XSCHEM_TB_DIR)/simulations
@@ -128,34 +128,11 @@ sim-view-xschem: ## Plot Xschem simulation results (usage: make sim-view-xschem 
 	SHOW_PLOTS=1 python3 $(SIM_PLOT_DIR)/$(SCRIPT).py
 .PHONY: sim-view-xschem
 
-sim-cace: ## Run CACE simulations and collect result plots
-	cd $(CACE_DIR) && \
-	mkdir -p results/inverter && \
-	\
-	cace inverter.yaml -p ac_mm_params && \
-	cp _runs/RUN_*/parameters/ac_mm_params/Adc_ol_dB_mm.png results/inverter/ && \
-	cp _runs/RUN_*/parameters/ac_mm_params/fcu_mm.png results/inverter/ && \
-	rm -rf _runs/RUN_* && \
-	\
-	cace inverter.yaml -p ac_mc_params && \
-	cp _runs/RUN_*/parameters/ac_mc_params/Adc_ol_dB_mc.png results/inverter/ && \
-	cp _runs/RUN_*/parameters/ac_mc_params/fcu_mc.png results/inverter/ && \
-	rm -rf _runs/RUN_* && \
-	\
-	cace inverter.yaml -p ac_params && \
-	cp _runs/RUN_*/parameters/ac_params/Adc_ol_dB_vs_vdd.png results/inverter/ && \
-	cp _runs/RUN_*/parameters/ac_params/fcu_vs_vdd.png results/inverter/ && \
-	rm -rf _runs/RUN_* && \
-	\
-	rm -rf _runs _docs netlist
-.PHONY: sim-cace
-
 sim-all: ## Simulate the macro (nominal and PVT points of the S&H testbenches)
 	$(MAKE) sim-xschem TB=sample_and_hold_trim_tb_tran
 	$(MAKE) sim-xschem TB=sample_and_hold_trim_tb_vs_notrim
 	$(MAKE) sim-xschem-pvt TB=sample_and_hold_trim_tb_tran
 	$(MAKE) sim-xschem-pvt TB=sample_and_hold_trim_tb_vs_notrim
-#	$(MAKE) sim-cace
 .PHONY: sim-all
 # ================================================================================================
 
@@ -382,7 +359,7 @@ klayout-verify: ## Verify CELL cell with KLayout (usage: make klayout-verify [CE
 .PHONY: klayout-verify
 
 klayout-verify-all: ## Verify all main subcells with KLayout (DRC, LVS, PEX)
-	$(MAKE) klayout-verify CELL=inverter
+	$(MAKE) klayout-verify CELL=$(TOP)
 .PHONY: klayout-verify-all
 
 magic-verify: ## Verify CELL cell with Magic (usage: make magic-verify [CELL=<cellname>])
@@ -392,7 +369,7 @@ magic-verify: ## Verify CELL cell with Magic (usage: make magic-verify [CELL=<ce
 .PHONY: magic-verify
 
 magic-verify-all: ## Verify all main subcells with Magic (DRC, LVS, PEX)
-	$(MAKE) magic-verify CELL=inverter
+	$(MAKE) magic-verify CELL=$(TOP)
 .PHONY: magic-verify-all
 # ================================================================================================
 
@@ -415,6 +392,5 @@ clean: ## Delete all generated files and folders (final, netlist, DRC/LVS report
 	rm -rf $(SIM_PLOT_DIR)/__pycache__
 	mkdir -p $(SIM_PLOT_DIR)/data $(SIM_PLOT_DIR)/figures
 	rm -rf $(SIM_PLOT_DIR)/data/* $(SIM_PLOT_DIR)/figures/*
-	rm -rf $(CACE_DIR)/_runs $(CACE_DIR)/_docs $(CACE_DIR)/netlist $(CACE_DIR)/results
 .PHONY: clean
 # ================================================================================================
