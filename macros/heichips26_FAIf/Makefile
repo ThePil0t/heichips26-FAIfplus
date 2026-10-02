@@ -34,11 +34,15 @@ FINAL_DIR      	:= final
 # Variables for simulation and linting targets
 # The counter sub-macro is hardened separately (see macros/counter/), but its RTL
 # is needed for linting and RTL simulation of the whole design.
+# Verilog files generated from the VHDL sources with GHDL (see the $(SRC_DIR)/gen/%.v rule)
+GEN_VERILOG := \
+	$(SRC_DIR)/gen/dac_reg.v \
+	$(SRC_DIR)/gen/sar.v
+
 MODULES_SYNTH := \
 	$(SRC_DIR)/heichips26_FAIf.sv \
 	$(SRC_DIR)/analogue_interface.sv \
-	$(SRC_DIR)/gen/dac_reg.v \
-	$(SRC_DIR)/gen/sar.v
+	$(GEN_VERILOG)
 
 MODULES_SIM := \
 	$(MODULES_SYNTH)
@@ -54,9 +58,10 @@ _TB_EXT = $(if $(wildcard $(VERILOG_TB_DIR)/$(CELL)_tb.sv),sv,v)
 
 $(SRC_DIR)/gen/%.v: $(SRC_DIR)/%.vhdl
 	mkdir -p $(SRC_DIR)/gen
-	ghdl -a $<
-	ghdl synth --out=verilog $(basename $(notdir $<)) > $@
-	rm ./*.cf
+	ghdl synth --out=verilog $< -e $(basename $(notdir $<)) > $@
+
+gen-verilog: $(GEN_VERILOG) ## Convert the VHDL sources to Verilog with GHDL
+.PHONY: gen-verilog
 
 # Help Target
 help: ## Show this help message
@@ -127,19 +132,19 @@ sim-all: ## Simulate the macro (RTL Verilog + RTL/GL cocotb for heichips26_digit
 
 
 # LibreLane Targets
-librelane: ## Run LibreLane with Magic and KLayout DRC checks.
+librelane: $(GEN_VERILOG) ## Run LibreLane with Magic and KLayout DRC checks.
 	librelane $(LIBRELANE_DIR)/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --save-views-to $(FLOW_FINAL_DIR)/
 .PHONY: librelane
 
-librelane-nodrc: ## Run LibreLane without DRC checks
+librelane-nodrc: $(GEN_VERILOG) ## Run LibreLane without DRC checks
 	librelane $(LIBRELANE_DIR)/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --save-views-to $(FLOW_FINAL_DIR)/ --skip KLayout.DRC --skip Magic.DRC
 .PHONY: librelane-nodrc
 
-librelane-magicdrc: ## Run LibreLane with only Magic DRC checks
+librelane-magicdrc: $(GEN_VERILOG) ## Run LibreLane with only Magic DRC checks
 	librelane $(LIBRELANE_DIR)/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --save-views-to $(FLOW_FINAL_DIR)/ --skip KLayout.DRC
 .PHONY: librelane-magicdrc
 
-librelane-klayoutdrc: ## Run LibreLane with only KLayout DRC checks
+librelane-klayoutdrc: $(GEN_VERILOG) ## Run LibreLane with only KLayout DRC checks
 	librelane $(LIBRELANE_DIR)/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --save-views-to $(FLOW_FINAL_DIR)/ --skip Magic.DRC
 .PHONY: librelane-klayoutdrc
 
