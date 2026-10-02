@@ -1,0 +1,29 @@
+* cap_cmomi_lf.spice - low-frequency equivalent of the ihp-sg13cmos5l cap_cmomi model
+*
+* Same main capacitance and substrate-coupling equations as
+* $PDK_ROOT/ihp-sg13cmos5l/libs.tech/verilog-a/cap_cmomi/cap_cmomi.va:
+*   C_main = density(N) * floor(l/0.84) * (floor(w/0.89)-1) * 0.84*0.89 um^2 (+ feed cap for feed=same)
+*   Cox    = cox0 + cox1*(w+l) + cox2*w*l (fF, w/l in um) from MINUS to ground (Rsub shorts Csub at LF)
+* Left out on purpose:
+*   - the RF branches (series R, core/skin L): they resonate at tens of GHz and make the
+*     sah_12bit transient testbenches ~30x slower without changing anything below ~1 GHz
+*   - the GLEAK = 1e-12 S anchors from PLUS/MINUS to ground: a model artifact that adds a
+*     V/1TOhm leakage (up to 3.3 pA) to the hold node and would be mistaken for droop
+* Used by the sah_12bit characterization testbenches instead of '.lib cornerCAP.lib cap_typ'
+* (the PDK cap model has no corner spread either). The final closed-loop check uses the PDK model.
+
+.param none=0 same=1 double=2
+
+.subckt cap_cmomi PLUS MINUS w=5e-6 l=5e-6 mmin=1 mmax=4 feed=2 subblock=0 mm_ok=1
+.param nlay = {max(mmax-mmin+1, 1)}
+.param dens = {nlay <= 2 ? 0.55 : (nlay == 3 ? 0.82 : 1.09)}
+.param cfpu = {nlay <= 2 ? 0.70 : (nlay == 3 ? 0.97 : 1.28)}
+.param ax = {max(floor(l*1e6/0.84 + 1e-6), 1)}
+.param ay = {max(floor(w*1e6/0.89 + 1e-6) - 1, 1)}
+.param cfeed = {feed == 1 ? cfpu*(ay*0.89 + 0.64) : 0}
+.param cox0 = {mmin == 1 ? 1.725 : (mmin == 2 ? 1.240 : 1.052)}
+.param cox1 = {mmin == 1 ? 0.1192 : (mmin == 2 ? 0.1139 : 0.09867)}
+.param cox2 = {mmin == 1 ? 0.019406 : (mmin == 2 ? 0.011417 : 0.011364)}
+Cmain PLUS MINUS {(dens*ax*ay*0.84*0.89 + cfeed)*1e-15}
+Cox MINUS 0 {(cox0 + cox1*(w+l)*1e6 + cox2*w*l*1e12)*1e-15}
+.ends cap_cmomi
