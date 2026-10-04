@@ -42,7 +42,9 @@ The script stops with an error if a block leaves the macro, two blocks are close
 - **Size:** 300 × 185 µm, 1 nm dbu, `prBoundary` at (0,0)–(300,185).
 - **Layers:** Metal1–Metal3 only. There is no Via3/Metal4/TopMetal1, so the top-level Metal4 PDN straps can run across the macro. The LEF obstructs Metal1–Metal3 over the whole macro except the pins; Metal4 is not obstructed.
 - **Cell names:** every subcell is prefixed `heichips26_FAIf_` for chip-level uniqueness. This also removes the leading digit of `555_comparator`. The top cell is `analogue_interface`, the module name used in `rtl/heichips26_FAIf.sv`.
-- **Planned location in `heichips26_FAIf`:** (190, 5), orientation N. The macro then covers die x 190–490 and y 5–190, and leaves x < 180 (after the 10 µm macro halo) for the digital logic. Only at this location are `analog_0..2` directly above the die pins of `heichips26_template_small_analog` (x = 450.24 / 455.04 / 459.84).
+- **Location in `heichips26_FAIf`:** (190, 8.82), orientation N (`DIE_LOCATION` in the build script). The macro then covers die x 190–490 and y 8.82–193.82, and leaves x < 180 (after the 10 µm horizontal macro halo) for the digital logic.
+  - **x = 190:** only at this x are `analog_0..2` directly above the die pins of `heichips26_template_small_analog` (x = 450.24 / 455.04 / 459.84).
+  - **y = 8.82:** this keeps the bottom cell row (y 3.78–7.56) free, together with `FP_MACRO_VERTICAL_HALO: 1` and `PDN_VERTICAL_HALO: 1`. That row's power rails are the only link between the Metal4 straps over the macro and the rest of the power grid. 8.82 is a multiple of 0.42 µm, so the west-edge pins stay on the Metal3 tracks.
 
 ```
 y=185 ┌─────────────────────────────────────────────────────────────────────┐
@@ -127,16 +129,19 @@ The LEF declares `USE POWER` for VPWR and VAPWR and `USE GROUND` for VGND. The L
   - `CMOS5L.FORB.nBuLay` ×8 in `ptat_curr_gen`: the PTAT draws an nBuLay ring (32/0) around x 5.6–18.2, y 24.9–33.2, and nBuLay is forbidden in the CMOS5L stack. This has to be fixed in the PTAT layout.
   - `Act.b` ×4 in `down_digital_translator`: Activ space below 0.21 µm near y 3.8–3.9.
 - **Schematic:** the top schematic still uses the untrimmed `sample_and_hold.sym` and has no translators for `cap_en`.
-- **RTL:** `rtl/heichips26_FAIf.sv` does not connect `sh_cap_en` yet. Until the config register exists, the dry run sees 4 unconnected macro inputs.
-- **Analog pin positions:** they only line up with the die pins at location (190, 5).
+- **RTL:** `rtl/heichips26_FAIf.sv` ties `sh_cap_en` to `4'b0000` until the config register exists.
+- **Location-dependent pins:** the analog pins only line up with the die pins, and the west-edge pins only sit on the Metal3 tracks, at location (190, 8.82). Change `DIE_LOCATION` and rebuild if the macro moves.
 - **Metal4:** it is not obstructed, so top-level signal routes may cross the analog blocks. The Metal4 keep-out plan is still open (TAPEOUT_PLAN §5.4).
 
 
-## Next step: LibreLane dry run
+## LibreLane integration
 
-Not done yet. In `../../flow/librelane/config.yaml`:
-- set `FP_DEF_TEMPLATE: dir::heichips26_template_small_analog.def`;
-- add a `MACROS: analogue_interface` entry with the `final/` views and the instance at `[190, 5]`, orientation `N`;
-- set `VDD_NETS`/`GND_NETS` and `PDN_MACRO_CONNECTIONS` including VAPWR.
+The macro is used in `../../flow/librelane/config.yaml`:
+- `FP_DEF_TEMPLATE: dir::heichips26_template_small_analog.def`;
+- a `MACROS: analogue_interface` entry with the `final/` views and the instance at `[190, 8.82]`, orientation `N`;
+- `VDD_NETS: [VPWR, VAPWR]` and `GND_NETS: [VGND, VGND]`;
+- `FP_MACRO_VERTICAL_HALO: 1` and `PDN_VERTICAL_HALO: 1`.
 
-Also take the placeholder `rtl/analogue_interface.sv` out of synthesis and wire `sh_cap_en` in the RTL.
+The power pins are connected through the RTL: the instance in `rtl/heichips26_FAIf.sv` connects `VPWR`, `VAPWR` and `VGND` under `USE_POWER_PINS`. The placeholder `rtl/analogue_interface.sv` is used only for lint and simulation, not for synthesis.
+
+The full flow runs through, and only DRC errors inside the analog blocks remain. See `TAPEOUT_TODO_PLAN.md` at the repo root.

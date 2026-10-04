@@ -34,7 +34,7 @@ MIN_GAP = 3.0  # minimum spacing between placed blocks
 # Planned placement of the macro in heichips26_FAIf (lower-left, orientation N).
 # The analog pins sit directly above the die pins of heichips26_template_small_analog
 # only for this location.
-DIE_LOCATION = (190.0, 5.0)
+DIE_LOCATION = (190.0, 8.82)
 DIE_ANALOG_PIN_X = {"analog_0": 450.24, "analog_1": 455.04, "analog_2": 459.84}
 
 # Metal3 routing tracks of heichips26_template_small_analog.def (die coordinates): y = 0.42 * k
