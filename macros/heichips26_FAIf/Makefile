@@ -6,7 +6,7 @@ MAKEFILE_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 RUN_TAG = $(shell ls -1 $(LIBRELANE_DIR)/runs 2>/dev/null | tail -n 1)
 
 # Variables
-TOP = heichips26_digital_project
+TOP = heichips26_FAIf
 
 .DEFAULT_GOAL := help
 
@@ -34,9 +34,15 @@ FINAL_DIR      	:= final
 # Variables for simulation and linting targets
 # The counter sub-macro is hardened separately (see macros/counter/), but its RTL
 # is needed for linting and RTL simulation of the whole design.
+# Verilog files generated from the VHDL sources with GHDL (see the $(SRC_DIR)/gen/%.v rule)
+GEN_VERILOG := \
+	$(SRC_DIR)/gen/dac_reg.v \
+	$(SRC_DIR)/gen/sar.v
+
 MODULES_SYNTH := \
-	$(SRC_DIR)/heichips26_digital_project.sv \
-	$(MACROS_DIR)/counter/rtl/counter.sv
+	$(SRC_DIR)/heichips26_FAIf.sv \
+	$(SRC_DIR)/analogue_interface.sv \
+	$(GEN_VERILOG)
 
 MODULES_SIM := \
 	$(MODULES_SYNTH)
@@ -50,6 +56,12 @@ _LINT_SRCS = $(if $(filter $(CELL),$(TOP)),$(MODULES_SYNTH),$(or $(wildcard $(SR
 # Testbench extension: prefers <CELL>_tb.sv, falls back to <CELL>_tb.v (dot is added at use site)
 _TB_EXT = $(if $(wildcard $(VERILOG_TB_DIR)/$(CELL)_tb.sv),sv,v)
 
+$(SRC_DIR)/gen/%.v: $(SRC_DIR)/%.vhdl
+	mkdir -p $(SRC_DIR)/gen
+	ghdl synth --out=verilog $< -e $(basename $(notdir $<)) > $@
+
+gen-verilog: $(GEN_VERILOG) ## Convert the VHDL sources to Verilog with GHDL
+.PHONY: gen-verilog
 
 # Help Target
 help: ## Show this help message
@@ -65,8 +77,8 @@ help: ## Show this help message
 
 
 # Linter Targets
-lint-verilog: ## Lint Verilog source files with Verilator (usage: make lint-verilog [CELL=<cellname>])
-	verilator --lint-only -I"$(SRC_DIR)" $(_LINT_SRCS)
+lint-verilog: $(_LINT_SRCS) ## Lint Verilog source files with Verilator (usage: make lint-verilog [CELL=<cellname>])
+	verilator --lint-only -I"$(SRC_DIR)" -I"$(SRC_DIR)/gen" $(_LINT_SRCS)
 .PHONY: lint-verilog
 
 lint-verilog-all: ## Lint all Verilog source files (counter sub-macro + heichips26_digital_project)
@@ -120,19 +132,19 @@ sim-all: ## Simulate the macro (RTL Verilog + RTL/GL cocotb for heichips26_digit
 
 
 # LibreLane Targets
-librelane: ## Run LibreLane with Magic and KLayout DRC checks.
+librelane: $(GEN_VERILOG) ## Run LibreLane with Magic and KLayout DRC checks.
 	librelane $(LIBRELANE_DIR)/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --save-views-to $(FLOW_FINAL_DIR)/
 .PHONY: librelane
 
-librelane-nodrc: ## Run LibreLane without DRC checks
+librelane-nodrc: $(GEN_VERILOG) ## Run LibreLane without DRC checks
 	librelane $(LIBRELANE_DIR)/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --save-views-to $(FLOW_FINAL_DIR)/ --skip KLayout.DRC --skip Magic.DRC
 .PHONY: librelane-nodrc
 
-librelane-magicdrc: ## Run LibreLane with only Magic DRC checks
+librelane-magicdrc: $(GEN_VERILOG) ## Run LibreLane with only Magic DRC checks
 	librelane $(LIBRELANE_DIR)/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --save-views-to $(FLOW_FINAL_DIR)/ --skip KLayout.DRC
 .PHONY: librelane-magicdrc
 
-librelane-klayoutdrc: ## Run LibreLane with only KLayout DRC checks
+librelane-klayoutdrc: $(GEN_VERILOG) ## Run LibreLane with only KLayout DRC checks
 	librelane $(LIBRELANE_DIR)/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --save-views-to $(FLOW_FINAL_DIR)/ --skip Magic.DRC
 .PHONY: librelane-klayoutdrc
 
