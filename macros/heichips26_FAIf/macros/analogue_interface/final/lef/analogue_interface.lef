@@ -1,0 +1,349 @@
+VERSION 5.7 ;
+  DIVIDERCHAR "/" ;
+  BUSBITCHARS "[]" ;
+MACRO analogue_interface
+  CLASS BLOCK ;
+  FOREIGN analogue_interface ;
+  ORIGIN 0.000 0.000 ;
+  SIZE 300.000 BY 185.000 ;
+  PIN adc_ref[0]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 116.180 1.000 116.580 ;
+    END
+  END adc_ref[0]
+  PIN adc_ref[1]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 112.820 1.000 113.220 ;
+    END
+  END adc_ref[1]
+  PIN adc_ref[2]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 107.780 1.000 108.180 ;
+    END
+  END adc_ref[2]
+  PIN adc_ref[3]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 104.420 1.000 104.820 ;
+    END
+  END adc_ref[3]
+  PIN adc_ref[4]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 99.380 1.000 99.780 ;
+    END
+  END adc_ref[4]
+  PIN adc_ref[5]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 96.020 1.000 96.420 ;
+    END
+  END adc_ref[5]
+  PIN adc_ref[6]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 90.980 1.000 91.380 ;
+    END
+  END adc_ref[6]
+  PIN adc_ref[7]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 88.040 1.000 88.440 ;
+    END
+  END adc_ref[7]
+  PIN adc_hold
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 133.820 1.000 134.220 ;
+    END
+  END adc_hold
+  PIN adc_comp
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 126.260 1.000 126.660 ;
+    END
+  END adc_comp
+  PIN dac_out[0]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 77.960 1.000 78.360 ;
+    END
+  END dac_out[0]
+  PIN dac_out[1]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 75.020 1.000 75.420 ;
+    END
+  END dac_out[1]
+  PIN dac_out[2]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 69.560 1.000 69.960 ;
+    END
+  END dac_out[2]
+  PIN dac_out[3]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 66.620 1.000 67.020 ;
+    END
+  END dac_out[3]
+  PIN dac_out[4]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 61.160 1.000 61.560 ;
+    END
+  END dac_out[4]
+  PIN dac_out[5]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 58.220 1.000 58.620 ;
+    END
+  END dac_out[5]
+  PIN dac_out[6]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 53.180 1.000 53.580 ;
+    END
+  END dac_out[6]
+  PIN dac_out[7]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 49.820 1.000 50.220 ;
+    END
+  END dac_out[7]
+  PIN dac_out[8]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 40.160 1.000 40.560 ;
+    END
+  END dac_out[8]
+  PIN dac_out[9]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 36.800 1.000 37.200 ;
+    END
+  END dac_out[9]
+  PIN dac_out[10]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 31.760 1.000 32.160 ;
+    END
+  END dac_out[10]
+  PIN dac_out[11]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 28.400 1.000 28.800 ;
+    END
+  END dac_out[11]
+  PIN dac_out[12]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 23.360 1.000 23.760 ;
+    END
+  END dac_out[12]
+  PIN dac_out[13]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 20.000 1.000 20.400 ;
+    END
+  END dac_out[13]
+  PIN dac_out[14]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 14.960 1.000 15.360 ;
+    END
+  END dac_out[14]
+  PIN dac_out[15]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 12.020 1.000 12.420 ;
+    END
+  END dac_out[15]
+  PIN sh_cap_en[0]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 142.220 1.000 142.620 ;
+    END
+  END sh_cap_en[0]
+  PIN sh_cap_en[1]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 150.200 1.000 150.600 ;
+    END
+  END sh_cap_en[1]
+  PIN sh_cap_en[2]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 158.180 1.000 158.580 ;
+    END
+  END sh_cap_en[2]
+  PIN sh_cap_en[3]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 166.160 1.000 166.560 ;
+    END
+  END sh_cap_en[3]
+  PIN analog_0
+    DIRECTION INOUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal2 ;
+        RECT 259.740 0.000 260.740 2.000 ;
+    END
+  END analog_0
+  PIN analog_1
+    DIRECTION INOUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal2 ;
+        RECT 264.540 0.000 265.540 2.000 ;
+    END
+  END analog_1
+  PIN analog_2
+    DIRECTION INOUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER Metal2 ;
+        RECT 269.340 0.000 270.340 2.000 ;
+    END
+  END analog_2
+  PIN VPWR
+    DIRECTION INOUT ;
+    USE POWER ;
+    PORT
+      LAYER Metal3 ;
+        RECT 2.000 173.000 298.000 175.000 ;
+    END
+  END VPWR
+  PIN VGND
+    DIRECTION INOUT ;
+    USE GROUND ;
+    PORT
+      LAYER Metal3 ;
+        RECT 2.000 177.000 298.000 179.000 ;
+    END
+  END VGND
+  PIN VAPWR
+    DIRECTION INOUT ;
+    USE POWER ;
+    PORT
+      LAYER Metal3 ;
+        RECT 2.000 181.000 298.000 183.000 ;
+    END
+  END VAPWR
+  OBS
+    LAYER Metal1 ;
+      RECT 0.000 0.000 300.000 185.000 ;
+    LAYER Metal2 ;
+      RECT 0.000 0.000 259.240 2.500 ;
+      RECT 261.240 0.000 264.040 2.500 ;
+      RECT 266.040 0.000 268.840 2.500 ;
+      RECT 270.840 0.000 300.000 185.000 ;
+      RECT 0.000 2.500 270.840 185.000 ;
+    LAYER Metal3 ;
+      RECT 0.000 0.000 300.000 11.520 ;
+      RECT 1.500 11.520 300.000 167.060 ;
+      RECT 0.000 12.920 1.500 14.460 ;
+      RECT 0.000 15.860 1.500 19.500 ;
+      RECT 0.000 20.900 1.500 22.860 ;
+      RECT 0.000 24.260 1.500 27.900 ;
+      RECT 0.000 29.300 1.500 31.260 ;
+      RECT 0.000 32.660 1.500 36.300 ;
+      RECT 0.000 37.700 1.500 39.660 ;
+      RECT 0.000 41.060 1.500 49.320 ;
+      RECT 0.000 50.720 1.500 52.680 ;
+      RECT 0.000 54.080 1.500 57.720 ;
+      RECT 0.000 59.120 1.500 60.660 ;
+      RECT 0.000 62.060 1.500 66.120 ;
+      RECT 0.000 67.520 1.500 69.060 ;
+      RECT 0.000 70.460 1.500 74.520 ;
+      RECT 0.000 75.920 1.500 77.460 ;
+      RECT 0.000 78.860 1.500 87.540 ;
+      RECT 0.000 88.940 1.500 90.480 ;
+      RECT 0.000 91.880 1.500 95.520 ;
+      RECT 0.000 96.920 1.500 98.880 ;
+      RECT 0.000 100.280 1.500 103.920 ;
+      RECT 0.000 105.320 1.500 107.280 ;
+      RECT 0.000 108.680 1.500 112.320 ;
+      RECT 0.000 113.720 1.500 115.680 ;
+      RECT 0.000 117.080 1.500 125.760 ;
+      RECT 0.000 127.160 1.500 133.320 ;
+      RECT 0.000 134.720 1.500 141.720 ;
+      RECT 0.000 143.120 1.500 149.700 ;
+      RECT 0.000 151.100 1.500 157.680 ;
+      RECT 0.000 159.080 1.500 165.660 ;
+      RECT 0.000 167.060 298.500 172.500 ;
+      RECT 298.500 167.060 300.000 185.000 ;
+      RECT 0.000 172.500 1.500 175.500 ;
+      RECT 0.000 175.500 298.500 176.500 ;
+      RECT 0.000 176.500 1.500 179.500 ;
+      RECT 0.000 179.500 298.500 180.500 ;
+      RECT 0.000 180.500 1.500 183.500 ;
+      RECT 0.000 183.500 298.500 185.000 ;
+  END
+END analogue_interface
+
+END LIBRARY

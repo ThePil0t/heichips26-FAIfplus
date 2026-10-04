@@ -1,0 +1,107 @@
+library (analogue_interface) {
+  comment : "Timing-free view of the dry-run analogue_interface macro (no timing arcs)";
+  delay_model : table_lookup;
+  capacitive_load_unit (1, pf);
+  current_unit : "1mA";
+  leakage_power_unit : "1nW";
+  pulling_resistance_unit : "1kohm";
+  time_unit : "1ns";
+  voltage_unit : "1V";
+  nom_process : 1.0;
+  nom_temperature : 25.0;
+  nom_voltage : 1.2;
+  input_threshold_pct_fall : 50.0;
+  input_threshold_pct_rise : 50.0;
+  output_threshold_pct_fall : 50.0;
+  output_threshold_pct_rise : 50.0;
+  slew_lower_threshold_pct_fall : 20.0;
+  slew_lower_threshold_pct_rise : 20.0;
+  slew_upper_threshold_pct_fall : 80.0;
+  slew_upper_threshold_pct_rise : 80.0;
+  voltage_map (VPWR, 1.2);
+  voltage_map (VAPWR, 3.3);
+  voltage_map (VGND, 0.0);
+  type (bus4) {
+    base_type : array;
+    data_type : bit;
+    bit_width : 4;
+    bit_from : 3;
+    bit_to : 0;
+    downto : true;
+  }
+  type (bus8) {
+    base_type : array;
+    data_type : bit;
+    bit_width : 8;
+    bit_from : 7;
+    bit_to : 0;
+    downto : true;
+  }
+  type (bus16) {
+    base_type : array;
+    data_type : bit;
+    bit_width : 16;
+    bit_from : 15;
+    bit_to : 0;
+    downto : true;
+  }
+  cell (analogue_interface) {
+    area : 55500.0;
+    is_macro_cell : true;
+    dont_touch : true;
+    dont_use : true;
+    pg_pin (VPWR) { pg_type : primary_power; voltage_name : VPWR; }
+    pg_pin (VAPWR) { pg_type : primary_power; voltage_name : VAPWR; }
+    pg_pin (VGND) { pg_type : primary_ground; voltage_name : VGND; }
+    bus (adc_ref) {
+      bus_type : bus8;
+      direction : input;
+      capacitance : 0.005;
+      related_power_pin : VPWR;
+      related_ground_pin : VGND;
+    }
+    pin (adc_hold) {
+      direction : input;
+      capacitance : 0.005;
+      related_power_pin : VPWR;
+      related_ground_pin : VGND;
+    }
+    pin (adc_comp) {
+      direction : output;
+      related_power_pin : VPWR;
+      related_ground_pin : VGND;
+    }
+    bus (dac_out) {
+      bus_type : bus16;
+      direction : input;
+      capacitance : 0.005;
+      related_power_pin : VPWR;
+      related_ground_pin : VGND;
+    }
+    bus (sh_cap_en) {
+      bus_type : bus4;
+      direction : input;
+      capacitance : 0.005;
+      related_power_pin : VPWR;
+      related_ground_pin : VGND;
+    }
+    pin (analog_0) {
+      direction : inout;
+      capacitance : 0.005;
+      related_power_pin : VAPWR;
+      related_ground_pin : VGND;
+    }
+    pin (analog_1) {
+      direction : inout;
+      capacitance : 0.005;
+      related_power_pin : VAPWR;
+      related_ground_pin : VGND;
+    }
+    pin (analog_2) {
+      direction : inout;
+      capacitance : 0.005;
+      related_power_pin : VAPWR;
+      related_ground_pin : VGND;
+    }
+  }
+}

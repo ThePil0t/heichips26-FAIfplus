@@ -9,6 +9,7 @@ module heichips26_FAIf (
 `ifdef USE_POWER_PINS
     inout  wire VPWR,
     inout  wire VGND,
+    inout  wire VAPWR,
 `endif
     
     input  logic [7:0] ui_in,    // Dedicated inputs
@@ -20,8 +21,8 @@ module heichips26_FAIf (
     input  logic       clk,      // clock
     input  logic       rst_n,     // reset_n - low to reset
 
-    // Analogue dedicated outputs
-    output wire analog_0, analog_1, analog_2
+    // Analogue dedicated outputs (inout keeps LibreLane from buffering them)
+    inout wire analog_0, analog_1, analog_2
 );
 
     // List all unused inputs to prevent warnings
@@ -68,10 +69,16 @@ module heichips26_FAIf (
     );
 
     analogue_interface analogue_interface_instance (
+    `ifdef USE_POWER_PINS
+        .VPWR(VPWR),
+        .VAPWR(VAPWR),
+        .VGND(VGND),
+    `endif
         .adc_ref(adc_ref_out),
         .adc_hold(adc_hold),
         .adc_comp(adc_comp),
         .dac_out(dac_out),
+        .sh_cap_en(4'b0000),
         .analog_0(analog_0),
         .analog_1(analog_1),
         .analog_2(analog_2)

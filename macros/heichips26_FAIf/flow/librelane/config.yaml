@@ -13,8 +13,10 @@ meta:
 
 DESIGN_NAME: heichips26_FAIf
 VERILOG_FILES: 
-  - dir::../../rtl/*.sv
-  - dir::../../rtl/gen/*.v
+  # - dir::../../rtl/*.sv
+  # - dir::../../rtl/gen/*.v
+  - dir::../../rtl/heichips26_FAIf.sv
+  - dir::../../rtl/gen/*.v  
 CLOCK_PORT: clk
 CLOCK_NET: clk
 CLOCK_PERIOD: 10 # 10ns = 100MHz
@@ -38,7 +40,9 @@ FP_SIZING: absolute
 
 # Small DEF template
 DIE_AREA: [0, 0, 500, 200]
-FP_DEF_TEMPLATE: dir::heichips26_template_small.def
+# FP_DEF_TEMPLATE: dir::heichips26_template_small.def
+FP_DEF_TEMPLATE: dir::heichips26_template_small_analog.def
+
 
 # Large DEF template
 #DIE_AREA: [0, 0, 500, 415]
@@ -50,8 +54,33 @@ RT_MAX_LAYER: Metal4
 PDN_VERTICAL_LAYER: Metal4
 PDN_HORIZONTAL_LAYER: Metal3
 
+# Second supply for the analog macro (3.3 V)
+VDD_NETS: [VPWR, VAPWR]
+GND_NETS: [VGND, VGND]
+
+# Small vertical macro halo: keeps the bottom row (and its rails) under the macro
+FP_MACRO_VERTICAL_HALO: 1
+PDN_VERTICAL_HALO: 1
+
+
+# Keep the resizer off the analog nets
+RSZ_DONT_TOUCH_RX: "^analog_"
+
 # Enable for better SystemVerilog support
 #USE_SLANG: true
 
 MACROS:
-
+  analogue_interface:
+    gds:
+      - dir::../../macros/analogue_interface/final/gds/analogue_interface.gds
+    lef:
+      - dir::../../macros/analogue_interface/final/lef/analogue_interface.lef
+    vh:
+      - dir::../../macros/analogue_interface/final/vh/analogue_interface.vh
+    lib:
+      "*":
+        - dir::../../macros/analogue_interface/final/lib/analogue_interface.lib
+    instances:
+      analogue_interface_instance:
+        location: [190, 8.82]
+        orientation: N

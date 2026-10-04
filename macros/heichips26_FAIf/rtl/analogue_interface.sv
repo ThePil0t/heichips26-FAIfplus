@@ -7,7 +7,9 @@ module analogue_interface (
 
     input  logic [15:0] dac_out,     // DAC output
 
-    output wire         analog_0, analog_1, analog_2    // Analogue pins
+    input  logic [3:0]  sh_cap_en,  // S&H hold-cap trim
+
+    inout wire         analog_0, analog_1, analog_2    // Analogue pins
 );
 
 endmodule
