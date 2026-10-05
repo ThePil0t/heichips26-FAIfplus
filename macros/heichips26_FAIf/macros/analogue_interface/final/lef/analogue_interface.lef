@@ -11,7 +11,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 116.180 1.000 116.580 ;
+        RECT 0.000 116.140 1.000 116.540 ;
     END
   END adc_ref[0]
   PIN adc_ref[1]
@@ -19,7 +19,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 112.820 1.000 113.220 ;
+        RECT 0.000 112.780 1.000 113.180 ;
     END
   END adc_ref[1]
   PIN adc_ref[2]
@@ -27,7 +27,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 107.780 1.000 108.180 ;
+        RECT 0.000 107.740 1.000 108.140 ;
     END
   END adc_ref[2]
   PIN adc_ref[3]
@@ -35,7 +35,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 104.420 1.000 104.820 ;
+        RECT 0.000 104.380 1.000 104.780 ;
     END
   END adc_ref[3]
   PIN adc_ref[4]
@@ -43,7 +43,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 99.380 1.000 99.780 ;
+        RECT 0.000 99.340 1.000 99.740 ;
     END
   END adc_ref[4]
   PIN adc_ref[5]
@@ -51,7 +51,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 96.020 1.000 96.420 ;
+        RECT 0.000 96.400 1.000 96.800 ;
     END
   END adc_ref[5]
   PIN adc_ref[6]
@@ -59,7 +59,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 90.980 1.000 91.380 ;
+        RECT 0.000 90.940 1.000 91.340 ;
     END
   END adc_ref[6]
   PIN adc_ref[7]
@@ -67,7 +67,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 88.040 1.000 88.440 ;
+        RECT 0.000 88.000 1.000 88.400 ;
     END
   END adc_ref[7]
   PIN adc_hold
@@ -75,7 +75,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 133.820 1.000 134.220 ;
+        RECT 0.000 134.200 1.000 134.600 ;
     END
   END adc_hold
   PIN adc_comp
@@ -83,7 +83,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 126.260 1.000 126.660 ;
+        RECT 0.000 126.220 1.000 126.620 ;
     END
   END adc_comp
   PIN dac_out[0]
@@ -91,7 +91,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 77.960 1.000 78.360 ;
+        RECT 0.000 77.920 1.000 78.320 ;
     END
   END dac_out[0]
   PIN dac_out[1]
@@ -99,7 +99,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 75.020 1.000 75.420 ;
+        RECT 0.000 74.980 1.000 75.380 ;
     END
   END dac_out[1]
   PIN dac_out[2]
@@ -107,7 +107,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 69.560 1.000 69.960 ;
+        RECT 0.000 69.520 1.000 69.920 ;
     END
   END dac_out[2]
   PIN dac_out[3]
@@ -115,7 +115,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 66.620 1.000 67.020 ;
+        RECT 0.000 66.580 1.000 66.980 ;
     END
   END dac_out[3]
   PIN dac_out[4]
@@ -123,7 +123,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 61.160 1.000 61.560 ;
+        RECT 0.000 61.540 1.000 61.940 ;
     END
   END dac_out[4]
   PIN dac_out[5]
@@ -131,7 +131,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 58.220 1.000 58.620 ;
+        RECT 0.000 58.180 1.000 58.580 ;
     END
   END dac_out[5]
   PIN dac_out[6]
@@ -139,7 +139,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 53.180 1.000 53.580 ;
+        RECT 0.000 53.140 1.000 53.540 ;
     END
   END dac_out[6]
   PIN dac_out[7]
@@ -147,7 +147,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 49.820 1.000 50.220 ;
+        RECT 0.000 49.780 1.000 50.180 ;
     END
   END dac_out[7]
   PIN dac_out[8]
@@ -155,7 +155,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 40.160 1.000 40.560 ;
+        RECT 0.000 40.120 1.000 40.520 ;
     END
   END dac_out[8]
   PIN dac_out[9]
@@ -163,7 +163,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 36.800 1.000 37.200 ;
+        RECT 0.000 36.760 1.000 37.160 ;
     END
   END dac_out[9]
   PIN dac_out[10]
@@ -171,7 +171,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 31.760 1.000 32.160 ;
+        RECT 0.000 31.720 1.000 32.120 ;
     END
   END dac_out[10]
   PIN dac_out[11]
@@ -179,7 +179,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 28.400 1.000 28.800 ;
+        RECT 0.000 28.360 1.000 28.760 ;
     END
   END dac_out[11]
   PIN dac_out[12]
@@ -187,7 +187,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 23.360 1.000 23.760 ;
+        RECT 0.000 23.320 1.000 23.720 ;
     END
   END dac_out[12]
   PIN dac_out[13]
@@ -195,7 +195,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 20.000 1.000 20.400 ;
+        RECT 0.000 20.380 1.000 20.780 ;
     END
   END dac_out[13]
   PIN dac_out[14]
@@ -203,7 +203,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 14.960 1.000 15.360 ;
+        RECT 0.000 14.920 1.000 15.320 ;
     END
   END dac_out[14]
   PIN dac_out[15]
@@ -211,7 +211,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 12.020 1.000 12.420 ;
+        RECT 0.000 11.980 1.000 12.380 ;
     END
   END dac_out[15]
   PIN sh_cap_en[0]
@@ -219,7 +219,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 142.220 1.000 142.620 ;
+        RECT 0.000 142.180 1.000 142.580 ;
     END
   END sh_cap_en[0]
   PIN sh_cap_en[1]
@@ -227,7 +227,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 150.200 1.000 150.600 ;
+        RECT 0.000 150.160 1.000 150.560 ;
     END
   END sh_cap_en[1]
   PIN sh_cap_en[2]
@@ -235,7 +235,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 158.180 1.000 158.580 ;
+        RECT 0.000 158.140 1.000 158.540 ;
     END
   END sh_cap_en[2]
   PIN sh_cap_en[3]
@@ -243,7 +243,7 @@ MACRO analogue_interface
     USE SIGNAL ;
     PORT
       LAYER Metal3 ;
-        RECT 0.000 166.160 1.000 166.560 ;
+        RECT 0.000 166.120 1.000 166.520 ;
     END
   END sh_cap_en[3]
   PIN analog_0
@@ -304,39 +304,39 @@ MACRO analogue_interface
       RECT 270.840 0.000 300.000 185.000 ;
       RECT 0.000 2.500 270.840 185.000 ;
     LAYER Metal3 ;
-      RECT 0.000 0.000 300.000 11.520 ;
-      RECT 1.500 11.520 300.000 167.060 ;
-      RECT 0.000 12.920 1.500 14.460 ;
-      RECT 0.000 15.860 1.500 19.500 ;
-      RECT 0.000 20.900 1.500 22.860 ;
-      RECT 0.000 24.260 1.500 27.900 ;
-      RECT 0.000 29.300 1.500 31.260 ;
-      RECT 0.000 32.660 1.500 36.300 ;
-      RECT 0.000 37.700 1.500 39.660 ;
-      RECT 0.000 41.060 1.500 49.320 ;
-      RECT 0.000 50.720 1.500 52.680 ;
-      RECT 0.000 54.080 1.500 57.720 ;
-      RECT 0.000 59.120 1.500 60.660 ;
-      RECT 0.000 62.060 1.500 66.120 ;
-      RECT 0.000 67.520 1.500 69.060 ;
-      RECT 0.000 70.460 1.500 74.520 ;
-      RECT 0.000 75.920 1.500 77.460 ;
-      RECT 0.000 78.860 1.500 87.540 ;
-      RECT 0.000 88.940 1.500 90.480 ;
-      RECT 0.000 91.880 1.500 95.520 ;
-      RECT 0.000 96.920 1.500 98.880 ;
-      RECT 0.000 100.280 1.500 103.920 ;
-      RECT 0.000 105.320 1.500 107.280 ;
-      RECT 0.000 108.680 1.500 112.320 ;
-      RECT 0.000 113.720 1.500 115.680 ;
-      RECT 0.000 117.080 1.500 125.760 ;
-      RECT 0.000 127.160 1.500 133.320 ;
-      RECT 0.000 134.720 1.500 141.720 ;
-      RECT 0.000 143.120 1.500 149.700 ;
-      RECT 0.000 151.100 1.500 157.680 ;
-      RECT 0.000 159.080 1.500 165.660 ;
-      RECT 0.000 167.060 298.500 172.500 ;
-      RECT 298.500 167.060 300.000 185.000 ;
+      RECT 0.000 0.000 300.000 11.480 ;
+      RECT 1.500 11.480 300.000 167.020 ;
+      RECT 0.000 12.880 1.500 14.420 ;
+      RECT 0.000 15.820 1.500 19.880 ;
+      RECT 0.000 21.280 1.500 22.820 ;
+      RECT 0.000 24.220 1.500 27.860 ;
+      RECT 0.000 29.260 1.500 31.220 ;
+      RECT 0.000 32.620 1.500 36.260 ;
+      RECT 0.000 37.660 1.500 39.620 ;
+      RECT 0.000 41.020 1.500 49.280 ;
+      RECT 0.000 50.680 1.500 52.640 ;
+      RECT 0.000 54.040 1.500 57.680 ;
+      RECT 0.000 59.080 1.500 61.040 ;
+      RECT 0.000 62.440 1.500 66.080 ;
+      RECT 0.000 67.480 1.500 69.020 ;
+      RECT 0.000 70.420 1.500 74.480 ;
+      RECT 0.000 75.880 1.500 77.420 ;
+      RECT 0.000 78.820 1.500 87.500 ;
+      RECT 0.000 88.900 1.500 90.440 ;
+      RECT 0.000 91.840 1.500 95.900 ;
+      RECT 0.000 97.300 1.500 98.840 ;
+      RECT 0.000 100.240 1.500 103.880 ;
+      RECT 0.000 105.280 1.500 107.240 ;
+      RECT 0.000 108.640 1.500 112.280 ;
+      RECT 0.000 113.680 1.500 115.640 ;
+      RECT 0.000 117.040 1.500 125.720 ;
+      RECT 0.000 127.120 1.500 133.700 ;
+      RECT 0.000 135.100 1.500 141.680 ;
+      RECT 0.000 143.080 1.500 149.660 ;
+      RECT 0.000 151.060 1.500 157.640 ;
+      RECT 0.000 159.040 1.500 165.620 ;
+      RECT 0.000 167.020 298.500 172.500 ;
+      RECT 298.500 167.020 300.000 185.000 ;
       RECT 0.000 172.500 1.500 175.500 ;
       RECT 0.000 175.500 298.500 176.500 ;
       RECT 0.000 176.500 1.500 179.500 ;
