@@ -10,6 +10,7 @@ team-members:
 - Benedikt Lukat
 slot-size: small # small, large, tiny
 analog-pins: 3 # 0-3, only for small or tiny projects
+uses-vapwr: true
 short-description: Analogue mixed-signal peripherals
 # Please add the documentation about your project here.
 # Why did you choose to create it? How does it work? How can it be tested, etc.?
