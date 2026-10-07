@@ -1,0 +1,12 @@
+* Extracted by KLayout with SG13CMOS5L LVS runset on : 07/10/2026 12:47
+
+.SUBCKT down_digital_translator DIN DOUT PDIGVDD PDIGVSS
+M$1 \$6 DIN PDIGVSS PDIGVSS sg13_hv_nmos L=0.45u W=0.3u AS=0.102p AD=0.102p
++ PS=1.28u PD=1.28u rfmode=0
+M$2 DOUT \$6 PDIGVSS PDIGVSS sg13_hv_nmos L=0.45u W=0.3u AS=0.102p AD=0.102p
++ PS=1.28u PD=1.28u rfmode=0
+M$3 PDIGVDD \$6 DOUT PDIGVDD sg13_hv_pmos L=0.45u W=0.6u AS=0.204p AD=0.204p
++ PS=1.88u PD=1.88u rfmode=0
+M$4 PDIGVDD DIN \$6 PDIGVDD sg13_hv_pmos L=0.45u W=0.6u AS=0.204p AD=0.204p
++ PS=1.88u PD=1.88u rfmode=0
+.ENDS down_digital_translator

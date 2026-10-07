@@ -1,0 +1,8 @@
+** sch_path: /home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/down_digital_translator/schematic/xschem/down_digital_translator.sch
+.subckt down_digital_translator PDIGVDD DIN DOUT PDIGVSS
+*.PININFO PDIGVDD:B DIN:I DOUT:O PDIGVSS:B
+MM1 net1 DIN PDIGVSS PDIGVSS sg13_hv_nmos w=0.3u l=0.45u ng=1
+MM2 net1 DIN PDIGVDD PDIGVDD sg13_hv_pmos w=0.6u l=0.45u ng=1
+MM3 DOUT net1 PDIGVSS PDIGVSS sg13_hv_nmos w=0.3u l=0.45u ng=1
+MM4 DOUT net1 PDIGVDD PDIGVDD sg13_hv_pmos w=0.6u l=0.45u ng=1
+.ends

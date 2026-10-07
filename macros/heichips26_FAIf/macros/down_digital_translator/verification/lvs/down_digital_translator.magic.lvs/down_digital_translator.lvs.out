@@ -1,0 +1,75 @@
+
+Circuit 1 cell sg13_hv_nmos and Circuit 2 cell sg13_hv_nmos are black boxes.
+Warning: Equate pins:  cell sg13_hv_nmos is a placeholder, treated as a black box.
+Warning: Equate pins:  cell sg13_hv_nmos is a placeholder, treated as a black box.
+
+Subcircuit pins:
+Circuit 1: sg13_hv_nmos                    |Circuit 2: sg13_hv_nmos                    
+-------------------------------------------|-------------------------------------------
+1                                          |1                                          
+2                                          |2                                          
+3                                          |3                                          
+4                                          |4                                          
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13_hv_nmos and sg13_hv_nmos are equivalent.
+
+Circuit 1 cell sg13_hv_pmos and Circuit 2 cell sg13_hv_pmos are black boxes.
+Warning: Equate pins:  cell sg13_hv_pmos is a placeholder, treated as a black box.
+Warning: Equate pins:  cell sg13_hv_pmos is a placeholder, treated as a black box.
+
+Subcircuit pins:
+Circuit 1: sg13_hv_pmos                    |Circuit 2: sg13_hv_pmos                    
+-------------------------------------------|-------------------------------------------
+1                                          |1                                          
+2                                          |2                                          
+3                                          |3                                          
+4                                          |4                                          
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13_hv_pmos and sg13_hv_pmos are equivalent.
+Flattening unmatched subcell nmosHV in circuit down_digital_translator (0)(2 instances)
+Flattening unmatched subcell pmosHV in circuit down_digital_translator (0)(2 instances)
+
+Subcircuit summary:
+Circuit 1: down_digital_translator         |Circuit 2: down_digital_translator         
+-------------------------------------------|-------------------------------------------
+sg13_hv_nmos (2)                           |sg13_hv_nmos (2)                           
+sg13_hv_pmos (2)                           |sg13_hv_pmos (2)                           
+Number of devices: 4                       |Number of devices: 4                       
+Number of nets: 5                          |Number of nets: 5                          
+---------------------------------------------------------------------------------------
+Netlists match uniquely with property errors.
+pmosHV_0/sg13_hv_pmos:0 vs. sg13_hv_pmos:M2:
+Property mm_ok in circuit2 has no matching property in circuit1
+pmosHV_0/sg13_hv_pmos:0 vs. sg13_hv_pmos:M2:
+Property mm_ok in circuit2 has no matching property in circuit1
+pmosHV_1/sg13_hv_pmos:0 vs. sg13_hv_pmos:M4:
+Property mm_ok in circuit2 has no matching property in circuit1
+pmosHV_1/sg13_hv_pmos:0 vs. sg13_hv_pmos:M4:
+Property mm_ok in circuit2 has no matching property in circuit1
+nmosHV_0/sg13_hv_nmos:0 vs. sg13_hv_nmos:M1:
+Property mm_ok in circuit2 has no matching property in circuit1
+nmosHV_0/sg13_hv_nmos:0 vs. sg13_hv_nmos:M1:
+Property mm_ok in circuit2 has no matching property in circuit1
+nmosHV_1/sg13_hv_nmos:0 vs. sg13_hv_nmos:M3:
+Property mm_ok in circuit2 has no matching property in circuit1
+nmosHV_1/sg13_hv_nmos:0 vs. sg13_hv_nmos:M3:
+Property mm_ok in circuit2 has no matching property in circuit1
+
+Subcircuit pins:
+Circuit 1: down_digital_translator         |Circuit 2: down_digital_translator         
+-------------------------------------------|-------------------------------------------
+PDIGVSS                                    |PDIGVSS                                    
+PDIGVDD                                    |PDIGVDD                                    
+DIN                                        |DIN                                        
+DOUT                                       |DOUT                                       
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes down_digital_translator and down_digital_translator are equivalent.
+
+Final result: Circuits match uniquely.
+Property errors were found.
+
+The following cells had property errors:
+ down_digital_translator

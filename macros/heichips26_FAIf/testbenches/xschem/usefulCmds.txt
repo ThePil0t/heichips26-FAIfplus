@@ -1,0 +1,9 @@
+DRC results:
+klayout
+grep -o "<category>[^<]*</category>" verification/drc/down_digital_translator.klayout.drc/*_full.lyrdb | sort | uniq -c
+
+magic
+grep COUNT verification/drc/down_digital_translator.magic.drc/down_digital_translator.magic.drc.rpt
+
+awk '/\(|overlap/{r=$0;next} /um/{c[r]++} END{for(k in c) print c[k], k}' \
+  verification/drc/down_digital_translator.magic.drc/down_digital_translator.magic.drc.rpt
