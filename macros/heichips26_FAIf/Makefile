@@ -131,6 +131,15 @@ sim-all: ## Simulate the macro (RTL Verilog + RTL/GL cocotb for heichips26_digit
 # ================================================================================================
 
 
+# Schematic Targets
+# Xschem only finds the project symbols when it starts in the schematic folder (it loads ./xschemrc)
+# and PDK_ROOT/PDK are exported; this target takes care of the folder.
+xschem: ## Open the top schematic in Xschem with the project library paths
+	cd schematic/xschem && xschem --rcfile xschemrc $(TOP).sch &
+.PHONY: xschem
+# ================================================================================================
+
+
 # LibreLane Targets
 librelane: $(GEN_VERILOG) ## Run LibreLane with Magic and KLayout DRC checks.
 	librelane $(LIBRELANE_DIR)/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --save-views-to $(FLOW_FINAL_DIR)/

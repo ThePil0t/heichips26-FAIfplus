@@ -232,7 +232,7 @@ sg13cmos5l_menu.macro_in_menu_sg13cmos5l_lvs_options:F12;
  <lef-import-spec/>
  <line-style-palette/>
  <macro-editor-active-macro/>
- <macro-editor-console-interpreter/>
+ <macro-editor-console-interpreter>ruby</macro-editor-console-interpreter>
  <macro-editor-console-mru/>
  <macro-editor-current-macro/>
  <macro-editor-debugging-enabled>true</macro-editor-debugging-enabled>
@@ -246,12 +246,12 @@ sg13cmos5l_menu.macro_in_menu_sg13cmos5l_lvs_options:F12;
  <macro-editor-styles/>
  <macro-editor-tab-width>8</macro-editor-tab-width>
  <macro-editor-watch-expressions/>
- <macro-editor-window-state/>
+ <macro-editor-window-state>MacroEditorDialog="AdnQywADAAAAAAn9////4gAADfIAAAL7AAAKAAAAAAAAAA3vAAAC+AAAAAEAAAAAB4AAAAoAAAAAAAAADe8AAAL4";splitter="AAAA/wAAAAEAAAADAAAAO/////8AAADxAf////8BAAAAAgA=";splitter_2="AAAA/wAAAAEAAAAD////////////////Af////8BAAAAAQA=";watchList="AAAA/wAAAAAAAAABAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMgAAAACAQAAAQAAAAAAAAAAAAAAAGT/////AAAAgQAAAAAAAAACAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAD6AAAAABkAAAAAAAAAAAAAAAAAAAAAQ==";variableList="AAAA/wAAAAAAAAABAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMgAAAACAQAAAQAAAAAAAAAAAAAAAGT/////AAAAgQAAAAAAAAACAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAD6AAAAABkAAAAAAAAAAAAAAAAAAAAAQ==";mainHSplitter="AAAA/wAAAAEAAAACAAAA5gAAA0cB/////wEAAAABAA==";splitter_7="AAAA/wAAAAEAAAABAAAABAD/////AQAAAAEA";lvs_tree="AAAA/wAAAAAAAAABAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAM8AAAABAQEAAAAAAAAAAAAAAQAAAGT/////AAAAgQAAAAMAAAABAAAAzwAAAAEAAAADAAAD6AAAAABkAAAAAAAAAAAAAAAAAAAAAQ==";d25_tree="AAAA/wAAAAAAAAABAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAM8AAAABAQEAAAAAAAAAAAAAAQAAAGT/////AAAAgQAAAAMAAAABAAAAzwAAAAEAAAADAAAD6AAAAABkAAAAAAAAAAAAAAAAAAAAAQ==";pymacros_tree="AAAA/wAAAAAAAAABAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAUsAAAABAQEAAAAAAAAAAAAAAQAAAGT/////AAAAgQAAAAMAAAABAAABSwAAAAEAAAADAAAD6AAAAABkAAAAAAAAAAAAAAAAAAAAAQ==";macros_tree="AAAA/wAAAAAAAAABAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAABAQEAAAAAAAAAAAAAAQAAAGT/////AAAAgQAAAAMAAAABAAAA/wAAAAEAAAADAAAD6AAAAABkAAAAAAAAAAAAAAAAAAAAAQ==";drc_tree="AAAA/wAAAAAAAAABAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAM8AAAABAQEAAAAAAAAAAAAAAQAAAGT/////AAAAgQAAAAMAAAABAAAAzwAAAAEAAAADAAAD6AAAAABkAAAAAAAAAAAAAAAAAAAAAQ==";</macro-editor-window-state>
  <markers-visible>true</markers-visible>
  <menu-items-hidden/>
  <min-inst-label-size>16</min-inst-label-size>
  <mouse-wheel-mode>0</mouse-wheel-mode>
- <mru>'/home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/opamp/layout/op_amp_flattened_ver_2.gds'@'sg13cmos5l' '/home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/opamp/layout/op_amp.orig.gds'@'sg13cmos5l' '/home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/down_digital_translator/layout/down_digital_translator.gds'@'sg13cmos5l' '/home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/down_digital_translator/layout/magic_happy.gds'@'sg13cmos5l' '/home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/comparator/layout/555_comparator.gds'@'sg13cmos5l' '/home/gfcwfzkm/eda/designs/ctest.gds'@'sg13cmos5l' '/home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/opamp/layout/op_amp_ver_2.gds'@'sg13cmos5l' '/home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/r2r_dac/layout/r2r_dac.gds'@'sg13cmos5l' '/home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/ptat_current_source/layout/ptat_curr_gen.gds'@'sg13cmos5l'</mru>
+ <mru>'/home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/opamp/layout/op_amp_flattened_ver_2.gds'@'sg13cmos5l' '/home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/opamp/layout/op_amp.orig.gds'@'sg13cmos5l' '/home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/down_digital_translator/layout/down_digital_translator.gds'@'sg13cmos5l' '/home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/down_digital_translator/layout/magic_happy.gds'@'sg13cmos5l' '/home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/comparator/layout/555_comparator.gds'@'sg13cmos5l' '/home/gfcwfzkm/eda/designs/ctest.gds'@'sg13cmos5l' '/home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/opamp/layout/op_amp_ver_2.gds'@'sg13cmos5l' '/home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/r2r_dac/layout/r2r_dac.gds'@'sg13cmos5l' '/home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/ptat_current_source/layout/ptat_curr_gen.gds'@'sg13cmos5l' '/home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/down_digital_translator/layout/magic_happy.gds'@'sg13cmos5l' '/home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/down_digital_translator/layout/down_digital_translator.gds'@'sg13cmos5l'</mru>
  <mru-bookmarks/>
  <mru-layer-properties/>
  <mru-sessions/>
@@ -280,10 +280,10 @@ sg13cmos5l_menu.macro_in_menu_sg13cmos5l_lvs_options:F12;
  <rdb-marker-line-width>3</rdb-marker-line-width>
  <rdb-marker-vertex-size>-1</rdb-marker-vertex-size>
  <rdb-max-marker-count>1000</rdb-max-marker-count>
- <rdb-tree-state>+by-cell,-by-category</rdb-tree-state>
+ <rdb-tree-state>-by-cell,+by-category</rdb-tree-state>
  <rdb-window-dim>1.0</rdb-window-dim>
  <rdb-window-mode>fit-marker</rdb-window-mode>
- <rdb-window-state-v2>MarkerBrowserDialog="AdnQywADAAAAAAUAAAAEOAAAB8sAAAbVAAAFAAAABDgAAAfLAAAG1QAAAAIAAAAAB4AAAAUAAAAEOAAAB8sAAAbV";splitter_2="AAAA/wAAAAEAAAACAAABAAAAAQYB/////wEAAAABAA==";splitter="AAAA/wAAAAEAAAACAAAA/gAAAQAB/////wEAAAACAA==";markers_list="AAAA/wAAAAAAAAABAAAAAAAAAAIBAAAAAAAAAAAAAAAAAAAAAAAAAZAAAAAEAQEAAQAAAAAAAAAAAAAAAGQAAAAYAAAAgQAAAAAAAAAEAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAD6AAAAABkAAAAAAAAAAAAAAAAAAAAAQ==";directory_tree="AAAA/wAAAAAAAAABAAAAAQAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAa8AAAACAQEAAQAAAAAAAAAAAAAAAGT/////AAAAgQAAAAAAAAACAAAA6gAAAAEAAAAAAAAAxQAAAAEAAAAAAAAD6AAAAABkAAAAAAAAAAAAAAAAAAAAAQ==";</rdb-window-state-v2>
+ <rdb-window-state-v2>MarkerBrowserDialog="AdnQywADAAAAAAn9////4gAADM4AAAKgAAAKAAAAAAAAAAzLAAACnQAAAAEAAAAAB4AAAAoAAAAAAAAADMsAAAKd";splitter_2="AAAA/wAAAAEAAAACAAABAAAAAQYB/////wEAAAABAA==";splitter="AAAA/wAAAAEAAAACAAAA/gAAAQAB/////wEAAAACAA==";markers_list="AAAA/wAAAAAAAAABAAAAAAAAAAIBAAAAAAAAAAAAAAAAAAAAAAAAAZAAAAAEAQEAAQAAAAAAAAAAAAAAAGQAAAAYAAAAgQAAAAAAAAAEAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAD6AAAAABkAAAAAAAAAAAAAAAAAAAAAQ==";directory_tree="AAAA/wAAAAAAAAABAAAAAQAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAaAAAAACAQEAAQAAAAAAAAAAAAAAAGT/////AAAAgQAAAAAAAAACAAAA6gAAAAEAAAAAAAAAtgAAAAEAAAAAAAAD6AAAAABkAAAAAAAAAAAAAAAAAAAAAQ==";</rdb-window-state-v2>
  <reader-options-show-always>false</reader-options-show-always>
  <ruler-color>#ff8000</ruler-color>
  <ruler-grid-snap>true</ruler-grid-snap>
@@ -464,10 +464,11 @@ sg13cmos5l_menu.macro_in_menu_sg13cmos5l_lvs_options:F12;
  <transient-sel-line-width>1</transient-sel-line-width>
  <transient-sel-vertex-size>0</transient-sel-vertex-size>
  <window-geometry>AdnQywADAAAAABF9////4gAAGJoAAAPdAAARgAAAAAAAABiXAAAD2gAAAAIAAAAAB4AAABGAAAAAAAAAGJcAAAPa</window-geometry>
- <window-state>AAAA/wAAAAD9AAAAAgAAAAAAAAFNAAADefwCAAAABPsAAAAqAG4AYQB2AGkAZwBhAHQAbwByAF8AZABvAGMAawBfAHcAaQBkAGcAZQB0AAAAAAD/////AAAAiQD////7AAAAHABoAHAAXwBkAG8AYwBrAF8AdwBpAGQAZwBlAHQBAAAATAAAAPEAAAAQAP////sAAAAgAGwAaQBiAHMAXwBkAG8AYwBrAF8AdwBpAGQAZwBlAHQBAAABQwAAAPwAAAAQAP////sAAAAcAGUAbwBfAGQAbwBjAGsAXwB3AGkAZABnAGUAdAEAAAJFAAABgAAAAJYA////AAAAAQAAAa4AAAN5/AIAAAAE+wAAACoAYgBvAG8AawBtAGEAcgBrAHMAXwBkAG8AYwBrAF8AdwBpAGQAZwBlAHQAAAAAAP////8AAAAQAP////sAAAAcAGwAcABfAGQAbwBjAGsAXwB3AGkAZABnAGUAdAEAAABMAAAC/QAAABAA////+wAAABwAbAB0AF8AZABvAGMAawBfAHcAaQBkAGcAZQB0AQAAA08AAAB2AAAAEAD////7/////wAAAAMMAAAAuQAAALkA////AAAEEQAAA3kAAAAEAAAABAAAAAgAAAAI/AAAAAEAAAACAAAAAQAAAA4AdABvAG8AbABiAGEAcgEAAAAA/////wAAAAAAAAAA</window-state>
+ <window-state>AAAA/wAAAAD9AAAAAgAAAAAAAAFNAAADefwCAAAABPsAAAAqAG4AYQB2AGkAZwBhAHQAbwByAF8AZABvAGMAawBfAHcAaQBkAGcAZQB0AAAAAAD/////AAAAiQD////7AAAAHABoAHAAXwBkAG8AYwBrAF8AdwBpAGQAZwBlAHQBAAAATAAAAPEAAAAQAP////sAAAAgAGwAaQBiAHMAXwBkAG8AYwBrAF8AdwBpAGQAZwBlAHQBAAABQwAAAPwAAAAQAP////sAAAAcAGUAbwBfAGQAbwBjAGsAXwB3AGkAZABnAGUAdAEAAAJFAAABgAAAAJYA////AAAAAQAAAa4AAAN5/AIAAAAD+wAAACoAYgBvAG8AawBtAGEAcgBrAHMAXwBkAG8AYwBrAF8AdwBpAGQAZwBlAHQAAAAAAP////8AAAAQAP////sAAAAcAGwAcABfAGQAbwBjAGsAXwB3AGkAZABnAGUAdAEAAABMAAAC/QAAABAA////+wAAABwAbAB0AF8AZABvAGMAawBfAHcAaQBkAGcAZQB0AQAAA08AAAB2AAAAEAD///8AAAQRAAADeQAAAAQAAAAEAAAACAAAAAj8AAAAAQAAAAIAAAABAAAADgB0AG8AbwBsAGIAYQByAQAAAAD/////AAAAAAAAAAA=</window-state>
  <xor-anotb>false</xor-anotb>
  <xor-axorb>true</xor-axorb>
  <xor-bnota>false</xor-bnota>
+ <xor-deep>false</xor-deep>
  <xor-input-mode>all</xor-input-mode>
  <xor-layer-offset/>
  <xor-num-workers>1</xor-num-workers>
@@ -475,5 +476,6 @@ sg13cmos5l_menu.macro_in_menu_sg13cmos5l_lvs_options:F12;
  <xor-region-mode>all</xor-region-mode>
  <xor-summarize>false</xor-summarize>
  <xor-tiling/>
+ <xor-tiling-heal>false</xor-tiling-heal>
  <xor-tolerances/>
 </config>

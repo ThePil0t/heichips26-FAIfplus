@@ -62,7 +62,12 @@ H Housekeeping: any time before G
 - **Caps:** MOM caps (`cap_cmomi`) are fine; MIM caps aren't available in CMOS5L. Our PDK has `cap_cmomi`.
 
 ## B. Decisions
-1. **S&H variant** (blocks the ADC path only): the trimmed `sample_and_hold_trim` (`cap_en[3:0]`) or `sah_12bit` (fixed 1.21 pF, no trim; recommended by `sah_12bit_sizing_PLAN.md`). The macro reserves 110 × 58 µm for the trimmed version.
+1. **S&H variant: resolved (2026-10-07) → `sah_12bit`** (fixed 1.21 pF, no trim; see `sah_12bit_sizing_PLAN.md`).
+   - It is pin-compatible with the old `sample_and_hold` (VDD, SH_IN, SH_OUT, SH_EN, VSS) and self-contained (no `aswitch`).
+   - **Done:** x10 in the top schematic now uses `sah_12bit.sym`, and its folder is on the top xschemrc library path. The top schematic and its testbench netlist cleanly.
+   - **`sh_cap_en[3:0]` stays:** the macro pins and the 4 level translators xcap0–3 remain as **spare 3.3 V outputs** for a later trim (e.g. comparator or opamp offset). The RTL tie-off to `0000` stays until the config register (C2) exists.
+   - The analog dummy macro stays unchanged for now. Later its S&H dummy can shrink from 110 × 58 µm to ≈ 75 × 32 µm.
+   - `sample_and_hold`, `sample_and_hold_trim`, `asw_inv` and `aswitch` become unused (keep for reference or delete in H).
 2. **Macro pin names:** keep the current RTL names (`adc_ref`, `adc_hold`, `adc_comp`, `dac_out[15:0]`, `sh_cap_en`), or rename them to TAPEOUT_PLAN §2. A rename changes the generator, the `.vh` and the RTL instance together. [\*] After the decision: write the interface spec into the macro README.
 3. ~~PDK pin with `cap_cmomi`~~: **resolved.** MOM caps are fine per the organizer, and our PDK has `cap_cmomi`.
 
@@ -71,10 +76,9 @@ H Housekeeping: any time before G
    - [\*] add a 2-FF synchronizer on `comp`;
    - [\*] make `hold` a registered flip-flop; today it is a combinational decode of `mask_reg`;
    - [\*] latch the result at end of conversion and line up `tick` with valid data;
-   - [\*] build the bit-period prescaler and acquisition phase as a mechanism;
    - [\*] after C3: fix the S&H polarity (`sar_sh_en = not hold`);
-   - set the prescaler value; it needs the analog settling times.
-2. [\*] after B1. **Config register:** when `load_config` (`uio_in[7]`) is 1, latch `ui_in` into `cfg`; `cfg[3:0]` replaces the `4'b0000` tie-off on `sh_cap_en`, or `sh_cap_en` is removed if B1 picks `sah_12bit`. Update `_unused` and the README pinout.
+   - optional: a bit-period prescaler and acquisition phase. The organizer can slow the clock from outside (RP2350), so the analog settling time can also be met by a slower clock.
+2. [\*] Optional. **Config register:** when `load_config` (`uio_in[7]`) is 1, latch `ui_in` into `cfg`; `cfg[3:0]` replaces the `4'b0000` tie-off on `sh_cap_en` (spare trim outputs, see B1). Update `_unused` and the README pinout.
 3. **Polarity bugs:** confirm both in simulation. The S&H enable must be `not hold`, and the comparator output must be 1 when V_in ≥ V_dac.
 4. **Testbenches:**
    - [\*] add `gcc` to `flake.nix` for `ghdl -e/-r`;
@@ -91,17 +95,18 @@ The chain per DAC: digital pins `dac_out[7:0]` / `dac_out[15:8]` → 8x level tr
 | Step | Block | Open tasks |
 |---|---|---|
 | D1 | **R2R DAC** `r2r_dac` (x5, x11; also x4 for the ADC) | [\*] run DRC (KLayout + Magic) and LVS, and commit the reports. Add the missing `IDACIREF` label. Check the Magic NW.d/LU.a entries (11 per DAC). [\*] Remove the TopMetal1 text `ODACOUT` from the source GDS. Sims: INL/DNL, settling into the pad load (B3). |
-| D2 | **8x level translator** (x7, x12; also x6 for the ADC) | fix the tap placement for Magic's latch-up rules (LU.a: P-diff to N-tap ≤ 20 µm; LU.d), plus NW.d and pSD.e/f; 328 Magic errors per instance. [\*] Fix the Makefile `TOP` and remove the template files. [\*] DRC/LVS reports. Delay sims across VPWR 1.08–1.65 V and corners. |
+| D2 | **8x level translator** (x7, x12; also x6 for the ADC) | [\*] KLayout DRC and LVS reports (KLayout is sign-off). [\*] Fix the Makefile `TOP` and remove the template files. Delay sims across VPWR 1.08–1.65 V and corners. *If time allows:* fix the tap placement for Magic's latch-up rules (LU.a, LU.d), NW.d and pSD.e/f; 328 Magic errors per instance, not required for sign-off. |
 | D3 | **PTAT** `ptat_current_source` | update the layout to the fixed schematic: add the CSOUT4 output (DAC1's bias) and the PBIAS output; remove CSSTARTUP or add it to the schematic. Then LVS clean. **Re-simulate:** the fix changed the mirror (XM5 is now an output, so XM3 : XM4 went from 1 : 2 to 1 : 1). Check the output currents, temperature, VDD and startup. |
 | D4 | **iVREF divider** R1, R2 (rhigh 0.5/50 µm), C1 (cap_cmomi 50/2 µm) | draw them in the macro (PDK PCells via the KLayout GUI). |
 | D5 | **Macro, DAC part** | E1 reference schematic (at least the DAC part). Route in the macro: `dac_out` pins → x7/x12 → x5/x11 → `analog_1/2`; iIREF3/4, iVREF, VAPWR/VPWR/VGND. Macro DRC/LVS of the routed part. |
-| D6 | **DAC verification** | DAC sweep into a realistic pad load, then repeat with PEX. |
+| D6 | **DAC verification** | DAC sweep into the pad load from A3 (R_pad 100 Ω, C_pad 5 pF, external 10 pF ∥ 1 MΩ until the organizer answers), then repeat with PEX. |
 
 ## E. ADC path (after D)
 | Block | Open tasks |
 |---|---|
-| **S&H** (after B1) | finish the testbenches; draw all layouts (S&H, switches, MOM caps). [\*] Delete the template `inverter.gds` in `aswitch/layout/`. |
-| **Top schematic** `heichips26_FAIf.sch` | swap x10 (still `sample_and_hold.sym`) for the chosen S&H. If trimmed: add 4 × `digital_level_translator` for `cap_en[3:0]`. |
+| **S&H `sah_12bit`** | draw the layout (transmission gate N 0.6 / P 1.8 µm with dummies, gate driver, 1.21 pF MOM cap 59.6 × 25.2 µm). [\*] Set up the Makefile (`TOP`) for DRC/LVS, then DRC/LVS, PEX and post-layout sims (testbenches from the sizing study exist). |
+| **Spare translators** for `sh_cap_en` | not in the top schematic yet; add the 4 × `digital_level_translator` (xcap0–3) as spares when the macro reference schematic (E1) is drawn. |
+| **Xschem start-up** | [\*] add a `make xschem` target that opens the top schematic from its own folder with `PDK_ROOT`/`PDK` set. Started anywhere else, or without the PDK variables, Xschem shows all symbols as missing. |
 | **Opamp** `op_amp_ver_2` (x8) | [\*] re-run DRC/LVS and commit the reports. AC stability and CM-range TBs. |
 | **Comparator** `555_comparator` (x1) | [\*] rename cell, symbol and GDS cell (leading digit), then DRC/LVS. Check Magic LU.d/NW.d (17). Offset/delay TBs at the real PBIAS. |
 | **Single level translators** (x9, xcap0–3) | tap placement for Magic's latch-up rules (200 errors together). |
@@ -121,12 +126,12 @@ The chain per DAC: digital pins `dac_out[7:0]` / `dac_out[15:8]` → 8x level tr
 For every block, also: replace the template READMEs and `cace` copies, and run ss/ff corners at −40/27/125 °C, plus Monte Carlo for DAC and opamp offset.
 
 ## F. LibreLane integration (`flow/librelane/`)
-1. [\*] **SDC:** false paths for `analog_*` and the macro I/O; async `rst_n`; extra hold corners at 1.35/1.5/1.65 V; [\*] after the organizer answer: `CLOCK_PERIOD` matching the eFPGA clock.
-2. [\*] after the organizer answer. **VAPWR straps and Metal4 keep-out** as specified.
+1. [\*] **SDC:** false paths for `analog_*` and the macro I/O; async `rst_n`; extra hold corners at 1.35/1.5/1.65 V. `CLOCK_PERIOD: 10` (100 MHz) stays, as confirmed by the organizer.
+2. ~~VAPWR straps~~: **resolved**, no change needed (organizer answer). The Metal4 keep-out over the macro is still open (A4).
 3. [\*] **Makefile:** add a `build-analogue-interface` target to `build-macros`; remove the `counter`/`inverter` references so `make all` works.
 
 ## G. Sign-off and submission
-1. [\*] `make build-top`. All reports must be clean (KLayout DRC, LVS, antenna, STA, IR drop including VAPWR; Magic as far as possible). Commit `final/` and `verification/`.
+1. [\*] `make build-top`. All reports must be clean: KLayout DRC (sign-off), LVS, antenna, STA, IR drop including VAPWR; Magic as far as possible. Commit `final/` and `verification/`.
 2. [\*] Gate-level simulation on `final/nl` with the cocotb suite.
 3. [\*] `submission.yaml`: draft a new `long-description` for you to review. It must describe the 8-bit SAR ADC, 2× DAC, S&H, the eFPGA driver sequence and the test/PCB needs; the current one still lists 16-bit DAC/ADC and DDS.
 4. [\*] README: fix the feature list (still 16-bit DAC/ADC) and the SPDX headers.

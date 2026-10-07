@@ -511,7 +511,7 @@ C {conn_3x1.sym} 220 -280 0 1 {name=c10 footprint=connector(3,1)}
 C {devices/iopin.sym} 160 -300 2 0 {name=p65 lab=analog_2}
 C {devices/iopin.sym} 160 -280 2 0 {name=p66 lab=analog_1}
 C {devices/iopin.sym} 160 -260 2 0 {name=p115 lab=analog_0}
-C {sample_and_hold.sym} 1060 -2010 0 0 {name=x10}
+C {sah_12bit.sym} 1060 -2010 0 0 {name=x10}
 C {lab_pin.sym} 1140 -2120 1 0 {name=p61 sig_type=std_logic lab=VAPWR
 }
 C {lab_pin.sym} 1140 -1930 3 0 {name=p62 sig_type=std_logic lab=VGND
