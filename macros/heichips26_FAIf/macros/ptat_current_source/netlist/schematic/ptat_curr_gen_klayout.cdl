@@ -2,13 +2,13 @@
 .subckt ptat_curr_gen PCSVDD CSOUT1 CSOUT2 CSOUT3 PBIAS PCSVSS CSOUT4
 *.PININFO PCSVDD:B PCSVSS:B CSOUT1:O CSOUT2:O CSOUT3:O PBIAS:O CSOUT4:O
 MM1 net1 net1 PCSVSS PCSVSS sg13_hv_nmos w=2u l=2u ng=1
-MM2 CSOUT3 net1 res_tap PCSVSS sg13_hv_nmos w=10u l=2u ng=1
-MM3 net1 CSOUT3 PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
-MM4 CSOUT3 CSOUT3 PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MM2 PBIAS net1 res_tap PCSVSS sg13_hv_nmos w=10u l=2u ng=1
+MM3 net1 PBIAS PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MM4 PBIAS PBIAS PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
 R1 res_tap PCSVSS rhigh w=0.5e-6 l=31.135e-6 ps=0.18e-6 m=1 b=21
-MM5 CSOUT3 CSOUT3 PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
-MM6 CSOUT2 CSOUT3 PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
-MM7 CSOUT1 CSOUT3 PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MM5 CSOUT3 PBIAS PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MM6 CSOUT2 PBIAS PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MM7 CSOUT1 PBIAS PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
 MMD1 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=10u l=2u ng=1
 MMD2 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=10u l=2u ng=1
 MMD3 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=5u l=2u ng=1
@@ -45,12 +45,12 @@ MMD33 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
 MMD34 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
 MMD35 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
 MMD36 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
-MMS1 net3 net2 PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
-MMS3 PCSVSS net3 net2 PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
-MMSS[5] wcs[4] wcs[4] CSSTARTUP CSSTARTUP sg13_hv_pmos w=0.3u l=0.4u ng=1
-MSS[4] wcs[3] wcs[3] wcs[4] wcs[4] sg13_hv_pmos w=0.3u l=0.4u ng=1
-MSS[3] wcs[2] wcs[2] wcs[3] wcs[3] sg13_hv_pmos w=0.3u l=0.4u ng=1
-MSS[2] wcs[1] wcs[1] wcs[2] wcs[2] sg13_hv_pmos w=0.3u l=0.4u ng=1
-MSS[1] PCSVSS PCSVSS wcs[1] wcs[1] sg13_hv_pmos w=0.3u l=0.4u ng=1
-MM8 CSOUT4 CSOUT3 PCSVDD CSOUT3 sg13_hv_pmos w=0.4u l=1u ng=1
+MMS1 CSSTARTUP net2 PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMS3 PCSVSS CSSTARTUP net2 PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMSS5 wcs4 wcs4 CSSTARTUP CSSTARTUP sg13_hv_pmos w=0.3u l=0.4u ng=1
+MM8 CSOUT4 PBIAS PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMSS4 wcs3 wcs3 wcs4 wcs4 sg13_hv_pmos w=0.3u l=0.4u ng=1
+MMSS3 wcs2 wcs2 wcs3 wcs3 sg13_hv_pmos w=0.3u l=0.4u ng=1
+MMSS2 wcs1 wcs1 wcs2 wcs2 sg13_hv_pmos w=0.3u l=0.4u ng=1
+MMSS1 PCSVSS PCSVSS wcs1 wcs1 sg13_hv_pmos w=0.3u l=0.4u ng=1
 .ends

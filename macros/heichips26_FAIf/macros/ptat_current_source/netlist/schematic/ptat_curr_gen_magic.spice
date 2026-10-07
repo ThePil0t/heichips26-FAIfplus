@@ -45,8 +45,8 @@ XMD33 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
 XMD34 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
 XMD35 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
 XMD36 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
-XMS1 net3 net2 PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
-XMS3 PCSVSS net3 net2 PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XMS1 CSSTARTUP net2 PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XMS3 PCSVSS CSSTARTUP net2 PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
 XMSS5 wcs4 wcs4 CSSTARTUP CSSTARTUP sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
 XM8 CSOUT4 PBIAS PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
 XMSS4 wcs3 wcs3 wcs4 wcs4 sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
