@@ -4,7 +4,7 @@
 MAKEFILE_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
 # Variables
-TOP = inverter
+TOP = ptat_curr_gen
 
 .DEFAULT_GOAL := help
 

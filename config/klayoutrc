@@ -89,7 +89,7 @@
  <edit-path-ext-type>flush</edit-path-ext-type>
  <edit-path-ext-var-begin>0.0</edit-path-ext-var-begin>
  <edit-path-ext-var-end>0.0</edit-path-ext-var-end>
- <edit-path-width>0.6</edit-path-width>
+ <edit-path-width>0.2</edit-path-width>
  <edit-pcell-lazy-eval-mode>-1</edit-pcell-lazy-eval-mode>
  <edit-pcell-show-parameter-names>false</edit-pcell-show-parameter-names>
  <edit-recent-inst-param>SG13_dev,cap_cmomi,'0',false,'1',false,'1','0','0','1','0','0','',;SG13_dev,via_stack,'0',false,'1',false,'1','0','0','1','0','0','!b_layer:\'Metal2\';t_layer:\'Metal3\';vn_columns:#3;vn_rows:#3;vt1_columns:#1;vt1_rows:#1;',;SG13_dev,cap_cmomi,'0',false,'1',false,'1','0','0','1','0','0','!',;SG13_dev,pmosHV,'0',false,'1',false,'1','0','0','1','0','0','!',;SG13_dev,ntap1,'0',false,'1',false,'1','0','0','1','0','0','!',;SG13_dev,ptap1,'0',false,'1',false,'1','0','0','1','0','0','!',;SG13_dev,nmos,'0',false,'1',false,'1','0','0','1','0','0','!',</edit-recent-inst-param>
@@ -251,7 +251,7 @@ sg13cmos5l_menu.macro_in_menu_sg13cmos5l_lvs_options:F12;
  <menu-items-hidden/>
  <min-inst-label-size>16</min-inst-label-size>
  <mouse-wheel-mode>0</mouse-wheel-mode>
- <mru>'/home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/opamp/layout/op_amp_flattened_ver_2.gds'@'sg13cmos5l' '/home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/opamp/layout/op_amp.orig.gds'@'sg13cmos5l' '/home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/down_digital_translator/layout/down_digital_translator.gds'@'sg13cmos5l' '/home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/down_digital_translator/layout/magic_happy.gds'@'sg13cmos5l' '/home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/comparator/layout/555_comparator.gds'@'sg13cmos5l' '/home/gfcwfzkm/eda/designs/ctest.gds'@'sg13cmos5l' '/home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/opamp/layout/op_amp_ver_2.gds'@'sg13cmos5l' '/home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/r2r_dac/layout/r2r_dac.gds'@'sg13cmos5l'</mru>
+ <mru>'/home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/opamp/layout/op_amp_flattened_ver_2.gds'@'sg13cmos5l' '/home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/opamp/layout/op_amp.orig.gds'@'sg13cmos5l' '/home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/down_digital_translator/layout/down_digital_translator.gds'@'sg13cmos5l' '/home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/down_digital_translator/layout/magic_happy.gds'@'sg13cmos5l' '/home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/comparator/layout/555_comparator.gds'@'sg13cmos5l' '/home/gfcwfzkm/eda/designs/ctest.gds'@'sg13cmos5l' '/home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/opamp/layout/op_amp_ver_2.gds'@'sg13cmos5l' '/home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/r2r_dac/layout/r2r_dac.gds'@'sg13cmos5l' '/home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/ptat_current_source/layout/ptat_curr_gen.gds'@'sg13cmos5l'</mru>
  <mru-bookmarks/>
  <mru-layer-properties/>
  <mru-sessions/>
@@ -463,8 +463,8 @@ sg13cmos5l_menu.macro_in_menu_sg13cmos5l_lvs_options:F12;
  <transient-sel-line-style>-1</transient-sel-line-style>
  <transient-sel-line-width>1</transient-sel-line-width>
  <transient-sel-vertex-size>0</transient-sel-vertex-size>
- <window-geometry>AdnQywADAAAAAAUAAAAEOAAADH8AAAg1AAAFAAAABDgAAAx/AAAINQAAAAICAAAAB4AAAAUAAAAEOAAADH8AAAg1</window-geometry>
- <window-state>AAAA/wAAAAD9AAAAAgAAAAAAAAFNAAADhfwCAAAABPsAAAAqAG4AYQB2AGkAZwBhAHQAbwByAF8AZABvAGMAawBfAHcAaQBkAGcAZQB0AAAAAAD/////AAAAoAD////7AAAAHABoAHAAXwBkAG8AYwBrAF8AdwBpAGQAZwBlAHQBAAAAYgAAAOsAAAAeAP////sAAAAgAGwAaQBiAHMAXwBkAG8AYwBrAF8AdwBpAGQAZwBlAHQBAAABTgAAAQ4AAAAeAP////sAAAAcAGUAbwBfAGQAbwBjAGsAXwB3AGkAZABnAGUAdAEAAAJdAAABigAAAJYA////AAAAAQAAAa4AAAOF/AIAAAAD+wAAACoAYgBvAG8AawBtAGEAcgBrAHMAXwBkAG8AYwBrAF8AdwBpAGQAZwBlAHQAAAAAAP////8AAAAeAP////sAAAAcAGwAcABfAGQAbwBjAGsAXwB3AGkAZABnAGUAdAEAAABiAAAC7gAAAB4A////+wAAABwAbAB0AF8AZABvAGMAawBfAHcAaQBkAGcAZQB0AQAAA1EAAACWAAAAHgD///8AAASBAAADhQAAAAQAAAAEAAAACAAAAAj8AAAAAQAAAAIAAAABAAAADgB0AG8AbwBsAGIAYQByAQAAAAD/////AAAAAAAAAAA=</window-state>
+ <window-geometry>AdnQywADAAAAABF9////4gAAGJoAAAPdAAARgAAAAAAAABiXAAAD2gAAAAIAAAAAB4AAABGAAAAAAAAAGJcAAAPa</window-geometry>
+ <window-state>AAAA/wAAAAD9AAAAAgAAAAAAAAFNAAADefwCAAAABPsAAAAqAG4AYQB2AGkAZwBhAHQAbwByAF8AZABvAGMAawBfAHcAaQBkAGcAZQB0AAAAAAD/////AAAAiQD////7AAAAHABoAHAAXwBkAG8AYwBrAF8AdwBpAGQAZwBlAHQBAAAATAAAAPEAAAAQAP////sAAAAgAGwAaQBiAHMAXwBkAG8AYwBrAF8AdwBpAGQAZwBlAHQBAAABQwAAAPwAAAAQAP////sAAAAcAGUAbwBfAGQAbwBjAGsAXwB3AGkAZABnAGUAdAEAAAJFAAABgAAAAJYA////AAAAAQAAAa4AAAN5/AIAAAAE+wAAACoAYgBvAG8AawBtAGEAcgBrAHMAXwBkAG8AYwBrAF8AdwBpAGQAZwBlAHQAAAAAAP////8AAAAQAP////sAAAAcAGwAcABfAGQAbwBjAGsAXwB3AGkAZABnAGUAdAEAAABMAAAC/QAAABAA////+wAAABwAbAB0AF8AZABvAGMAawBfAHcAaQBkAGcAZQB0AQAAA08AAAB2AAAAEAD////7/////wAAAAMMAAAAuQAAALkA////AAAEEQAAA3kAAAAEAAAABAAAAAgAAAAI/AAAAAEAAAACAAAAAQAAAA4AdABvAG8AbABiAGEAcgEAAAAA/////wAAAAAAAAAA</window-state>
  <xor-anotb>false</xor-anotb>
  <xor-axorb>true</xor-axorb>
  <xor-bnota>false</xor-bnota>

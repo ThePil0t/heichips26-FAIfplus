@@ -172,4 +172,4 @@ C {ammeter.sym} 260 -110 0 0 {name=Vi1 savecurrent=true spice_ignore=0}
 C {ammeter.sym} 300 -110 0 0 {name=Vi2 savecurrent=true spice_ignore=0}
 C {ammeter.sym} 340 -110 0 0 {name=Vi3 savecurrent=true spice_ignore=0}
 C {ammeter.sym} 200 -110 0 0 {name=Visupply savecurrent=true spice_ignore=0}
-C {ptat_curr_gen_mod1.sym} 170 -320 0 0 {name=x1}
+C {ptat_curr_gen.sym} 170 -320 0 0 {name=x1}

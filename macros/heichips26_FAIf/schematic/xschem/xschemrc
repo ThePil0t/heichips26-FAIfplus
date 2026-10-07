@@ -49,6 +49,7 @@ append_xschem_library_path_unique [file join [file dirname [info script]] ../../
 
 # Source project xschemrc
 append_xschem_library_path_unique [file join [file dirname [info script]] ../../macros/8x_inverting_digital_level_translator/schematic/xschem]
+append_xschem_library_path_unique [file join [file dirname [info script]] ../../macros/8x_inverting_digital_level_translator/macros/inverting_digital_level_translator/schematic/xschem]
 append_xschem_library_path_unique [file join [file dirname [info script]] ../../macros/comparator/schematic/xschem]
 append_xschem_library_path_unique [file join [file dirname [info script]] ../../macros/down_digital_translator/schematic/xschem]
 append_xschem_library_path_unique [file join [file dirname [info script]] ../../macros/opamp/schematic/xschem]

@@ -301,7 +301,7 @@ N 3000 -910 3050 -910 {lab=SAR_DAC[7]}
 C {title-2.sym} 0 0 0 0 {name=l1 author="B. L., G. B., T. M., P. G." rev=1.0 lock=true}
 C {555_comparator.sym} 1490 -2020 0 0 {name=x1}
 C {down_digital_translator.sym} 1810 -1960 0 0 {name=x2}
-C {ptat_curr_gen_mod1.sym} 590 -300 0 0 {name=x3}
+C {ptat_curr_gen.sym} 590 -300 0 0 {name=x3}
 C {r2r_dac.sym} 1690 -1590 0 1 {name=x4}
 C {r2r_dac.sym} 1690 -970 0 1 {name=x5}
 C {8x_inverting_digital_level_translator.sym} 1980 -1450 0 1 {name=x6}

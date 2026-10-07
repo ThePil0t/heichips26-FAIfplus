@@ -1,0 +1,56 @@
+** sch_path: /home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/ptat_current_source/schematic/xschem/ptat_curr_gen.sch
+.subckt ptat_curr_gen PCSVDD CSOUT1 CSOUT2 CSOUT3 PBIAS PCSVSS CSOUT4
+*.PININFO PCSVDD:B PCSVSS:B CSOUT1:O CSOUT2:O CSOUT3:O PBIAS:O CSOUT4:O
+XM1 net1 net1 PCSVSS PCSVSS sg13_hv_nmos w=2u l=2u ng=1 m=1 mm_ok=1
+XM2 PBIAS net1 res_tap PCSVSS sg13_hv_nmos w=10u l=2u ng=1 m=1 mm_ok=1
+XM3 net1 PBIAS PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XM4 PBIAS PBIAS PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XR1 res_tap PCSVSS PCSVSS rhigh w=0.5e-6 l=30e-6 m=1 b=21 mm_ok=1
+XM5 CSOUT3 PBIAS PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XM6 CSOUT2 PBIAS PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XM7 CSOUT1 PBIAS PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XMD1 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=10u l=2u ng=1 m=1 mm_ok=1
+XMD2 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=10u l=2u ng=1 m=1 mm_ok=1
+XMD3 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=5u l=2u ng=1 m=1 mm_ok=1
+XMD4 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=5u l=2u ng=1 m=1 mm_ok=1
+XMD5 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=5u l=2u ng=1 m=1 mm_ok=1
+XMD6 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=5u l=2u ng=1 m=1 mm_ok=1
+XMD7 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=5u l=2u ng=1 m=1 mm_ok=1
+XMD8 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=5u l=2u ng=1 m=1 mm_ok=1
+XMD9 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=2u l=2u ng=1 m=1 mm_ok=1
+XMD10 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=2u l=2u ng=1 m=1 mm_ok=1
+XMD11 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=1u l=2u ng=1 m=1 mm_ok=1
+XMD12 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=1u l=2u ng=1 m=1 mm_ok=1
+XMD13 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=1u l=2u ng=1 m=1 mm_ok=1
+XMD14 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=1u l=2u ng=1 m=1 mm_ok=1
+XMD15 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=1u l=2u ng=1 m=1 mm_ok=1
+XMD16 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=1u l=2u ng=1 m=1 mm_ok=1
+XMD17 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XMD24 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XMD31 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XMD18 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XMD19 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XMD20 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XMD21 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XMD22 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XMD23 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XMD25 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XMD26 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XMD27 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XMD28 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XMD29 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XMD30 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XMD32 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XMD33 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XMD34 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XMD35 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XMD36 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XMS1 net3 net2 PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XMS3 PCSVSS net3 net2 PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XMSS5 wcs4 wcs4 CSSTARTUP CSSTARTUP sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM8 CSOUT4 PBIAS PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XMSS4 wcs3 wcs3 wcs4 wcs4 sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XMSS3 wcs2 wcs2 wcs3 wcs3 sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XMSS2 wcs1 wcs1 wcs2 wcs2 sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XMSS1 PCSVSS PCSVSS wcs1 wcs1 sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+.ends

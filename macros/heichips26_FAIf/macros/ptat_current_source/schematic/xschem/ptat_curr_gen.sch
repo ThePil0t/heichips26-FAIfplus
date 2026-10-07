@@ -13,17 +13,17 @@ T {Analog Design for CMOS VLSI Systems
 by Franco Maloberti
 Chapter 4.2.3 "Self Biased Micro-Current Generator"} 180 -680 0 0 0.4 0.4 {}
 T {Dummy transistors} 1940 -620 0 0 0.3 0.3 {}
-N 430 -520 450 -520 {lab=CSOUT3}
-N 490 -490 490 -460 {lab=CSOUT3}
-N 430 -520 430 -460 {lab=CSOUT3}
-N 370 -520 430 -520 {lab=CSOUT3}
+N 430 -520 450 -520 {lab=PBIAS}
+N 490 -490 490 -460 {lab=PBIAS}
+N 430 -520 430 -460 {lab=PBIAS}
+N 370 -520 430 -520 {lab=PBIAS}
 N 330 -360 330 -330 {lab=#net1}
 N 390 -360 390 -300 {lab=#net1}
 N 330 -580 330 -550 {lab=PCSVDD}
 N 330 -580 490 -580 {lab=PCSVDD}
 N 490 -580 490 -550 {lab=PCSVDD}
 N 330 -270 330 -150 {lab=PCSVSS}
-N 1120 -460 1280 -460 {lab=CSOUT3}
+N 1120 -460 1280 -460 {lab=PBIAS}
 N 320 -520 330 -520 {lab=PCSVDD}
 N 320 -580 330 -580 {lab=PCSVDD}
 N 490 -520 500 -520 {lab=PCSVDD}
@@ -41,16 +41,16 @@ N 500 -580 500 -520 {lab=PCSVDD}
 N 490 -580 500 -580 {lab=PCSVDD}
 N 330 -360 390 -360 {lab=#net1}
 N 370 -300 390 -300 {lab=#net1}
-N 490 -460 490 -330 {lab=CSOUT3}
+N 490 -460 490 -330 {lab=PBIAS}
 N 390 -300 450 -300 {lab=#net1}
 N 330 -490 330 -360 {lab=#net1}
 N 490 -270 490 -240 {lab=res_tap}
-N 1280 -520 1280 -460 {lab=CSOUT3}
-N 1280 -520 1300 -520 {lab=CSOUT3}
-N 1120 -520 1140 -520 {lab=CSOUT3}
-N 1120 -520 1120 -460 {lab=CSOUT3}
-N 960 -520 980 -520 {lab=CSOUT3}
-N 790 -520 790 -460 {lab=CSOUT3}
+N 1280 -520 1280 -460 {lab=PBIAS}
+N 1280 -520 1300 -520 {lab=PBIAS}
+N 1120 -520 1140 -520 {lab=PBIAS}
+N 1120 -520 1120 -460 {lab=PBIAS}
+N 960 -520 980 -520 {lab=PBIAS}
+N 790 -520 790 -460 {lab=PBIAS}
 N 1190 -580 1340 -580 {lab=PCSVDD}
 N 1340 -580 1340 -550 {lab=PCSVDD}
 N 1340 -520 1350 -520 {lab=PCSVDD}
@@ -65,9 +65,8 @@ N 1030 -580 1030 -520 {lab=PCSVDD}
 N 1020 -580 1030 -580 {lab=PCSVDD}
 N 1020 -580 1020 -550 {lab=PCSVDD}
 N 1030 -580 1180 -580 {lab=PCSVDD}
-N 1020 -460 1120 -460 {lab=CSOUT3}
-N 490 -460 790 -460 {lab=CSOUT3}
-N 430 -460 490 -460 {lab=CSOUT3}
+N 490 -460 790 -460 {lab=PBIAS}
+N 430 -460 490 -460 {lab=PBIAS}
 N 1020 -400 1360 -400 {lab=CSOUT3}
 N 1180 -430 1360 -430 {lab=CSOUT2}
 N 330 -150 490 -150 {lab=PCSVSS}
@@ -464,35 +463,74 @@ N 710 -380 710 -330 {lab=#net3}
 N 500 -580 620 -580 {lab=PCSVDD}
 N 500 -150 630 -150 {lab=PCSVSS}
 N 630 -150 710 -150 {lab=PCSVSS}
-N 710 -220 710 -200 {lab=wcs[4:1],PCSVSS}
-N 660 -260 670 -260 {lab=wcs[4:1],PCSVSS}
-N 660 -260 660 -220 {lab=wcs[4:1],PCSVSS}
-N 660 -220 710 -220 {lab=wcs[4:1],PCSVSS}
-N 710 -230 710 -220 {lab=wcs[4:1],PCSVSS}
-N 710 -300 710 -290 {lab=CSSTARTUP,wcs[4:1]}
-N 710 -260 720 -260 {lab=CSSTARTUP,wcs[4:1]}
-N 720 -300 720 -260 {lab=CSSTARTUP,wcs[4:1]}
-N 710 -300 720 -300 {lab=CSSTARTUP,wcs[4:1]}
-N 710 -310 710 -300 {lab=CSSTARTUP,wcs[4:1]}
-N 790 -330 1360 -330 {lab=CSOUT3}
-N 790 -460 790 -330 {lab=CSOUT3}
-N 960 -520 960 -460 {lab=CSOUT3}
-N 870 -460 960 -460 {lab=CSOUT3}
-N 860 -580 1020 -580 {lab=PCSVDD}
-N 790 -520 820 -520 {lab=CSOUT3}
+N 710 -220 710 -200 {lab=wcs4}
+N 660 -260 670 -260 {lab=wcs4}
+N 660 -260 660 -220 {lab=wcs4}
+N 660 -220 710 -220 {lab=wcs4}
+N 710 -230 710 -220 {lab=wcs4}
+N 710 -300 710 -290 {lab=CSSTARTUP}
+N 710 -260 720 -260 {lab=CSSTARTUP}
+N 720 -300 720 -260 {lab=CSSTARTUP}
+N 710 -300 720 -300 {lab=CSSTARTUP}
+N 710 -310 710 -300 {lab=CSSTARTUP}
+N 790 -330 1360 -330 {lab=PBIAS}
+N 790 -460 790 -330 {lab=PBIAS}
+N 960 -520 960 -460 {lab=PBIAS}
+N 870 -580 1020 -580 {lab=PCSVDD}
+N 790 -520 820 -520 {lab=PBIAS}
 N 860 -580 860 -550 {lab=PCSVDD}
 N 700 -580 860 -580 {lab=PCSVDD}
-N 790 -460 870 -460 {lab=CSOUT3}
-N 860 -520 870 -520 {lab=CSOUT3}
-N 870 -520 870 -460 {lab=CSOUT3}
+N 790 -460 960 -460 {lab=PBIAS}
+N 860 -520 870 -520 {lab=PCSVDD}
 N 1340 -460 1360 -460 {lab=CSOUT1}
 N 1340 -490 1340 -460 {lab=CSOUT1}
 N 1180 -490 1180 -430 {lab=CSOUT2}
-N 1020 -460 1020 -400 {lab=CSOUT3}
-N 1020 -490 1020 -460 {lab=CSOUT3}
-N 960 -460 1020 -460 {lab=CSOUT3}
+N 960 -460 1120 -460 {lab=PBIAS}
 N 860 -370 1360 -370 {lab=CSOUT4}
 N 860 -490 860 -370 {lab=CSOUT4}
+N 910 -150 910 -130 {lab=wcs3}
+N 860 -190 870 -190 {lab=wcs3}
+N 860 -190 860 -150 {lab=wcs3}
+N 860 -150 910 -150 {lab=wcs3}
+N 910 -160 910 -150 {lab=wcs3}
+N 910 -230 910 -220 {lab=wcs4}
+N 910 -190 920 -190 {lab=wcs4}
+N 920 -230 920 -190 {lab=wcs4}
+N 910 -230 920 -230 {lab=wcs4}
+N 910 -240 910 -230 {lab=wcs4}
+N 1010 -150 1010 -130 {lab=wcs2}
+N 960 -190 970 -190 {lab=wcs2}
+N 960 -190 960 -150 {lab=wcs2}
+N 960 -150 1010 -150 {lab=wcs2}
+N 1010 -160 1010 -150 {lab=wcs2}
+N 1010 -230 1010 -220 {lab=wcs3}
+N 1010 -190 1020 -190 {lab=wcs3}
+N 1020 -230 1020 -190 {lab=wcs3}
+N 1010 -230 1020 -230 {lab=wcs3}
+N 1010 -240 1010 -230 {lab=wcs3}
+N 1110 -150 1110 -130 {lab=wcs1}
+N 1060 -190 1070 -190 {lab=wcs1}
+N 1060 -190 1060 -150 {lab=wcs1}
+N 1060 -150 1110 -150 {lab=wcs1}
+N 1110 -160 1110 -150 {lab=wcs1}
+N 1110 -230 1110 -220 {lab=wcs2}
+N 1110 -190 1120 -190 {lab=wcs2}
+N 1120 -230 1120 -190 {lab=wcs2}
+N 1110 -230 1120 -230 {lab=wcs2}
+N 1110 -240 1110 -230 {lab=wcs2}
+N 1210 -150 1210 -130 {lab=PCSVSS}
+N 1160 -190 1170 -190 {lab=PCSVSS}
+N 1160 -190 1160 -150 {lab=PCSVSS}
+N 1160 -150 1210 -150 {lab=PCSVSS}
+N 1210 -160 1210 -150 {lab=PCSVSS}
+N 1210 -230 1210 -220 {lab=wcs1}
+N 1210 -190 1220 -190 {lab=wcs1}
+N 1220 -230 1220 -190 {lab=wcs1}
+N 1210 -230 1220 -230 {lab=wcs1}
+N 1210 -240 1210 -230 {lab=wcs1}
+N 1020 -490 1020 -400 {lab=CSOUT3}
+N 870 -580 870 -520 {lab=PCSVDD}
+N 860 -580 870 -580 {lab=PCSVDD}
 C {sg13g2_pr/sg13_hv_nmos.sym} 350 -300 0 1 {name=M1
 l=2u
 w=2u
@@ -895,9 +933,9 @@ m=1
 model=sg13_hv_pmos
 spiceprefix=X
 }
-C {lab_wire.sym} 710 -310 0 1 {name=p8 sig_type=std_logic lab=CSSTARTUP,wcs[4:1]}
-C {lab_wire.sym} 710 -200 0 1 {name=p11 sig_type=std_logic lab=wcs[4:1],PCSVSS}
-C {sg13g2_pr/sg13_hv_pmos.sym} 690 -260 0 0 {name=MSS[5:1]
+C {lab_wire.sym} 710 -310 0 1 {name=p8 sig_type=std_logic lab=CSSTARTUP}
+C {lab_wire.sym} 710 -200 0 1 {name=p11 sig_type=std_logic lab=wcs4}
+C {sg13g2_pr/sg13_hv_pmos.sym} 690 -260 0 0 {name=MSS5
 l=0.4u
 w=0.3u
 ng=1
@@ -914,3 +952,43 @@ model=sg13_hv_pmos
 spiceprefix=X
 }
 C {opin.sym} 1360 -370 0 0 {name=p12 lab=CSOUT4}
+C {lab_wire.sym} 910 -240 0 1 {name=p_mss4_s sig_type=std_logic lab=wcs4}
+C {lab_wire.sym} 910 -130 0 1 {name=p_mss4_d sig_type=std_logic lab=wcs3}
+C {sg13g2_pr/sg13_hv_pmos.sym} 890 -190 0 0 {name=MSS4
+l=0.4u
+w=0.3u
+ng=1
+m=1
+model=sg13_hv_pmos
+spiceprefix=X
+}
+C {lab_wire.sym} 1010 -240 0 1 {name=p_mss3_s sig_type=std_logic lab=wcs3}
+C {lab_wire.sym} 1010 -130 0 1 {name=p_mss3_d sig_type=std_logic lab=wcs2}
+C {sg13g2_pr/sg13_hv_pmos.sym} 990 -190 0 0 {name=MSS3
+l=0.4u
+w=0.3u
+ng=1
+m=1
+model=sg13_hv_pmos
+spiceprefix=X
+}
+C {lab_wire.sym} 1110 -240 0 1 {name=p_mss2_s sig_type=std_logic lab=wcs2}
+C {lab_wire.sym} 1110 -130 0 1 {name=p_mss2_d sig_type=std_logic lab=wcs1}
+C {sg13g2_pr/sg13_hv_pmos.sym} 1090 -190 0 0 {name=MSS2
+l=0.4u
+w=0.3u
+ng=1
+m=1
+model=sg13_hv_pmos
+spiceprefix=X
+}
+C {lab_wire.sym} 1210 -240 0 1 {name=p_mss1_s sig_type=std_logic lab=wcs1}
+C {lab_wire.sym} 1210 -130 0 1 {name=p_mss1_d sig_type=std_logic lab=PCSVSS}
+C {sg13g2_pr/sg13_hv_pmos.sym} 1190 -190 0 0 {name=MSS1
+l=0.4u
+w=0.3u
+ng=1
+m=1
+model=sg13_hv_pmos
+spiceprefix=X
+}
