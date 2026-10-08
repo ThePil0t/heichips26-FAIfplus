@@ -25,7 +25,7 @@ import tempfile
 import klayout.db as db
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from gen_sah_12bit_layout import CAP_L, CAP_MARKER, CAP_O, CELL_H, FENCE, VSS_WALL, WALL_E, WALL_W  # noqa: E402
+from gen_sah_12bit_layout import CAP_L, CAP_MARKER, CAP_O, CELL_H, FENCE, VSS_PLATE, WALL_E, WALL_W  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 MACRO = os.path.normpath(os.path.join(HERE, "..", ".."))
@@ -40,8 +40,7 @@ PLUS_XY = (CAP_MARKER[0] + 0.30, CAP_O[1] + 25.0)            # on the PLUS pad (
 MINUS_XY = (CAP_O[0] + CAP_L + 0.60, CAP_O[1] + 25.0)        # on the MINUS pad (Metal3)
 # VSS walls that lose their tie to the fence when the cap box is cut out (wiring variant): Magic names
 # them by position (m<n>_<x>_<y>#, 5 nm units); they are quiet VSS in the real layout
-VSS_FRAGMENT_BOXES = [(VSS_WALL[0], 0.0, VSS_WALL[1], CELL_H), (WALL_W[0], 0.0, WALL_W[1], CELL_H),
-                      (WALL_E[0], 0.0, WALL_E[1], CELL_H)]
+VSS_FRAGMENT_BOXES = [(WALL_W[0], 0.0, WALL_W[1], CELL_H), (WALL_E[0], 0.0, WALL_E[1], CELL_H), VSS_PLATE]
 SI = {"f": 1e-15, "p": 1e-12, "n": 1e-9, "u": 1e-6, "m": 1e-3}
 
 

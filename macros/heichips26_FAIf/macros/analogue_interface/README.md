@@ -72,9 +72,9 @@ Why the blocks sit where they do:
 - **West column:** all level translators face the digital logic, so the VPWR domain stays in this one column.
 - **DAC rows:** each 8× translator is rotated R90 next to its DAC row, with its LIN inputs facing west and its nLOUT outputs facing the DAC's nD inputs.
 - **East column:** the ADC front end sits next to the analog pins. The opamp is mirrored so its IOAP input is directly above `analog_0..2`.
-- **Comparator:** at y 112, as close to the SAR DAC as its strap slot allows (7.8 µm from x4), with INN straight above the S&H's SH_OUT spine.
-- **S&H (x10):** between the opamp and the comparator. The hold cap sits in the strap slot x 179.4–222.4, 10.5 µm from the west strap group. The switches sit in a strip left of the cap, right under the comparator.
-- **PTAT (x3):** east of the comparator, mirrored (MX) so its outputs (CSOUT1–4, PBIAS) face down, next to the comparator's PBIAS. iIREF2–4 run west to the DACs, iIREF1 down to the opamp (ADC round).
+- **Comparator:** at y 115.5, as close to the SAR DAC as its strap slot allows (7.8 µm from x4), with INN straight above the S&H's SH_OUT spine. It sits 3 µm above the S&H top (y 112.5).
+- **S&H (x10):** between the opamp and the comparator. The hold cap sits in the strap slot x 179.4–222.4, 10.5 µm from the west strap group. The switch (TG) sits on top of the cap, east of the SH_OUT spine, with room for a T-switch next to it; the gate driver runs east of that. SH_IN leaves on the east edge, away from the DAC routes on the west.
+- **PTAT (x3):** east of the comparator at y 115.5, mirrored (MX) so its outputs (CSOUT1–4, PBIAS) face down, next to the comparator's PBIAS. iIREF2–4 run west to the DACs, iIREF1 down to the opamp (ADC round).
 
 
 ## Blocks
@@ -85,13 +85,13 @@ Coordinates are macro-local in µm and give the lower-left corner of each placed
 |---|---|---|---|---|---|---|
 | x12, x7, x6 | 8x inverting level translator | `../8x_inverting_digital_level_translator/layout/8x_inverting_digital_level_translator.gds` | R90 | (4, 9.35), (4, 47.35), (4, 85.35) | 13.145 × 33.61 | KLayout DRC/LVS clean (cell) |
 | x11, x5, x4 | R2R DAC with output opamp | `../r2r_dac/layout/r2r_dac.gds` | R0 | (25, 10), (25, 48), (25, 86) | 147.82 × 32.315 | KLayout DRC/LVS clean (cell) |
-| x3 | PTAT current source | `../ptat_current_source/layout/ptat_curr_gen.gds` | MX | (205.43, 112) | 48.58 × 34.80 | KLayout DRC/LVS clean (cell); not routed yet (with the ADC round) |
+| x3 | PTAT current source | `../ptat_current_source/layout/ptat_curr_gen.gds` | MX | (205.43, 115.5) | 48.58 × 34.80 | KLayout DRC/LVS clean (cell); not routed yet (with the ADC round) |
 | x2 | down translator (`adc_comp`) | `../down_digital_translator/layout/down_digital_translator.gds` | MY | (4, 124.5) | 3.24 × 4.90 | layout, unverified |
 | x9 | level translator (`adc_hold`) | `../digital_level_translator/layout/digital_level_translator.gds` | R0 | (4, 132.4) | 12.12 × 5.05 | layout, unverified |
 | xcap0–3 | level translator (`sh_cap_en[0..3]`) | same as x9 | R0 | (4, 140.45 / 148.5 / 156.55 / 164.6) | 12.12 × 5.05 | **not in the top schematic yet** |
 | x8 | opamp (S&H input buffer) | `../opamp/layout/op_amp_ver_2.gds` | MY | (187, 10) | 105.66 × 32.29 | layout, unverified |
-| x10 | sample-and-hold `sah_12bit` | `../sah_12bit/layout/sah_12bit.gds` | R0 | (179.2, 45.5) | 43.0 × 63.5 | layout, DRC/LVS clean (cell) |
-| x1 | comparator | `../comparator/layout/555_comparator.gds` | R0 | (180.63, 112) | 21.80 × 19.81 | layout, DRC/LVS clean |
+| x10 | sample-and-hold `sah_12bit` | `../sah_12bit/layout/sah_12bit.gds` | R0 | (179.2, 45.5) | 43.0 × 67.0 | layout, DRC/LVS clean (cell) |
+| x1 | comparator | `../comparator/layout/555_comparator.gds` | R0 | (180.63, 115.5) | 21.80 × 19.81 | layout, DRC/LVS clean |
 | R1, R2 | rhigh w=0.5 µm l=50 µm b=0 (≈ 148 kΩ), PDK PCell | generated (`macro_routing.make_divider_cells`) | R90 | (118, 166.4), (118, 162.5) | 51.22 × 0.90 | routed |
 | C1 | cap_cmomi w=50 µm l=2 µm, Metal2–Metal3 (≈ 45 fF), PDK PCell | generated | R90 | (118, 156) | 50.98 × 3.48 | routed |
 
@@ -106,17 +106,17 @@ The r2r_dac GDS carries a TopMetal1 text label (`ODACOUT`, 126/25). The build sc
 
 | Net | From | To | Route (macro) |
 |---|---|---|---|
-| SH_IN | opamp OOA, west end of its Metal3 strip (187.01, 26.3) | S&H pin `SH_IN`, bottom edge (186.4, 45.5) | Metal3 0.4 µm: (186.2, 26.3) → up to y 44.0 → (186.4, 44.0) → pin; ≈ 20 µm |
-| SH_OUT (hold node, `iSAR_AN`) | S&H pin `SH_OUT`, top edge (191.43, 109.0) | comparator INN, Metal3 pad (191.43, 121.7) | 12.7 µm straight up on Metal3 (9.7 µm of it inside the comparator) |
-| VSS | S&H pin `VSS`, top edge (192.43, 109.0) | comparator GNDA (south edge, Metal1, y 112.04–112.82) | 3 µm hop up next to SH_OUT, then to VGND |
-| iSAR_DAC | x4 ODACOUT, east edge (172.82, 102.3) | comparator INP, Metal3 pad (191.53, 122.37) | Metal3 x 173.4–173.8 up to y 122.37, then east into INP |
+| SH_IN | opamp OOA, west end of its Metal3 strip (187.01, 26.3) | S&H pin `SH_IN`, east edge (222.2, 112.25), Metal3 0.4 µm | routed by hand on the east side of the S&H, in the corridor x 222.2–232 (kept free); not part of the generated routing |
+| SH_OUT (hold node, `iSAR_AN`) | S&H pin `SH_OUT`, top edge (191.43, 112.5) | comparator INN, Metal3 pad (191.43, 125.2) | 12.7 µm straight up on Metal3 (9.7 µm of it inside the comparator) |
+| VSS | S&H pin `VSS`, top edge (192.43, 112.5) | comparator GNDA (south edge, Metal1, y 115.54–116.32) | 3 µm hop up next to SH_OUT, then to VGND |
+| iSAR_DAC | x4 ODACOUT, east edge (172.82, 102.3) | comparator INP, Metal3 pad (191.53, 125.87) | Metal3 x 173.4–173.8 up to y 125.87, then east into INP |
 | SH_EN | x9 LOUT (13.09, 134.42, Metal2) | S&H pin `SH_EN`, west edge (179.2, 83.9) | LOUT on Metal2 east to x ≥ 13.6 (the VAPWR trunk is at x 11.70–12.81), up to Metal3 east to x 22.5, Metal2 down x 22.5 to y 83.9, Metal3 east at y 83.9 between the VAPWR (81.4–82.2) and VGND (84.7–85.5) rails |
 | VDD | S&H pin `VDD`, west edge (179.2, 91.5) | VAPWR | |
 
 Routing rules (see `../sah_12bit/README.md`):
 - SH_OUT is a direct Metal3 hop to INN; nothing runs alongside it except the VSS hop.
 - iSAR_DAC splits the channel x 172.82–179.2 from the DAC edge (y 102.3) up to the comparator. So SH_EN comes in from the south through the x5/x4 corridor and never crosses iSAR_DAC.
-- SH_IN, SH_OUT, SH_EN and iSAR_DAC don't cross anywhere. The DAC routes keep ≥ 7.9 µm from SH_IN: analog_1 runs at x 178.3, analog_2 at x 175.6.
+- SH_IN, SH_OUT, SH_EN and iSAR_DAC don't cross anywhere. SH_IN enters from the east, so the DAC routes (analog_1 at x 178.3, analog_2 at x 175.6) stay ≈ 44 µm away from it.
 - The comparator OUT (SE corner) is routed east and north around the comparator, never west across iSAR_DAC or along the SH_OUT hop.
 - No routing over the S&H on Metal1–Metal3 (LEF obstruction) or over its lid on Metal4 (LEF obstruction).
 
@@ -135,7 +135,7 @@ All routes are generated by [`scripts/macro_routing.py`](scripts/macro_routing.p
 | VPWR / VGND / VAPWR | Metal3 trunks continue the translator supply bars (x 5.35–6.46 / 9.29–10.40 / 11.70–12.81) up to the straps; VGND and VAPWR cross the lower straps on Metal2. Metal3 rails in the row gaps feed the R2R opamp rails (x11, x5, x4); VGND hops under the VAPWR trunk on Metal2 |
 | R1 / R2 / C1 | west ends: Metal2 risers to VAPWR (x 117) and VGND (x 115) |
 
-Kept free for the ADC round: Metal3 at y 83.9 and Metal2 at x 22.5 (SH_EN), Metal3 x 173.4–173.8 for y 102–122 (iSAR_DAC). The PTAT routes (iIREF1–4, PBIAS, supplies) follow in the ADC round.
+Kept free for the ADC round: Metal3 at y 83.9 and Metal2 at x 22.5 (SH_EN), Metal3 x 173.4–173.8 for y 102–126 (iSAR_DAC), x 222.2–232 east of the S&H (SH_IN). The PTAT routes (iIREF1–4, PBIAS, supplies) follow in the ADC round.
 
 **LVS:** the reference schematic [`schematic/xschem/analogue_interface.sch`](schematic/xschem/analogue_interface.sch) is generated by [`scripts/gen_reference_schematic.py`](scripts/gen_reference_schematic.py) from the analog part of the top schematic (x1–x12, R1, R2, C1, plus the spares xcap0–3), with the nets renamed to the macro ports. As long as the ADC path is unrouted, the full macro LVS cannot match (the flat comparison cannot pair even correctly routed nets); it becomes the sign-off check after the ADC round.
 

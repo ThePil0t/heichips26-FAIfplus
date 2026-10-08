@@ -62,24 +62,25 @@ Each testbench's header text lists its setups.
 
 ## Layout
 
-Floorplan v2b (2026-10-08). Cell 43.0 × 63.5 µm.
+Floorplan v4 (2026-10-09). Cell 43.0 × 67.0 µm.
 In `analogue_interface` it sits at (179.2, 45.5), between the input buffer `op_amp_ver_2` (x8, below) and the
-comparator `555_comparator` (x1, at (180.63, 112), above). Cell coordinates below; add (179.2, 45.5) for the macro.
+comparator `555_comparator` (x1, at (180.63, 115.5), above). Cell coordinates below; add (179.2, 45.5) for the macro.
 
 ```
- y=63.5 ┌ SH_OUT (x 12.23) ─ VSS (x 13.23) ─ top-edge pins ── driver VSS rail (M2) ─────────────┐
-        │ TG ═════ trunk ═╪ SH_OUT spine (Metal3, VSS walls on both sides)                      │
-        │ T-switch rsv    │┌PLUS────────────────────────────────────────────────────MINUS┐     │
- SH_EN ▶│ driver I1..I4   ││ C1 33 × 60 cells, GatPoly floor, M1–M3 fence + p-tap ring,     │     │
-  VDD  ▶│ (rotated row)   ││ Metal4 lid (x 11.68–41.66)                                     │     │
-        │ +2 inv rsv      ││                                                                │     │
-        │      SH_IN riser│ VSS wall                                                       │     │
- y=0    └ SH_IN pin (x 7.2) ──────────────────────────────────────────────────────────────────┘
-          x=0              x≈10.7 (fence)                                                  x=43.0
+ y=67.0 ┌──── SH_OUT (x 12.23) ─ VSS (x 13.23) ── top-edge pins ── SH_IN run (Metal3, y 66.75) ────────────▶ SH_IN
+        │            ║ │ ║ TG (mirrored)  │ T-switch room    │ driver I1..I4 (row) │ +2 inv │  (east edge, y 66.75)
+        │            ║ │ ║ x 14.2–19.8    │ x ≈ 20–27        │ x 27.4–36.8         │ rsv    │
+ y≈57.6 │            ║ │ ║ (SH_EN/VDD on Metal1 along the bottom of the head, under a Metal2 VSS plate at the spine)
+        │ west strip ┌─┴PLUS───────────────────────────────────────────────────────MINUS┐
+ SH_EN ▶│ SH_EN/VDD  │ C1 33 × 60 cells, GatPoly floor, M1–M3 fence + p-tap ring,       │
+  VDD  ▶│ Metal1     │ Metal4 lid (x 11.68–41.66)                                        │
+        │ risers     │                                                                   │
+ y=0    └────────────└───────────────────────────────────────────────────────────────────┘
+          x=0          x≈10.7 (fence)                                                      x=43.0
 ```
 
 **Pins** (Metal3, cell coordinates):
-- `SH_IN`: bottom edge, x 7.2 (macro 186.4, straight above the opamp's OOA exit).
+- `SH_IN`: east edge, y 66.75 (macro (222.2, 112.25)). The macro route to the opamp is done by hand on the east side of the S&H (corridor macro x 222.2–232), far from the DAC routes on the west.
 - `SH_EN`: west edge, y 38.37 (macro 83.9).
 - `VDD`: west edge, y 46.0 (macro 91.5).
 - `SH_OUT`: top edge, x 12.23 (macro 191.43, straight below the comparator INN).
@@ -96,34 +97,33 @@ comparator `555_comparator` (x1, at (180.63, 112), above). Cell coordinates belo
   - shield-to-PLUS coupling only adds hold capacitance against the reference;
   - ground noise is common to the shield and MINUS;
   - VAPWR would inject supply ripple, VPWR would add digital noise, and a floating shield does not shield.
-- **SH_OUT spine:** the cap's feed pads are solid on Metal3 only. The spine therefore leaves the top of the PLUS pad on Metal3 through a gap in the Metal3 fence, with no Via3 on that gap, and runs straight to the pin between two VSS walls. The gate's SH_OUT trunk joins it from the west.
+- **SH_OUT spine:** the cap's feed pads are solid on Metal3 only. The spine therefore leaves the top of the PLUS pad on Metal3 through a gap in the Metal3 fence, with no Via3 on that gap, and runs straight to the pin between two VSS walls. The gate's SH_OUT trunk joins it from the east.
 - **LVS constraint:** no other `.pin` shape may lie inside the cap marker; the KLayout LVS needs exactly two.
 
-**Switch strip** (west of the cap, under the comparator):
-- **Transmission gate:** one 4-finger strip per polarity, `[SH_IN] D1 [SH_IN] M [SH_OUT] D2 [SH_OUT] M [SH_IN]`.
+**Switch head** (on top of the cap, east of the SH_OUT spine):
+- **Transmission gate:** one 4-finger strip per polarity, `[SH_IN] D1 [SH_IN] M [SH_OUT] D2 [SH_OUT] M [SH_IN]`, placed mirrored so its SH_OUT trunk runs straight west into the spine (no stub, no tap line).
   - The hold node therefore has two shared inner diffusions per polarity.
   - Extracted hold-node junctions: PMOS 0.68 µm² / 5.1 µm, NMOS 0.23 µm² / 2.7 µm. The sizing sims used the model defaults, 1.22 µm² / 9.9 µm and 0.41 µm² / 5.1 µm.
-- **T-switch reserve:** ≈ 6 × 8.5 µm right below the gate, where SH_IN enters. A series switch and a shunt fit there without moving the spine, the cap or the comparator.
-- **Gate driver I1..I4:** a row rotated into a column; SH_EN and VDD enter from the west edge. Room for 2 more inverters (shunt phase) is left below it. The gate lines run up the gate's west side.
-- **SH_IN:** one straight Metal3 riser from the bottom pin into the gate's lower SH_IN bar.
-  - It is 3.3 µm from the fence and 4.5 µm from the cap, with a VSS wall (M2+M3) in between.
-  - SH_IN, SH_OUT, SH_EN and the gate lines don't cross anywhere.
+- **T-switch room:** ≈ 7 × 8 µm between the gate and the driver, on the SH_IN side. A series switch and a shunt fit there without moving the spine, the cap or the comparator.
+- **Gate driver I1..I4:** a row, mirrored, east of the T-switch room, with room for 2 more inverters (shunt phase) at its east end. Its outputs reach the gate's east side on Metal2 (with short Metal3 risers where two lines would meet); none crosses the spine.
+- **SH_EN and VDD** come in on the west edge (same pins as v2b), rise in the west strip on Metal1 and run east along the bottom of the head, under a Metal2 VSS plate where they cross the spine.
+- **SH_IN:** from the gate's SH_IN joiner up to the top edge and east to the pin on Metal3, above the gate and the driver. SH_IN, SH_OUT, SH_EN and the gate lines don't cross anywhere.
 
-**Grounds.** The driver ground (Metal1 riser on the west edge, Metal2 rail along the top edge) and the quiet ground meet only at the `VSS` pin. The quiet ground is the cap MINUS, the shield box, the spine walls, the SH_IN wall and the gate's NMOS body tap. This keeps the driver's current at the sampling edge out of the hold-cap reference.
+**Grounds.** The driver ground (its VSS rail, Metal2 along the top edge to the east spine wall) and the quiet ground meet only at the `VSS` pin. The quiet ground is the cap MINUS, the shield box, the spine walls, the Metal2 plate and the gate's NMOS body tap. This keeps the driver's current at the sampling edge out of the hold-cap reference.
 
-### Verification (2026-10-08, floorplan v2b)
+### Verification (2026-10-09, floorplan v4)
 
 | Check | Result |
 |---|---|
-| KLayout DRC, regular (sign-off) | only the cell-level global density rules AFil.g, M4.k (the lid covers 63.5 % of this small cell; ≈ 3 % of the macro), TM1.c |
+| KLayout DRC, regular (sign-off) | only the cell-level global density rules AFil.g, M1.j, M2.j, TM1.c |
 | Magic DRC | 0 |
 | KLayout LVS (sign-off) | match; C1 extracted as `cap_cmomi` between SH_OUT and VSS |
 | Magic + Netgen LVS | 14 vs 15 devices: Magic cannot extract `cap_cmomi`. Without C1 in the netlist: "Circuits match uniquely" (only `mm_ok` property notes) |
-| Macro `analogue_interface`, KLayout DRC regular | only the global density rules |
-| Chip (LibreLane, RUN_2026-10-08_17-44-26) | KLayout DRC 0, LVS clean, antenna 0, setup/hold met, no power-grid violations, IR drop unchanged |
+| Macro `analogue_interface`, KLayout DRC regular | only the global density rules; builder routing check (DAC path) OK |
+| Chip (LibreLane, RUN_2026-10-09_01-12-07) | KLayout DRC 0, LVS clean, antenna 0, setup/hold met, no power-grid violations, IR drop unchanged. Magic DRC (not run in the earlier chip runs) reports 1248 latch-up/well/tap findings in other blocks, none in the S&H |
 | Metal4 PDN straps | west group (macro x 172.38–179.38) intact over the whole macro; east group (222.38–229.38) cut over the S&H; no top-level route near the lid |
 
-### Post-layout results (v2b)
+### Post-layout results (v4)
 
 Neither extractor handles the MOM cap on its own. Magic has no `cap_cmomi` device: it reads the fingers as 1.48 pF of wire coupling and books their area as junction area. `scripts/layout/hybrid_pex.py` therefore combines:
 - the PDK C1 model;
@@ -132,19 +132,19 @@ Neither extractor handles the MOM cap on its own. Magic has no `cap_cmomi` devic
 
 See the script header for details. `make sim-final-pex` runs the final check with this netlist. The results are archived in `testbenches/xschem/plot_simulations/data/*_pex*.txt`.
 
-| Quantity | Post-layout v2b | v1 (coax, 7b33d78) | Sizing / schematic |
+| Quantity | Post-layout v4 | v2b (7c28bb3) | Sizing / schematic |
 |---|---|---|---|
-| Extra C on SH_OUT to VSS | 3 fF wiring + 196 fF cap environment (poly floor, lid, fence) | 14 fF + 196 fF | CPAR = 0.05 pF |
-| C(SH_IN, SH_OUT) | 0.35 fF, mostly the facing S/D straps of the gate itself | 0.36 fF | device model only |
-| Hold feedthrough | −72 dB (nominal C), −69 dB (C −35 %) | same | −116 dB |
-| Pedestal nonlinearity, PVT × cap spread (budget 201 µV) | ≤ 66 µV (worst ff −40 °C, C −35 %) | ≤ 86 µV | ≤ 50 µV |
-| Leakage droop at 125 °C (step 1.6 → 1.7 V) | 9.9–18.1 mV/ms | 9.8–17.9 mV/ms | 12.7–23.1 mV/ms |
+| Extra C on SH_OUT to VSS | 3 fF wiring + 196 fF cap environment (poly floor, lid, fence) | same | CPAR = 0.05 pF |
+| C(SH_IN, SH_OUT) | 0.35 fF, mostly the facing S/D straps of the gate itself | 0.35 fF | device model only |
+| Hold feedthrough | −72 dB (nominal C), −69 dB (C −35 %), from the unchanged C(SH_IN, SH_OUT) | same | −116 dB |
+| Pedestal nonlinearity, PVT × cap spread (budget 201 µV) | ≤ 72 µV (worst ff −40 °C, C −35 %) | ≤ 66 µV | ≤ 50 µV |
+| Leakage droop at 125 °C (step 1.6 → 1.7 V) | 9.9–18.1 mV/ms | same | 12.7–23.1 mV/ms |
 | Acquisition 0.5–3.2 V to ¼ LSB | +2…5 % (worst ss 125 °C +35 %: 1.82 µs) | same | 1.78 µs |
-| Comparator kickback at tt 27 °C (budget 201 µV) | 126 µV at C −35 %, 88 µV nominal | 125 / 88 µV | 157 / 103 µV |
+| Comparator kickback at tt 27 °C (budget 201 µV) | 125 µV at C −35 %, 89 µV nominal | 126 / 88 µV | 157 / 103 µV |
 
-**Hold feedthrough is the one figure the layout makes worse than the schematic.** The coupling sits mostly in the switch's own S/D straps, which face each other across the main gates; moving the routing doesn't remove it (checked in v1, and the v2b floorplan barely changes it).
+**Hold feedthrough is the one figure the layout makes worse than the schematic.** The coupling sits mostly in the switch's own S/D straps, which face each other across the main gates; moving the routing doesn't remove it (checked in v1; the v2b and v4 floorplans barely change it).
 - An input that moves by the full scale during the hold shifts the held value by 0.8 mV (nominal C) to 1.2 mV (C −35 %).
 - That is about 1–1.5 LSB at 12 bit and about 0.1 LSB for the 8-bit ADC, and negligible for slowly varying inputs.
-- If 12 bit at high input slew is needed later, a T-switch (series–shunt–series) is the circuit fix. The reserve below the gate is kept free for it.
+- If 12 bit at high input slew is needed later, a T-switch (series–shunt–series) is the circuit fix. The room between the gate and the driver is kept free for it.
 
 The `droop` column of `sah_12bit_final_tb_tran` starts 5 µs after the input step, while the 25 nA follower is still slewing (≈ 9 µs for 2.3 V). Post-layout it therefore contains the feedthrough of the rest of the step; use the 1.6 → 1.7 V step for the leakage droop.

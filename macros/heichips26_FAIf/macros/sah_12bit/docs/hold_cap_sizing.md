@@ -188,7 +188,7 @@ Testbench `sah_12bit_trim_tb_tran` compares two cells, each driven by its own fo
   - reduce the PMOS junction area on the hold node.
 - **Bias:** the follower bias was an ideal 25 nA source. The PTAT block (`iIREF1`) was not simulated, and its spread changes acquisition time and noise.
 - **Comparator and DAC noise** were not simulated. The budget leaves them only about 90 µV rms at 125 °C.
-- **Layout (done 2026-10-08, floorplan v2b, see the README):** the post-layout netlist adds about 0.2 pF on SH_OUT (shield box 196 fF, wiring 3 fF) instead of the CPAR = 0.05 pF assumed here. That helps kickback (126 µV at C −35 %) and kT/C, and slows acquisition by 2–5 %. Pedestal nonlinearity stays ≤ 66 µV, and the leakage droop drops by 15–22 % because the hold-node junctions are smaller. Hold feedthrough rises to −72 dB (−69 dB at C −35 %), because of the switch's own S/D strap coupling (0.35 fF in total).
+- **Layout (done 2026-10-09, floorplan v4, see the README):** the post-layout netlist adds about 0.2 pF on SH_OUT (shield box 196 fF, wiring 3 fF) instead of the CPAR = 0.05 pF assumed here. That helps kickback (125 µV at C −35 %) and kT/C, and slows acquisition by 2–5 %. Pedestal nonlinearity stays ≤ 72 µV, and the leakage droop drops by 15–22 % because the hold-node junctions are smaller. Hold feedthrough rises to −72 dB (−69 dB at C −35 %), because of the switch's own S/D strap coupling (0.35 fF in total).
 - **Input range:** 0.5–3.2 V for full-speed 12-bit operation.
 - **Offset:** the follower offset at 125 °C reaches 1.6–2.3 mV (calibratable, not INL).
 - **Integration:** `sah_12bit` is pin-compatible with `sample_and_hold` but not yet instantiated in the top level.

@@ -6,21 +6,23 @@ Devices come from the PDK PCells (SG13_dev, made static); taps, wells, wiring, t
 shield and the pins are drawn here. Run inside nix-shell from the macro folder:
     python3 scripts/layout/gen_sah_12bit_layout.py [out.gds]
 
-Floorplan v2b (cell coordinates, um; the analog macro places the cell at (179.2, 45.5)):
+Floorplan v4 (cell coordinates, um; the analog macro places the cell at (179.2, 45.5)):
 - C1 (cap_cmomi 33 x 60 unit cells, M1-M3, PLUS pad west, MINUS pad east) in a closed VSS box:
   GatPoly floor, M1-M3 fence with via rows, p-tap ring under the fence, Metal4 lid. MINUS is tied
   to the fence. In the macro the lid's LEF obstruction keeps 10.5 um from the west Metal4 PDN strap
   group (PDN_HORIZONTAL_HALO = 10 um), so that group is not cut.
 - SH_OUT spine: one straight Metal3 line from the top of the PLUS pad (through a gap in the Metal3
   fence) to the SH_OUT pin, between two VSS walls. The comparator's INN sits straight above it.
-- Switch strip left of the cap, top to bottom: transmission gate (one 4-finger strip per polarity,
-  [SH_IN] D1 [SH_IN] M [SH_OUT] D2 [SH_OUT] M [SH_IN]; SH_OUT diffusions face each other and exit
-  east into the spine), a free T-switch reserve, the gate driver I1..I4 as a column (a rotated row)
-  with SH_EN and VDD on the west edge, and room for 2 more inverters.
-- SH_IN: one straight Metal3 riser from the bottom pin into the gate's lower SH_IN bar, 3.3 um from
-  the fence with a VSS wall in between. It crosses nothing.
-- VSS is one pin (top edge, next to SH_OUT): the driver ground (M2 rail along the top edge) and the
-  quiet ground of the cap, its shield and the gate's NMOS body meet only there.
+- Head on top of the cap, east of the spine: the transmission gate (one 4-finger strip per polarity,
+  [SH_IN] D1 [SH_IN] M [SH_OUT] D2 [SH_OUT] M [SH_IN], drawn in a sub-cell and mirrored so its SH_OUT
+  trunk goes straight west into the spine), free room for a later T-switch, then the gate driver
+  I1..I4 as a row (mirrored, I4 next to the gate) and room for 2 more inverters.
+- SH_IN leaves the gate on its east side and runs along the top edge to the SH_IN pin on the east
+  edge; the macro route (by hand) continues on the right side of the S&H.
+- SH_EN and VDD keep their west-edge pins. Both run up the west strip and east along the bottom of
+  the head on Metal1, under a Metal2 VSS plate where they cross the spine.
+- VSS is one pin (top edge, on the east spine wall): the driver ground (Metal2 rail) and the quiet
+  ground of the cap, its shield and the gate's NMOS body meet only there.
 """
 import os
 import sys
@@ -44,7 +46,7 @@ LAYERS = {
     "Metal4": (50, 0), "NoMetFiller": (160, 0), "prBoundary": (189, 4),
 }
 
-CELL_W, CELL_H = 43.0, 63.5          # macro x 179.2-222.2, y 45.5-109.0
+CELL_W, CELL_H = 43.0, 67.0          # macro x 179.2-222.2, y 45.5-112.5
 
 # Hold cap: cap_cmomi PCell origin; marker = origin + (-0.9 .. l+0.9, -0.32 .. w+0.32)
 CAP_W, CAP_L = 54.29, 27.72          # um, 33 x 60 unit cells = 1213.8 fF
@@ -66,36 +68,48 @@ SPINE_GAP = (SPINE_X - 0.50, SPINE_X + 0.50)        # gap in the Metal3 fence to
 WALL_W = (SPINE_X - 1.10, SPINE_X - 0.80)           # west VSS wall
 WALL_E = (SPINE_X + 0.80, SPINE_X + 1.20)           # east VSS wall = VSS pin
 
-# Transmission gate strips (Activ lower-left)
-TG_X = 5.4
-YN = 58.15                           # NMOS strip, W = 0.3 per finger
-YP = 59.69                           # PMOS strip, W = 0.9 per finger
+# Transmission gate: sub-cell (strips at local x 0 .. 3.62), placed mirrored: cell x = TG_A - local x
+TG_X = 0.0
+TG_A = 17.82                         # strip end (local 3.62) at cell x 14.2, east of the spine walls
+YN = 61.20                           # NMOS strip, W = 0.3 per finger
+YP = YN + 1.54                       # PMOS strip, W = 0.9 per finger
 WN, WP = 0.30, 0.90
 GATES = [0.34, 1.17, 2.00, 2.83]     # gate poly x (left edge) in a strip, L = 0.45
 SDX = [0.07, 0.90, 1.73, 2.56, 3.39]  # S/D strap x (left edge), 0.16 wide
 STRIP_LEN = 3.62
 SHIN_SD, SHOUT_SD = (0, 1, 4), (2, 3)
 MAIN_G, DUMMY_G = (1, 3), (0, 2)
-TRUNK_Y = (58.92, 59.22)             # SH_OUT trunk between the strips, east into the spine
-SHIN_JOIN_X = TG_X - 1.0             # Metal3 joiner of the two SH_IN bars (west of the gate)
+TRUNK_Y = (YN + 0.77, YN + 1.07)     # SH_OUT trunk between the strips, into the spine
+SHIN_JOIN_X = TG_X - 1.0             # Metal3 joiner of the two SH_IN bars (east of the gate in the cell)
+SPINE_LOCAL = TG_A - SPINE_X         # spine x in the gate's local coordinates
+QVSS_LOCAL = TG_A - 13.6             # quiet-VSS via stack of the gate's p-tap (cell x 13.6)
+VDD_TAP_LOCAL = TG_A - 22.9          # n-tap Metal1 reaches the VDD riser (cell x 22.6-22.9)
 
-# SH_IN riser and the VSS wall between it and the fence
-SH_IN_X = 7.2
-VSS_WALL = (8.8, 9.2)
-
-# Gate driver: drawn as a row (inverters along x, PMOS row below, NMOS row above) in a sub-cell,
-# placed rotated by 90 deg: row (x, y) -> cell (DRV_DX - y, x + DRV_DY)
+# Gate driver: drawn as a row in a sub-cell (inverters along x, PMOS row below, NMOS row above),
+# placed mirrored so I4 sits next to the gate: cell (x, y) = (DRV_B - x, y + DRV_DY)
 DRV = [(1.00, 1), (2.73, 1), (4.46, 2), (7.02, 2)]
 DRV_YP, DRV_YN = 57.10, 59.90        # PMOS (W 1.2/finger) and NMOS (W 0.6/finger) Activ bottoms
 DRV_GATE_Y = 59.10                   # gate contacts in the gap
-DRV_DX, DRV_DY = 62.0, 36.8
-GATE_M3_X = {"sw": 1.0, "sw_b": 1.8, "sw_d": 2.6}    # Metal3 risers from the driver to the gate
-VDD_M1_X = (3.15, 3.45)              # VDD riser (Metal1) from the driver rail to the gate's n-tap
+DRV_B, DRV_DY = 37.1, 2.9            # driver TGO at cell x 27.4-36.8, y 58.2-64.8
+GATE_M3_X = {"sw": 20.0, "sw_b": 20.8, "sw_d": 21.6}  # Metal3 risers between driver and gate
+VDD_RISER = (22.6, 22.9)             # Metal1 VDD riser: driver VDD rail -> gate n-tap
+BOT_SHEN = (57.86, 58.10)            # Metal1 runs along the bottom of the head (under the spine plate)
+BOT_VDD = (58.34, 58.58)
+# Metal2 VSS plate over the Metal1 runs where they cross the spine (merges with the fence's Metal2)
+VSS_PLATE = (WALL_W[0] - 0.3, CAP_MARKER[3] + FENCE[0] + 0.2, WALL_E[1] + 0.3, BOT_VDD[1] + 0.1)
+SHEN_X, VDD_X = 1.9, 0.9             # their Metal1 risers in the west strip
+SH_IN_Y = (66.55, 66.95)             # SH_IN run along the top edge (Metal3)
+VSS_RAIL_Y = (65.70, 66.20)          # driver VSS rail (Metal2) to the VSS pin
 
 
 def drv(x, y):
     """Driver row coordinates -> cell coordinates."""
-    return DRV_DX - y, x + DRV_DY
+    return DRV_B - x, y + DRV_DY
+
+
+def tgx(x):
+    """Gate local x -> cell x."""
+    return TG_A - x
 
 
 class Gen:
@@ -224,7 +238,7 @@ class Gen:
             yc = CAP_O[1] + 2.0 + i * 5.0
             self.box("Metal3", minus_x, yc - 0.5, x2 + d0 + 0.1, yc + 0.5)
 
-    # ---- transmission gate ---------------------------------------------------------------------
+    # ---- transmission gate (sub-cell, local coordinates; placed mirrored) ----------------------
     def tg_strip(self, pmos, y0, outer_up):
         w = WP if pmos else WN
         name = "pmosHV" if pmos else "nmosHV"
@@ -238,14 +252,14 @@ class Gen:
         inn = lambda d: edge_in - s * d                # distance d beyond the inner edge
         gx = [TG_X + g for g in GATES]
         sx = [TG_X + x for x in SDX]
-        # main gates: contacts on the outer side, M1 bar, Via1 -> M2 (to the driver, west)
+        # main gates: contacts on the outer side, M1 bar, Via1 -> M2 (to the driver)
         for i in MAIN_G:
             self.box("GatPoly", gx[i], edge_out, gx[i] + 0.45, out(0.53))
             self.cont(gx[i] + 0.225, out(0.38))
         self.box("Metal1", gx[1] + 0.07, out(0.225), gx[3] + 0.38, out(0.535))
         main_y = out(0.38)
         self.via(1, TG_X + 1.745, main_y)
-        # dummy gates: contacts on the inner side, M1 bar, Via1 at its west end -> M2
+        # dummy gates: contacts on the inner side, M1 bar, Via1 at its end -> M2
         for i in DUMMY_G:
             self.box("GatPoly", gx[i], edge_in, gx[i] + 0.45, inn(0.485))
             self.cont(gx[i] + 0.225, inn(0.335))
@@ -258,7 +272,7 @@ class Gen:
             self.box("Metal1", sx[i] - 0.075, y0, sx[i] + 0.235, y0 + w)   # 0.31 wide: M1.d
             self.sq("Via1", sx[i] + 0.08, sh_out_y, 0.19)
         self.box("Metal2", sx[2] - 0.07, y0, sx[3] + 0.23, y0 + 0.30 if outer_up else y0 + w)
-        # SH_IN straps: extended outwards, Via1 pads, M2 bar (to the SH_IN joiner, west)
+        # SH_IN straps: extended outwards, Via1 pads, M2 bar (to the SH_IN joiner)
         shin_y = out(1.20)
         for i in SHIN_SD:
             self.box("Metal1", sx[i], edge_out, sx[i] + 0.16, out(1.20))
@@ -268,28 +282,35 @@ class Gen:
         return main_y, dum_y, shin_y, out(2.05)
 
     def tgate(self):
+        cell = self.ly.create_cell("sah12_tgate")
+        self.tgt = cell
         # PMOS: outer side up; NMOS: outer side down. SH_OUT diffusions face each other.
         p_main, p_dum, p_shin, p_tap = self.tg_strip(True, YP, True)
         n_main, n_dum, n_shin, n_tap = self.tg_strip(False, YN, False)
-        # SH_OUT: join the two M2 bars, trunk east into the spine
+        # SH_OUT: join the two M2 bars, trunk into the spine (after mirroring: west)
         self.box("Metal2", TG_X + 2.075, YN, TG_X + 2.375, YP + 0.30)
-        self.box("Metal2", TG_X + 2.075, TRUNK_Y[0], SPINE_X + 0.15, TRUNK_Y[1])
-        self.via(2, SPINE_X, sum(TRUNK_Y) / 2)
-        # SH_IN: Metal3 joiner of the two SH_IN bars (west of the gate)
+        self.box("Metal2", TG_X + 2.075, TRUNK_Y[0], SPINE_LOCAL + 0.15, TRUNK_Y[1])
+        self.via(2, SPINE_LOCAL, sum(TRUNK_Y) / 2)
+        # SH_IN: Metal3 joiner of the two SH_IN bars
         self.box("Metal3", SHIN_JOIN_X - 0.2, n_shin - 0.2, SHIN_JOIN_X + 0.2, p_shin + 0.2)
         self.via(2, SHIN_JOIN_X, n_shin)
         self.via(2, SHIN_JOIN_X, p_shin)
-        # n-tap (VDD) above the PMOS strip, p-tap (quiet VSS) below the NMOS strip, tied to the fence
+        # n-tap (VDD) above the PMOS strip, Metal1 out to the VDD riser
         self.tap_row(TG_X, TG_X + STRIP_LEN, p_tap - 0.15, p_tap + 0.15, ptap=False)
-        self.box("Metal1", VDD_M1_X[0], p_tap - 0.20, TG_X + STRIP_LEN + 0.05, p_tap + 0.20)
+        self.box("Metal1", VDD_TAP_LOCAL, p_tap - 0.20, TG_X + STRIP_LEN + 0.05, p_tap + 0.20)
+        # p-tap (quiet VSS) below the NMOS strip, via stack up to the east spine wall
         self.tap_row(TG_X, TG_X + STRIP_LEN, n_tap - 0.15, n_tap + 0.15, ptap=True)
-        self.box("Metal1", TG_X, n_tap - 0.20, CAP_MARKER[0] - FENCE[0] - 0.4, n_tap + 0.20)
+        self.box("Metal1", TG_X, n_tap - 0.20, QVSS_LOCAL + 0.2, n_tap + 0.20)
+        self.stack(QVSS_LOCAL, n_tap, 1, 3)
+        self.box("Metal3", QVSS_LOCAL - 0.2, n_tap - 0.2, TG_A - WALL_E[0] + 0.05, n_tap + 0.2)
         # wells
         self.box("NWell", TG_X - 0.62, YP - 0.62, TG_X + STRIP_LEN + 0.62, p_tap + 0.15 + 0.62)
         self.box("ThickGateOx", TG_X - 0.70, n_tap - 0.45, TG_X + STRIP_LEN + 0.70, p_tap + 0.80)
+        self.tgt = self.top
+        self.top.insert(pya.DCellInstArray(cell.cell_index(), pya.DTrans(pya.DTrans.M90, TG_A, 0.0)))
         return dict(sw=n_main, sw_b_n=n_dum, sw_d=p_dum, sw_b_p=p_main, shin_p=p_shin, shin_n=n_shin, vdd_tap=p_tap)
 
-    # ---- gate driver (sub-cell, drawn as a row) -------------------------------------------------
+    # ---- gate driver (sub-cell, drawn as a row, placed mirrored) --------------------------------
     def driver(self):
         cell = self.ly.create_cell("sah12_driver")
         self.tgt = cell
@@ -331,72 +352,81 @@ class Gen:
         self.box("NWell", DRV[0][0] - 0.62, 55.38, x_end + 0.62, DRV_YP + 1.2 + 0.62)
         self.box("ThickGateOx", 0.30, 55.30, x_end + 0.72, 61.90)
         self.tgt = self.top
-        self.top.insert(pya.DCellInstArray(cell.cell_index(), pya.DTrans(1, False, DRV_DX, DRV_DY)))
+        self.top.insert(pya.DCellInstArray(cell.cell_index(), pya.DTrans(pya.DTrans.M90, DRV_B, DRV_DY)))
         return outs
 
     # ---- wiring --------------------------------------------------------------------------------
     def wiring(self, tg, outs):
-        # SH_EN: west pin -> M2 -> I1 gate pad
+        mk = CAP_MARKER
+        # SH_EN: west pin -> Metal1 riser in the west strip -> Metal1 run along the bottom of the head
+        #   (under the spine plate) -> Metal2 up at the east end of the driver -> I1 gate pad
         gx, gy = drv(DRV[0][0] + 0.565, DRV_GATE_Y)
-        self.pin("SH_EN", 0.0, gy - 0.25, 0.5, gy + 0.25)
-        self.via(2, 0.30, gy)
-        self.box("Metal2", 0.155, gy - 0.145, gx + 0.145, gy + 0.145)
+        sy = 38.37
+        self.pin("SH_EN", 0.0, sy - 0.25, 0.5, sy + 0.25)
+        self.via(2, 0.30, sy)
+        self.box("Metal2", 0.155, sy - 0.145, SHEN_X + 0.145, sy + 0.145)
+        self.via(1, SHEN_X, sy)
+        self.box("Metal1", SHEN_X - 0.12, sy - 0.145, SHEN_X + 0.12, BOT_SHEN[1])
+        x_e = gx + 1.9
+        self.box("Metal1", SHEN_X - 0.12, BOT_SHEN[0], x_e + 0.145, BOT_SHEN[1])
+        vye = sum(BOT_SHEN) / 2 + 0.05                # keeps the Metal2 pad 0.25 um from the fence (Mn.b)
+        self.via(1, x_e, vye)
+        self.box("Metal1", x_e - 0.145, BOT_SHEN[0], x_e + 0.145, vye + 0.145)
+        self.box("Metal2", x_e - 0.145, vye - 0.145, x_e + 0.145, gy + 0.145)
+        self.box("Metal2", gx - 0.145, gy - 0.145, x_e + 0.145, gy + 0.145)
         self.via(1, gx, gy)
-        # VDD: west pin -> M2 -> driver VDD rail; rail -> Metal1 riser -> gate n-tap
-        rx, _ = drv(0, 56.15)                       # centre of the driver VDD rail
-        _, rtop = drv(9.40, 0)
-        vy = rtop - 0.2
+        # VDD: west pin -> Metal1 riser -> Metal1 run along the bottom -> VDD riser -> gate n-tap,
+        #   and the driver VDD rail
+        vy = 46.0
         self.pin("VDD", 0.0, vy - 0.25, 0.5, vy + 0.25)
         self.via(2, 0.30, vy)
-        self.box("Metal2", 0.155, vy - 0.145, rx + 0.145, vy + 0.145)
-        self.via(1, rx, vy)
-        self.box("Metal1", rx - 0.25, rtop - 0.3, rx + 0.25, rtop + 0.7)
-        self.box("Metal1", VDD_M1_X[0], rtop + 0.4, rx + 0.25, rtop + 0.7)
-        self.box("Metal1", VDD_M1_X[0], rtop + 0.4, VDD_M1_X[1], tg["vdd_tap"] + 0.20)
-        # driver outputs -> M2 jog -> Metal3 risers -> M2 entries into the gate
-        taps = {"sw": (outs[1], 57.395), "sw_b": (outs[2], 59.65), "sw_d": (outs[3], 60.20)}
-        entries = {"sw": [(tg["sw"], TG_X + 1.90)], "sw_b": [(tg["sw_b_p"], TG_X + 1.90), (tg["sw_b_n"], TG_X + 0.14)],
-                   "sw_d": [(tg["sw_d"], TG_X + 0.14)]}
+        self.box("Metal2", 0.155, vy - 0.145, VDD_X + 0.145, vy + 0.145)
+        self.via(1, VDD_X, vy)
+        self.box("Metal1", VDD_X - 0.12, vy - 0.145, VDD_X + 0.12, BOT_VDD[1])
+        self.box("Metal1", VDD_X - 0.12, BOT_VDD[0], VDD_RISER[1], BOT_VDD[1])
+        rail_y = (55.90 + DRV_DY, 56.40 + DRV_DY)
+        self.box("Metal1", VDD_RISER[0], BOT_VDD[0], VDD_RISER[1], tg["vdd_tap"] + 0.20)
+        self.box("Metal1", VDD_RISER[0], rail_y[0], DRV_B - 9.40 + 0.1, rail_y[1])
+        # Metal2 VSS plate between the Metal1 runs and the spine (merges with the fence's Metal2)
+        self.box("Metal2", *VSS_PLATE)
+        # driver outputs -> M2 -> Metal3 risers -> M2 entries into the gate (gate vias at tgx())
+        # tap heights on the output straps; sw_b above sw_d so their Metal2 runs don't meet the entries
+        taps = {"sw": (outs[1], 57.395), "sw_b": (outs[2], 60.20), "sw_d": (outs[3], 59.65)}
+        entries = {"sw": [(tg["sw"], tgx(1.745))], "sw_b": [(tg["sw_b_p"], tgx(1.745)), (tg["sw_b_n"], tgx(-0.005))],
+                   "sw_d": [(tg["sw_d"], tgx(-0.005))]}
         for net, (ox, oy) in taps.items():
             px, py = drv(ox, oy)
             self.via(1, px, py)
+            if all(abs(ye - py) < 0.5 for ye, _ in entries[net]):   # same track: one Metal2 run, no riser
+                for ye, xe in entries[net]:
+                    self.box("Metal2", xe - 0.145, min(ye, py) - 0.145, px + 0.145, max(ye, py) + 0.145)
+                continue
             m3 = GATE_M3_X[net]
-            self.box("Metal2", min(m3, px) - 0.15, py - 0.145, max(m3, px) + 0.145, py + 0.145)
+            self.box("Metal2", m3 - 0.15, py - 0.145, px + 0.145, py + 0.145)
             self.via(2, m3, py)
-            ys = [y for y, _ in entries[net]]
-            self.box("Metal3", m3 - 0.15, py - 0.145, m3 + 0.15, max(ys) + 0.145)
+            ys = [y for y, _ in entries[net]] + [py]
+            self.box("Metal3", m3 - 0.15, min(ys) - 0.145, m3 + 0.15, max(ys) + 0.145)
             for ye, xe in entries[net]:
                 self.via(2, m3, ye)
-                self.box("Metal2", m3 - 0.15, ye - 0.145, xe, ye + 0.145)
-        # SH_IN: bottom pin -> straight riser -> lower SH_IN bar of the gate
-        self.pin("SH_IN", SH_IN_X - 0.2, 0.0, SH_IN_X + 0.2, 0.5)
-        self.box("Metal3", SH_IN_X - 0.2, 0.0, SH_IN_X + 0.2, tg["shin_n"] + 0.145)
-        self.via(2, SH_IN_X, tg["shin_n"])
-        # VSS wall (M2 + M3) between the SH_IN riser and the fence, tied to the fence
-        top_wall = tg["shin_n"] - 1.55
-        for m in ("Metal2", "Metal3"):
-            self.box(m, VSS_WALL[0], 0.6, VSS_WALL[1], top_wall)
-            self.box(m, VSS_WALL[0], 0.6, CAP_MARKER[0] - FENCE[0], 1.0)
-            self.box(m, VSS_WALL[0], top_wall - 0.4, CAP_MARKER[0] - FENCE[0], top_wall)
-        y = 1.6
-        while y < top_wall - 0.6:
-            self.sq("Via2", sum(VSS_WALL) / 2, y, 0.19)
-            y += 2.0
+                self.box("Metal2", xe - 0.145, ye - 0.145, m3 + 0.15, ye + 0.145)
+        # SH_IN: gate joiner -> up -> along the top edge -> east pin
+        jx = tgx(SHIN_JOIN_X)
+        self.box("Metal3", jx - 0.2, tg["shin_p"], jx + 0.2, SH_IN_Y[1])
+        self.box("Metal3", jx - 0.2, SH_IN_Y[0], CELL_W, SH_IN_Y[1])
+        self.pin("SH_IN", CELL_W - 0.5, SH_IN_Y[0], CELL_W, SH_IN_Y[1])
         # SH_OUT spine: from inside the PLUS pad top through the fence gap to the pin
-        mk = CAP_MARKER
         self.box("Metal3", SPINE_X - SPINE_W / 2, mk[3] - 0.23, SPINE_X + SPINE_W / 2, CELL_H)
         self.pin("SH_OUT", SPINE_X - SPINE_W / 2, CELL_H - 0.4, SPINE_X + SPINE_W / 2, CELL_H)
         # VSS walls along the spine (quiet VSS, on the fence top segment)
         wall_y0 = mk[3] + FENCE[0] + 0.3
         self.box("Metal3", WALL_W[0], wall_y0, WALL_W[1], CELL_H)
         self.box("Metal3", WALL_E[0], wall_y0, WALL_E[1], CELL_H)
-        # VSS: driver rail (M1 riser on the west edge, M2 along the top edge) meets the quiet VSS at the pin
-        vsx, _ = drv(0, 61.45)                      # centre of the driver VSS rail
-        _, vtop = drv(9.40, 0)
-        self.box("Metal1", vsx - 0.25, vtop - 0.3, vsx + 0.25, CELL_H - 0.1)
-        self.box("Metal2", 0.30, CELL_H - 0.5, WALL_E[1], CELL_H - 0.1)
-        self.sq("Via1", vsx, CELL_H - 0.3, 0.19)
-        self.sq("Via2", sum(WALL_E) / 2, CELL_H - 0.3, 0.19)
+        # VSS: driver VSS rail (Metal1, extended up) -> Metal2 rail west -> east spine wall at the pin
+        vx_l = DRV_B - 9.40                         # west end of the driver's VSS rail
+        self.box("Metal1", vx_l, 61.20 + DRV_DY, vx_l + 0.5, VSS_RAIL_Y[1])
+        self.sq("Via1", vx_l + 0.25, sum(VSS_RAIL_Y) / 2, 0.19)
+        self.box("Metal2", WALL_E[0], VSS_RAIL_Y[0], vx_l + 0.5, VSS_RAIL_Y[1])
+        self.sq("Via2", sum(WALL_E) / 2, sum(VSS_RAIL_Y) / 2, 0.19)
         self.pin("VSS", WALL_E[0], CELL_H - 0.4, WALL_E[1], CELL_H)
 
     def build(self, out):
