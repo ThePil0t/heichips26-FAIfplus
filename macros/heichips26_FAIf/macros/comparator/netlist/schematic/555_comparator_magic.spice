@@ -1,0 +1,20 @@
+** sch_path: /home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/comparator/schematic/xschem/555_comparator.sch
+.subckt 555_comparator VCCA PBIAS OUT INN INP GNDA
+*.PININFO INP:I VCCA:B OUT:O GNDA:B INN:I PBIAS:I
+XMP1 usource PBIAS VCCA VCCA sg13_hv_pmos w=0.8u l=1u ng=1 m=1 mm_ok=1
+XMN1 diff diff GNDA GNDA sg13_hv_nmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XMN2 gmn1 diff GNDA GNDA sg13_hv_nmos w=0.4u l=1u ng=1 m=1 mm_ok=1
+XMP4 gmn1 INP usource VCCA sg13_hv_pmos w=5u l=0.45u ng=1 m=2 mm_ok=1
+XMP3 diff INN usource VCCA sg13_hv_pmos w=5u l=0.45u ng=1 m=2 mm_ok=1
+XMP2 cout_stage PBIAS VCCA VCCA sg13_hv_pmos w=0.8u l=1u ng=1 m=1 mm_ok=1
+XMN3 cout_stage gmn1 GNDA GNDA sg13_hv_nmos w=2.4u l=0.45u ng=1 m=1 mm_ok=1
+XMN4 inv_stage cout_stage GNDA GNDA sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XMP5 inv_stage cout_stage VCCA VCCA sg13_hv_pmos w=0.6u l=0.45u ng=1 m=1 mm_ok=1
+XMN5 OUT inv_stage GNDA GNDA sg13_hv_nmos w=0.3u l=0.45u ng=1 m=2 mm_ok=1
+XMP6 OUT inv_stage VCCA VCCA sg13_hv_pmos w=0.6u l=0.45u ng=1 m=2 mm_ok=1
+XMPdum1 VCCA VCCA VCCA VCCA sg13_hv_pmos w=0.8u l=1u ng=1 m=2 mm_ok=1
+XMPdum2 VCCA VCCA VCCA VCCA sg13_hv_pmos w=2.5u l=0.45u ng=1 m=8 mm_ok=1
+XMPdum3 VCCA VCCA VCCA VCCA sg13_hv_pmos w=5u l=0.45u ng=1 m=4 mm_ok=1
+XMNdum2 GNDA GNDA GNDA GNDA sg13_hv_nmos w=1.2u l=0.45u ng=1 m=2 mm_ok=1
+XMNdum1 GNDA GNDA GNDA GNDA sg13_hv_nmos w=0.4u l=1u ng=1 m=2 mm_ok=1
+.ends

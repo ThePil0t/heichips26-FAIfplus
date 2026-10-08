@@ -1,0 +1,41 @@
+* Extracted by KLayout with SG13CMOS5L LVS runset on : 08/10/2026 09:40
+
+.SUBCKT ptat_curr_gen CSOUT1 CSOUT2 CSOUT3 CSOUT4 PBIAS PCSVDD PCSVSS
+M$1 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos L=2u W=60u AS=20.4p AD=20.4p
++ PS=130.88u PD=130.88u rfmode=0
+M$3 PBIAS \$6 \$3 PCSVSS sg13_hv_nmos L=2u W=10u AS=3.4p AD=3.4p PS=20.68u
++ PD=20.68u rfmode=0
+M$10 PBIAS \$21 PCSVSS PCSVDD sg13_hv_pmos L=1u W=0.4u AS=0.136p AD=0.136p
++ PS=1.48u PD=1.48u rfmode=0
+M$11 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos L=1u W=8.8u AS=2.992p AD=2.992p
++ PS=32.56u PD=32.56u rfmode=0
+M$12 PCSVDD PBIAS CSOUT4 PCSVDD sg13_hv_pmos L=1u W=0.4u AS=0.136p AD=0.136p
++ PS=1.48u PD=1.48u rfmode=0
+M$14 PCSVDD PBIAS CSOUT1 PCSVDD sg13_hv_pmos L=1u W=0.4u AS=0.136p AD=0.136p
++ PS=1.48u PD=1.48u rfmode=0
+M$28 PCSVDD PBIAS \$6 PCSVDD sg13_hv_pmos L=1u W=0.4u AS=0.136p AD=0.136p
++ PS=1.48u PD=1.48u rfmode=0
+M$29 PCSVDD PBIAS PBIAS PCSVDD sg13_hv_pmos L=1u W=0.4u AS=0.136p AD=0.136p
++ PS=1.48u PD=1.48u rfmode=0
+M$30 PCSVDD PBIAS CSOUT2 PCSVDD sg13_hv_pmos L=1u W=0.4u AS=0.136p AD=0.136p
++ PS=1.48u PD=1.48u rfmode=0
+M$31 PCSVDD PBIAS CSOUT3 PCSVDD sg13_hv_pmos L=1u W=0.4u AS=0.136p AD=0.136p
++ PS=1.48u PD=1.48u rfmode=0
+M$32 PCSVDD PBIAS \$21 PCSVDD sg13_hv_pmos L=1u W=0.4u AS=0.136p AD=0.136p
++ PS=1.48u PD=1.48u rfmode=0
+M$40 \$13 PCSVSS PCSVSS \$13 sg13_hv_pmos L=3u W=0.3u AS=0.102p AD=0.102p
++ PS=1.28u PD=1.28u rfmode=0
+M$41 \$15 \$13 \$13 \$15 sg13_hv_pmos L=3u W=0.3u AS=0.102p AD=0.102p PS=1.28u
++ PD=1.28u rfmode=0
+M$42 \$20 \$17 \$17 \$20 sg13_hv_pmos L=3u W=0.3u AS=0.102p AD=0.102p PS=1.28u
++ PD=1.28u rfmode=0
+M$43 \$21 \$20 \$20 \$21 sg13_hv_pmos L=3u W=0.3u AS=0.102p AD=0.102p PS=1.28u
++ PD=1.28u rfmode=0
+M$44 \$17 \$15 \$15 \$17 sg13_hv_pmos L=3u W=0.3u AS=0.102p AD=0.102p PS=1.28u
++ PD=1.28u rfmode=0
+M$45 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos L=3u W=0.6u AS=0.204p AD=0.204p
++ PS=2.56u PD=2.56u rfmode=0
+M$48 \$6 \$6 PCSVSS PCSVSS sg13_hv_nmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
++ PD=4.68u rfmode=0
+R$56 \$3 PCSVSS PCSVSS rhigh w=0.5u l=31.135u ps=0.18u b=21 m=1
+.ENDS ptat_curr_gen

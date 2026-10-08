@@ -1,0 +1,17 @@
+* PEX produced on Thu Oct  8 02:10:51 CEST 2026 using scripts/sak-pex.sh with m=3 and s=1 (extresist threshold=10000 mOhm, minres=1000 mOhm, mindelay=1 ps)
+* NGSPICE file created from down_digital_translator_pex.ext - technology: ihp-sg13cmos5l
+
+.subckt down_digital_translator_pex PDIGVDD DIN PDIGVSS DOUT
+X0 a_104_212# DIN PDIGVSS PDIGVSS sg13_hv_nmos ad=0.102p pd=1.28u as=0.102p ps=1.28u w=0.3u l=0.45u
+X1 DOUT a_104_212# PDIGVSS PDIGVSS sg13_hv_nmos ad=0.102p pd=1.28u as=0.102p ps=1.28u w=0.3u l=0.45u
+X2 PDIGVDD a_104_212# DOUT PDIGVDD sg13_hv_pmos ad=0.204p pd=1.88u as=0.204p ps=1.88u w=0.6u l=0.45u
+X3 PDIGVDD DIN a_104_212# PDIGVDD sg13_hv_pmos ad=0.204p pd=1.88u as=0.204p ps=1.88u w=0.6u l=0.45u
+C0 a_104_212# DOUT 0.50146f
+C1 PDIGVDD DOUT 0.02268f
+C2 DIN a_104_212# 0.23763f
+C3 a_104_212# PDIGVDD 0.50208f
+C4 DIN PDIGVDD 0.18168f
+C5 DOUT PDIGVSS 0.44276f
+C6 PDIGVDD PDIGVSS 0.0858f
+.ends
+

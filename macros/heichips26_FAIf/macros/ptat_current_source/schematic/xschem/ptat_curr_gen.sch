@@ -604,6 +604,7 @@ body=PCSVSS
 spiceprefix=X
 b=21
 m=1
+lvs_format="R@name @pinlist @value \\$SUB=@body \\$[@model\\\\] w=@w l=31.135e-6 ps=0.18e-6 b=@b m=@m"
 }
 C {iopin.sym} 220 -580 2 0 {name=p1 lab=PCSVDD
 }
@@ -968,7 +969,7 @@ spiceprefix=X
 C {lab_wire.sym} 710 -310 0 1 {name=p8 sig_type=std_logic lab=CSSTARTUP}
 C {lab_wire.sym} 710 -200 0 1 {name=p11 sig_type=std_logic lab=wcs4}
 C {sg13g2_pr/sg13_hv_pmos.sym} 690 -260 0 0 {name=MSS5
-l=4u
+l=3u
 w=0.3u
 ng=1
 m=1
@@ -987,7 +988,7 @@ C {opin.sym} 1360 -370 0 0 {name=p12 lab=CSOUT4}
 C {lab_wire.sym} 910 -240 0 1 {name=p_mss4_s sig_type=std_logic lab=wcs4}
 C {lab_wire.sym} 910 -130 0 1 {name=p_mss4_d sig_type=std_logic lab=wcs3}
 C {sg13g2_pr/sg13_hv_pmos.sym} 890 -190 0 0 {name=MSS4
-l=4u
+l=3u
 w=0.3u
 ng=1
 m=1
@@ -997,7 +998,7 @@ spiceprefix=X
 C {lab_wire.sym} 1010 -240 0 1 {name=p_mss3_s sig_type=std_logic lab=wcs3}
 C {lab_wire.sym} 1010 -130 0 1 {name=p_mss3_d sig_type=std_logic lab=wcs2}
 C {sg13g2_pr/sg13_hv_pmos.sym} 990 -190 0 0 {name=MSS3
-l=4u
+l=3u
 w=0.3u
 ng=1
 m=1
@@ -1007,7 +1008,7 @@ spiceprefix=X
 C {lab_wire.sym} 1110 -240 0 1 {name=p_mss2_s sig_type=std_logic lab=wcs2}
 C {lab_wire.sym} 1110 -130 0 1 {name=p_mss2_d sig_type=std_logic lab=wcs1}
 C {sg13g2_pr/sg13_hv_pmos.sym} 1090 -190 0 0 {name=MSS2
-l=4u
+l=3u
 w=0.3u
 ng=1
 m=1
@@ -1017,7 +1018,7 @@ spiceprefix=X
 C {lab_wire.sym} 1210 -240 0 1 {name=p_mss1_s sig_type=std_logic lab=wcs1}
 C {lab_wire.sym} 1210 -130 0 1 {name=p_mss1_d sig_type=std_logic lab=PCSVSS}
 C {sg13g2_pr/sg13_hv_pmos.sym} 1190 -190 0 0 {name=MSS1
-l=4u
+l=3u
 w=0.3u
 ng=1
 m=1
@@ -1043,7 +1044,7 @@ spiceprefix=X
 }
 C {lab_wire.sym} 2610 -460 0 0 {name=p14 sig_type=std_logic lab=PCSVDD}
 C {sg13g2_pr/sg13_hv_pmos.sym} 2760 -520 0 0 {name=MD39
-l=4u
+l=3u
 w=0.3u
 ng=1
 m=1
@@ -1052,7 +1053,7 @@ spiceprefix=X
 }
 C {lab_wire.sym} 2760 -560 0 0 {name=p15 sig_type=std_logic lab=PCSVDD}
 C {sg13g2_pr/sg13_hv_pmos.sym} 2760 -420 0 0 {name=MD40
-l=4u
+l=3u
 w=0.3u
 ng=1
 m=1

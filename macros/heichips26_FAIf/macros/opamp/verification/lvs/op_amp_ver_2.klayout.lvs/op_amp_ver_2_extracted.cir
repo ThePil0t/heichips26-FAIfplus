@@ -1,0 +1,128 @@
+* Extracted by KLayout with SG13CMOS5L LVS runset on : 08/10/2026 02:15
+
+.SUBCKT op_amp_ver_2 IOADISABLE IOAIREF IOAM IOAP OOA POAVDD POAVSS
+M$1 POAVSS \$9 \$I666 POAVSS sg13_hv_nmos L=2.4u W=0.6u AS=0.204p AD=0.114p
++ PS=1.88u PD=0.98u rfmode=0
+M$2 \$I666 \$7 \$11 POAVSS sg13_hv_nmos L=0.6u W=0.6u AS=0.114p AD=0.204p
++ PS=0.98u PD=1.88u rfmode=0
+M$4 POAVSS IOADISABLE \$18 POAVSS sg13_hv_nmos L=0.6u W=0.6u AS=0.114p
++ AD=0.204p PS=0.98u PD=1.88u rfmode=0
+M$5 POAVSS IOAIREF \$177 POAVSS sg13_hv_nmos L=2.4u W=0.6u AS=0.204p AD=0.204p
++ PS=1.88u PD=1.88u rfmode=0
+M$6 POAVSS IOAIREF POAVSS POAVSS sg13_hv_nmos L=2.4u W=1.2u AS=0.408p AD=0.408p
++ PS=3.76u PD=3.76u rfmode=0
+M$7 POAVSS IOAIREF \$176 POAVSS sg13_hv_nmos L=2.4u W=0.6u AS=0.204p AD=0.204p
++ PS=1.88u PD=1.88u rfmode=0
+M$8 POAVSS IOAIREF IOAIREF POAVSS sg13_hv_nmos L=2.4u W=0.6u AS=0.204p
++ AD=0.204p PS=1.88u PD=1.88u rfmode=0
+M$10 POAVSS \$9 POAVSS POAVSS sg13_hv_nmos L=2.4u W=2.4u AS=0.546p AD=0.726p
++ PS=4.82u PD=6.62u rfmode=0
+M$11 POAVSS IOADISABLE \$63 POAVSS sg13_hv_nmos L=0.6u W=0.6u AS=0.114p
++ AD=0.204p PS=0.98u PD=1.88u rfmode=0
+M$12 \$36 \$7 \$13 POAVSS sg13_hv_nmos L=0.6u W=4.8u AS=1.272p AD=1.272p
++ PS=11.44u PD=11.44u rfmode=0
+M$13 \$13 \$36 POAVSS POAVSS sg13_hv_nmos L=2.4u W=4.8u AS=1.272p AD=1.272p
++ PS=11.44u PD=11.44u rfmode=0
+M$14 \$12 IOADISABLE POAVSS POAVSS sg13_hv_nmos L=0.6u W=0.6u AS=0.204p
++ AD=0.114p PS=1.88u PD=0.98u rfmode=0
+M$16 \$66 \$7 \$10 POAVSS sg13_hv_nmos L=0.6u W=4.8u AS=1.272p AD=1.272p
++ PS=11.44u PD=11.44u rfmode=0
+M$17 \$10 \$9 POAVSS POAVSS sg13_hv_nmos L=2.4u W=4.8u AS=1.272p AD=1.272p
++ PS=11.44u PD=11.44u rfmode=0
+M$18 \$18 \$7 \$14 POAVSS sg13_hv_nmos L=0.6u W=4.8u AS=1.272p AD=1.272p
++ PS=11.44u PD=11.44u rfmode=0
+M$19 \$14 \$36 POAVSS POAVSS sg13_hv_nmos L=2.4u W=4.8u AS=1.272p AD=1.272p
++ PS=11.44u PD=11.44u rfmode=0
+M$34 POAVSS \$7 POAVSS POAVSS sg13_hv_nmos L=0.6u W=1.2u AS=0.408p AD=0.228p
++ PS=3.76u PD=1.96u rfmode=0
+M$38 IOAIREF IOADISABLE POAVSS POAVSS sg13_hv_nmos L=0.6u W=0.6u AS=0.204p
++ AD=0.114p PS=1.88u PD=0.98u rfmode=0
+M$68 POAVSS \$9 \$I664 POAVSS sg13_hv_nmos L=2.4u W=0.6u AS=0.204p AD=0.114p
++ PS=1.88u PD=0.98u rfmode=0
+M$69 \$I664 \$7 \$9 POAVSS sg13_hv_nmos L=0.6u W=0.6u AS=0.114p AD=0.204p
++ PS=0.98u PD=1.88u rfmode=0
+M$70 POAVDD \$177 \$142 POAVDD sg13_hv_pmos L=1.2u W=9.6u AS=2.544p AD=2.544p
++ PS=18.64u PD=18.64u rfmode=0
+M$71 \$142 \$176 \$36 POAVDD sg13_hv_pmos L=0.6u W=9.6u AS=2.544p AD=2.544p
++ PS=18.64u PD=18.64u rfmode=0
+M$72 POAVDD \$177 POAVDD POAVDD sg13_hv_pmos L=1.2u W=7.2u AS=2.088p AD=1.728p
++ PS=15.48u PD=12.48u rfmode=0
+M$73 POAVDD \$176 POAVDD POAVDD sg13_hv_pmos L=0.6u W=7.2u AS=1.728p AD=2.088p
++ PS=12.48u PD=15.48u rfmode=0
+M$74 POAVDD \$177 \$163 POAVDD sg13_hv_pmos L=1.2u W=9.6u AS=2.544p AD=2.544p
++ PS=18.64u PD=18.64u rfmode=0
+M$75 \$163 \$176 \$57 POAVDD sg13_hv_pmos L=0.6u W=9.6u AS=2.544p AD=2.544p
++ PS=18.64u PD=18.64u rfmode=0
+M$86 POAVDD \$177 \$I1718 POAVDD sg13_hv_pmos L=1.2u W=1.2u AS=0.408p AD=0.228p
++ PS=3.08u PD=1.58u rfmode=0
+M$87 \$I1718 \$176 \$7 POAVDD sg13_hv_pmos L=0.6u W=1.2u AS=0.228p AD=0.408p
++ PS=1.58u PD=3.08u rfmode=0
+M$102 \$177 \$176 \$I1901 POAVDD sg13_hv_pmos L=0.6u W=1.2u AS=0.408p AD=0.228p
++ PS=3.08u PD=1.58u rfmode=0
+M$103 \$I1901 \$177 POAVDD POAVDD sg13_hv_pmos L=1.2u W=1.2u AS=0.228p
++ AD=0.408p PS=1.58u PD=3.08u rfmode=0
+M$108 \$9 \$176 \$I1903 POAVDD sg13_hv_pmos L=0.6u W=1.2u AS=0.408p AD=0.228p
++ PS=3.08u PD=1.58u rfmode=0
+M$109 \$I1903 \$177 POAVDD POAVDD sg13_hv_pmos L=1.2u W=1.2u AS=0.228p
++ AD=0.408p PS=1.58u PD=3.08u rfmode=0
+M$118 \$12 \$176 \$I1896 POAVDD sg13_hv_pmos L=0.6u W=1.2u AS=0.408p AD=0.228p
++ PS=3.08u PD=1.58u rfmode=0
+M$119 \$I1896 \$177 POAVDD POAVDD sg13_hv_pmos L=1.2u W=1.2u AS=0.228p
++ AD=0.408p PS=1.58u PD=3.08u rfmode=0
+M$122 \$11 \$63 POAVDD POAVDD sg13_hv_pmos L=0.6u W=1.2u AS=0.408p AD=0.228p
++ PS=3.08u PD=1.58u rfmode=0
+M$123 POAVDD \$63 \$57 POAVDD sg13_hv_pmos L=0.6u W=1.2u AS=0.228p AD=0.408p
++ PS=1.58u PD=3.08u rfmode=0
+M$124 \$63 IOADISABLE POAVDD POAVDD sg13_hv_pmos L=0.6u W=1.2u AS=0.408p
++ AD=0.228p PS=3.08u PD=1.58u rfmode=0
+M$125 POAVDD \$63 \$176 POAVDD sg13_hv_pmos L=0.6u W=1.2u AS=0.228p AD=0.408p
++ PS=1.58u PD=3.08u rfmode=0
+M$126 POAVSS POAVSS POAVSS POAVSS sg13_hv_nmos L=0.6u W=21.6u AS=7.344p
++ AD=7.344p PS=55.44u PD=55.44u rfmode=0
+M$127 \$17 \$17 POAVSS POAVSS sg13_hv_nmos L=0.6u W=1.2u AS=0.408p AD=0.408p
++ PS=3.08u PD=3.08u rfmode=0
+M$129 \$12 \$12 \$17 POAVSS sg13_hv_nmos L=0.6u W=1.2u AS=0.408p AD=0.408p
++ PS=3.08u PD=3.08u rfmode=0
+M$134 OOA \$18 POAVSS POAVSS sg13_hv_nmos L=0.6u W=48u AS=16.32p AD=16.32p
++ PS=123.2u PD=123.2u rfmode=0
+M$186 \$57 \$12 \$18 POAVSS sg13_hv_nmos L=0.6u W=4.8u AS=1.632p AD=1.632p
++ PS=12.32u PD=12.32u rfmode=0
+M$190 POAVSS \$7 POAVSS POAVSS sg13_hv_nmos L=10u W=0.8u AS=0.272p AD=0.272p
++ PS=2.96u PD=2.96u rfmode=0
+M$191 \$5 \$7 POAVSS POAVSS sg13_hv_nmos L=10u W=0.4u AS=0.136p AD=0.136p
++ PS=1.48u PD=1.48u rfmode=0
+M$193 \$62 \$7 \$5 POAVSS sg13_hv_nmos L=10u W=0.4u AS=0.136p AD=0.136p
++ PS=1.48u PD=1.48u rfmode=0
+M$194 \$89 \$7 \$62 POAVSS sg13_hv_nmos L=10u W=0.4u AS=0.136p AD=0.136p
++ PS=1.48u PD=1.48u rfmode=0
+M$195 \$7 \$7 \$102 POAVSS sg13_hv_nmos L=10u W=0.4u AS=0.136p AD=0.136p
++ PS=1.48u PD=1.48u rfmode=0
+M$196 \$102 \$7 \$89 POAVSS sg13_hv_nmos L=10u W=0.4u AS=0.136p AD=0.136p
++ PS=1.48u PD=1.48u rfmode=0
+M$197 \$283 \$176 \$250 POAVDD sg13_hv_pmos L=10u W=1u AS=0.34p AD=0.34p
++ PS=2.68u PD=2.68u rfmode=0
+M$198 POAVDD \$176 POAVDD POAVDD sg13_hv_pmos L=10u W=2u AS=0.68p AD=0.68p
++ PS=5.36u PD=5.36u rfmode=0
+M$200 POAVDD \$176 \$283 POAVDD sg13_hv_pmos L=10u W=1u AS=0.34p AD=0.34p
++ PS=2.68u PD=2.68u rfmode=0
+M$201 \$232 \$176 \$176 POAVDD sg13_hv_pmos L=10u W=1u AS=0.34p AD=0.34p
++ PS=2.68u PD=2.68u rfmode=0
+M$202 \$250 \$176 \$232 POAVDD sg13_hv_pmos L=10u W=1u AS=0.34p AD=0.34p
++ PS=2.68u PD=2.68u rfmode=0
+M$203 POAVDD POAVDD POAVDD POAVDD sg13_hv_pmos L=0.4u W=43.2u AS=14.688p
++ AD=14.688p PS=98.64u PD=98.64u rfmode=0
+M$205 POAVDD \$57 OOA POAVDD sg13_hv_pmos L=0.4u W=96u AS=32.64p AD=32.64p
++ PS=219.2u PD=219.2u rfmode=0
+M$228 \$18 \$11 \$57 POAVDD sg13_hv_pmos L=0.4u W=9.6u AS=3.264p AD=3.264p
++ PS=21.92u PD=21.92u rfmode=0
+M$231 \$303 \$11 \$11 POAVDD sg13_hv_pmos L=0.4u W=2.4u AS=0.816p AD=0.816p
++ PS=5.48u PD=5.48u rfmode=0
+M$255 POAVDD \$303 \$303 POAVDD sg13_hv_pmos L=0.4u W=2.4u AS=0.816p AD=0.816p
++ PS=5.48u PD=5.48u rfmode=0
+M$267 POAVSS POAVSS POAVSS POAVSS sg13_hv_nmos L=0.45u W=19.2u AS=6.528p
++ AD=6.528p PS=46.56u PD=46.56u rfmode=0
+M$279 \$66 IOAM \$142 POAVSS sg13_hv_nmos L=0.45u W=4.8u AS=1.632p AD=1.632p
++ PS=10.96u PD=10.96u rfmode=0
+M$281 \$163 IOAP \$66 POAVSS sg13_hv_nmos L=0.45u W=4.8u AS=1.632p AD=1.632p
++ PS=10.96u PD=10.96u rfmode=0
+.ENDS op_amp_ver_2

@@ -1,4 +1,4 @@
-* Extracted by KLayout with SG13CMOS5L LVS runset on : 07/10/2026 12:47
+* Extracted by KLayout with SG13CMOS5L LVS runset on : 08/10/2026 02:11
 
 .SUBCKT down_digital_translator DIN DOUT PDIGVDD PDIGVSS
 M$1 \$6 DIN PDIGVSS PDIGVSS sg13_hv_nmos L=0.45u W=0.3u AS=0.102p AD=0.102p

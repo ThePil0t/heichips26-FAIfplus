@@ -1,0 +1,34 @@
+* Extracted by KLayout with SG13CMOS5L LVS runset on : 08/10/2026 02:18
+
+.SUBCKT 555_comparator GNDA INN INP OUT PBIAS VCCA
+M$1 VCCA \$4 OUT VCCA sg13_hv_pmos L=0.45u W=1.2u AS=0.408p AD=0.408p PS=3.76u
++ PD=3.76u rfmode=0
+M$3 VCCA \$2 \$4 VCCA sg13_hv_pmos L=0.45u W=0.6u AS=0.204p AD=0.204p PS=1.88u
++ PD=1.88u rfmode=0
+M$4 \$4 \$2 GNDA GNDA sg13_hv_nmos L=0.45u W=0.3u AS=0.102p AD=0.102p PS=1.28u
++ PD=1.28u rfmode=0
+M$5 OUT \$4 GNDA GNDA sg13_hv_nmos L=0.45u W=0.6u AS=0.204p AD=0.204p PS=2.56u
++ PD=2.56u rfmode=0
+M$7 GNDA GNDA GNDA GNDA sg13_hv_nmos L=0.45u W=2.4u AS=0.816p AD=0.816p
++ PS=6.16u PD=6.16u rfmode=0
+M$9 \$2 \$7 GNDA GNDA sg13_hv_nmos L=0.45u W=2.4u AS=0.816p AD=0.816p PS=5.48u
++ PD=5.48u rfmode=0
+M$10 VCCA VCCA VCCA VCCA sg13_hv_pmos L=1u W=1.6u AS=0.544p AD=0.544p PS=4.56u
++ PD=4.56u rfmode=0
+M$11 VCCA PBIAS \$32 VCCA sg13_hv_pmos L=1u W=0.8u AS=0.272p AD=0.272p PS=2.28u
++ PD=2.28u rfmode=0
+M$13 VCCA PBIAS \$2 VCCA sg13_hv_pmos L=1u W=0.8u AS=0.272p AD=0.272p PS=2.28u
++ PD=2.28u rfmode=0
+M$14 VCCA VCCA VCCA VCCA sg13_hv_pmos L=0.45u W=40u AS=13.6p AD=13.6p PS=88.16u
++ PD=88.16u rfmode=0
+M$22 \$32 INN \$11 VCCA sg13_hv_pmos L=0.45u W=10u AS=3.4p AD=3.4p PS=21.36u
++ PD=21.36u rfmode=0
+M$23 \$32 INP \$7 VCCA sg13_hv_pmos L=0.45u W=10u AS=3.4p AD=3.4p PS=21.36u
++ PD=21.36u rfmode=0
+M$30 GNDA GNDA GNDA GNDA sg13_hv_nmos L=1u W=0.8u AS=0.272p AD=0.272p PS=2.96u
++ PD=2.96u rfmode=0
+M$31 \$11 \$11 GNDA GNDA sg13_hv_nmos L=1u W=0.4u AS=0.136p AD=0.136p PS=1.48u
++ PD=1.48u rfmode=0
+M$33 \$7 \$11 GNDA GNDA sg13_hv_nmos L=1u W=0.4u AS=0.136p AD=0.136p PS=1.48u
++ PD=1.48u rfmode=0
+.ENDS 555_comparator
