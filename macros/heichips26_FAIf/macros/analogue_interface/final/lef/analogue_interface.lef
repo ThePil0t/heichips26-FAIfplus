@@ -344,7 +344,7 @@ MACRO analogue_interface
       RECT 0.000 180.500 1.500 183.500 ;
       RECT 0.000 183.500 298.500 185.000 ;
     LAYER Metal4 ;
-      RECT 234.890 47.000 266.870 106.330 ;
+      RECT 189.880 44.800 221.860 104.130 ;
   END
 END analogue_interface
 

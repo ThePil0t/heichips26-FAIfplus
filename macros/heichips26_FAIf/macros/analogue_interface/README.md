@@ -41,7 +41,9 @@ The script stops with an error if a block leaves the macro, two blocks are close
 
 - **Size:** 300 × 185 µm, 1 nm dbu, `prBoundary` at (0,0)–(300,185).
 - **Layers:** Metal1–Metal3, with one exception: the **Metal4 lid (VSS) over the hold cap of `sah_12bit`** (x10) and its Via3 rows. Otherwise there is no Via3/Metal4/TopMetal1, so the top-level Metal4 PDN straps can run across the macro.
-  - The build script allows Via3/Metal4 only inside the lid. It asserts ≥ 5.5 µm from the lid to the Metal4 PDN strap groups at macro x 172.38–179.38, 222.38–229.38 and 272.38–279.38 (measured in `final/gds/heichips26_FAIf.gds`, 2026-10-08); today the clearance is 6.5 µm on both sides.
+  - The build script allows Via3/Metal4 only inside the lid. The Metal4 PDN strap groups over the macro sit at x 172.38–179.38, 222.38–229.38 and 272.38–279.38 (measured in `final/gds/heichips26_FAIf.gds`, 2026-10-08).
+  - LibreLane removes every Metal4 strap within `PDN_HORIZONTAL_HALO` = 10 µm of a Metal4 obstruction. The script therefore asserts that the lid's obstruction (lid + 1 µm) is ≥ 10.5 µm from the **west group (172.38–179.38), which stays intact**. Today it is 10.5 µm (obstruction at x 189.88).
+  - The east group (222.38–229.38) is cut over the S&H; the lid keeps the ≥ 0.6 µm Metal4 spacing to it.
   - The LEF obstructs Metal1–Metal3 over the whole macro except the pins, and Metal4 over the lid + 1 µm. The rest of Metal4 is not obstructed.
 - **Cell names:** every subcell is prefixed `heichips26_FAIf_` for chip-level uniqueness. This also removes the leading digit of `555_comparator`. The top cell is `analogue_interface`, the module name used in `rtl/heichips26_FAIf.sv`.
 - **Location in `heichips26_FAIf`:** (190, 8.82), orientation N (`DIE_LOCATION` in the build script). The macro then covers die x 190–490 and y 8.82–193.82, and leaves x < 180 (after the 10 µm horizontal macro halo) for the digital logic.
@@ -67,8 +69,8 @@ Why the blocks sit where they do:
 - **West column:** all level translators face the digital logic, so the VPWR domain stays in this one column.
 - **DAC rows:** each 8× translator is rotated R90 next to its DAC row, with its LIN inputs facing west and its nLOUT outputs facing the DAC's nD inputs.
 - **East column:** the ADC front end sits next to the analog pins. The opamp is mirrored so its IOAP input is directly above `analog_0..2`.
-- **Comparator:** at the same height as the SAR DAC output, shifted east so that INN sits straight above the `SH_OUT` pin of the S&H.
-- **S&H (x10):** between the opamp and the comparator. Its hold cap sits in the Metal4-strap-free gap at x 229–272; the switch is at the top left, under the comparator.
+- **Comparator:** at y 112, as close to the SAR DAC as its strap slot allows (7.8 µm from x4), with INN straight above the S&H's SH_OUT spine.
+- **S&H (x10):** between the opamp and the comparator. The hold cap sits in the strap slot x 179.4–222.4, 10.5 µm from the west strap group. The switches sit in a strip left of the cap, right under the comparator.
 - **Top row:** the PTAT bias source, above the DACs and the opamp it feeds.
 
 
@@ -85,8 +87,8 @@ Coordinates are macro-local in µm and give the lower-left corner of each placed
 | x9 | level translator (`adc_hold`) | `../digital_level_translator/layout/digital_level_translator.gds` | R0 | (4, 132.4) | 12.12 × 5.05 | layout, unverified |
 | xcap0–3 | level translator (`sh_cap_en[0..3]`) | same as x9 | R0 | (4, 140.45 / 148.5 / 156.55 / 164.6) | 12.12 × 5.05 | **not in the top schematic yet** |
 | x8 | opamp (S&H input buffer) | `../opamp/layout/op_amp_ver_2.gds` | MY | (187, 10) | 105.66 × 32.29 | layout, unverified |
-| x10 | sample-and-hold `sah_12bit` | `../sah_12bit/layout/sah_12bit.gds` | R0 | (185.5, 46) | 81.5 × 62.5 | layout, DRC/LVS clean (cell) |
-| x1 | comparator | `../comparator/layout/555_comparator.gds` | R0 | (195, 112) | 21.80 × 19.81 | layout, unverified |
+| x10 | sample-and-hold `sah_12bit` | `../sah_12bit/layout/sah_12bit.gds` | R0 | (179.2, 45.5) | 43.0 × 63.5 | layout, DRC/LVS clean (cell) |
+| x1 | comparator | `../comparator/layout/555_comparator.gds` | R0 | (180.63, 112) | 21.80 × 19.81 | layout, DRC/LVS clean |
 | R1, R2 | **DUMMY** rhigh w=0.5 µm l=50 µm | – | – | (220, 113), (220, 118) | 53 × 2 (estimate) | no layout |
 | C1 | **DUMMY** cap_cmomi w=50 µm l=2 µm | – | – | (220, 124) | 51 × 8 (estimate) | no layout |
 
@@ -105,16 +107,18 @@ The r2r_dac GDS carries a TopMetal1 text label (`ODACOUT`, 126/25). The build sc
 
 | Net | From | To | Route (macro) |
 |---|---|---|---|
-| SH_IN | opamp OOA, leaves the opamp's west edge at (187, 26.3) | S&H pin `SH_IN`, bottom edge (187.0, 46.0) | ≈ 20 µm along the opamp's west edge |
-| SH_OUT (hold node, `iSAR_AN`) | S&H pin `SH_OUT`, top edge (205.8, 108.5) | comparator INN, Metal3 pad (205.8, 121.7) | ≈ 13 µm straight up on Metal3 |
-| SH_EN | x9 LOUT | S&H pin `SH_EN`, west edge (185.5, 105.1) | from the north through the channel x 173–185 |
-| VSS | S&H pin `VSS`, top edge (206.7, 108.5) | comparator GNDA (south edge) | short hop up, then to VGND |
-| VDD | S&H pin `VDD`, west edge (185.5, 102.15) | VAPWR | |
+| SH_IN | opamp OOA, west end of its Metal3 strip (187.01, 26.3) | S&H pin `SH_IN`, bottom edge (186.4, 45.5) | Metal3 0.4 µm: (186.2, 26.3) → up to y 44.0 → (186.4, 44.0) → pin; ≈ 20 µm |
+| SH_OUT (hold node, `iSAR_AN`) | S&H pin `SH_OUT`, top edge (191.43, 109.0) | comparator INN, Metal3 pad (191.43, 121.7) | 12.7 µm straight up on Metal3 (9.7 µm of it inside the comparator) |
+| VSS | S&H pin `VSS`, top edge (192.43, 109.0) | comparator GNDA (south edge, Metal1, y 112.04–112.82) | 3 µm hop up next to SH_OUT, then to VGND |
+| iSAR_DAC | x4 ODACOUT, east edge (172.82, 102.3) | comparator INP, Metal3 pad (191.53, 122.37) | Metal3 x 173.4–173.8 up to y 122.37, then east into INP |
+| SH_EN | x9 LOUT (13.09, 134.42, Metal2) | S&H pin `SH_EN`, west edge (179.2, 83.9) | LOUT on Metal2 east to x ≥ 13.6 (the VAPWR trunk is at x 11.70–12.81), up to Metal3 east to x 22.5, Metal2 down x 22.5 to y 83.9, Metal3 east at y 83.9 between the VAPWR (81.4–82.2) and VGND (84.7–85.5) rails |
+| VDD | S&H pin `VDD`, west edge (179.2, 91.5) | VAPWR | |
 
-Routing rules for the hold node (see `../sah_12bit/README.md`):
-- SH_OUT is a direct Metal3 hop to INN; nothing runs alongside it.
-- iSAR_DAC enters the comparator INP from the west at y ≈ 122.4, never along the S&H top edge.
-- SH_EN never runs alongside SH_IN or SH_OUT without a VSS track between them. SH_IN comes from the south and SH_EN from the north, so they don't have to meet.
+Routing rules (see `../sah_12bit/README.md`):
+- SH_OUT is a direct Metal3 hop to INN; nothing runs alongside it except the VSS hop.
+- iSAR_DAC splits the channel x 172.82–179.2 from the DAC edge (y 102.3) up to the comparator. So SH_EN comes in from the south through the x5/x4 corridor and never crosses iSAR_DAC.
+- SH_IN, SH_OUT, SH_EN and iSAR_DAC don't cross anywhere. The DAC routes keep ≥ 7.9 µm from SH_IN: analog_1 runs at x 178.3, analog_2 at x 175.6.
+- The comparator OUT (SE corner) is routed east and north around the comparator, never west across iSAR_DAC or along the SH_OUT hop.
 - No routing over the S&H on Metal1–Metal3 (LEF obstruction) or over its lid on Metal4 (LEF obstruction).
 
 

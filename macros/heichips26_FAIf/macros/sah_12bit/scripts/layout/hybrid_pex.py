@@ -24,14 +24,24 @@ import tempfile
 
 import klayout.db as db
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from gen_sah_12bit_layout import CAP_L, CAP_MARKER, CAP_O, CELL_H, FENCE, VSS_WALL, WALL_E, WALL_W  # noqa: E402
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 MACRO = os.path.normpath(os.path.join(HERE, "..", ".."))
 GDS = os.path.join(MACRO, "layout", "sah_12bit.gds")
 KLAY_CIR = os.path.join(MACRO, "netlist", "layout", "sah_12bit_klayout.cir")
 OUT = os.path.join(MACRO, "netlist", "pex", "sah_12bit_hybrid_pex.spice")
 C_MODEL = 1213.803e-15            # cap_cmomi model / PCell label for w=54.29u l=27.72u
-SHIELD_X0 = 49.3                  # everything right of this belongs to the cap and its shield box
-PLUS_XY, MINUS_XY = (50.92, 30.0), (79.84, 30.0)   # points on the PLUS and MINUS pads (Metal3)
+# the cap and its shield box (fence outer edge + 0.05 um); everything else is wiring
+CAP_BOX = (CAP_MARKER[0] - FENCE[1] - 0.05, CAP_MARKER[1] - FENCE[1] - 0.05,
+           CAP_MARKER[2] + FENCE[1] + 0.05, CAP_MARKER[3] + FENCE[1] + 0.05)
+PLUS_XY = (CAP_MARKER[0] + 0.30, CAP_O[1] + 25.0)            # on the PLUS pad (Metal3)
+MINUS_XY = (CAP_O[0] + CAP_L + 0.60, CAP_O[1] + 25.0)        # on the MINUS pad (Metal3)
+# VSS walls that lose their tie to the fence when the cap box is cut out (wiring variant): Magic names
+# them by position (m<n>_<x>_<y>#, 5 nm units); they are quiet VSS in the real layout
+VSS_FRAGMENT_BOXES = [(VSS_WALL[0], 0.0, VSS_WALL[1], CELL_H), (WALL_W[0], 0.0, WALL_W[1], CELL_H),
+                      (WALL_E[0], 0.0, WALL_E[1], CELL_H)]
 SI = {"f": 1e-15, "p": 1e-12, "n": 1e-9, "u": 1e-6, "m": 1e-3}
 
 
@@ -41,7 +51,7 @@ def num(v):
 
 
 def variant(work, name, keep_cap, keep_devices, region):
-    """Copy of the layout: region 'left' (x < SHIELD_X0) or 'right' or 'none' of the top-level shapes."""
+    """Copy of the layout with the top-level shapes outside ('left'), inside ('right') or none of CAP_BOX."""
     ly = db.Layout()
     ly.read(GDS)
     top = ly.cell("sah_12bit")
@@ -49,7 +59,7 @@ def variant(work, name, keep_cap, keep_devices, region):
         is_cap = inst.cell.name.endswith("cap_cmomi")
         if (is_cap and not keep_cap) or (not is_cap and not keep_devices):
             inst.delete()
-    right = db.Region(db.DBox(SHIELD_X0, -10, 200, 200).to_itype(ly.dbu))
+    right = db.Region(db.DBox(*CAP_BOX).to_itype(ly.dbu))
     for li in ly.layer_indexes():
         info = ly.get_info(li)
         if info.datatype == 25 and region == "left":
@@ -116,9 +126,21 @@ def klayout_junctions():
     return out
 
 
-def node_map(devs):
+def vss_fragment(name):
+    hit = re.fullmatch(r"m\d_(-?\d+)_(-?\d+)#", name)
+    if not hit:
+        return False
+    x, y = int(hit.group(1)) * 0.005, int(hit.group(2)) * 0.005
+    return any(x1 - 0.01 <= x <= x2 + 0.01 and y1 <= y <= y2 for x1, y1, x2, y2 in VSS_FRAGMENT_BOXES)
+
+
+def node_map(devs, caps):
     """Magic node names of variant A -> schematic net names."""
     m = {n: n for n in ("SH_IN", "SH_OUT", "SH_EN", "VDD", "VSS")}
+    for n1, n2, _ in caps:
+        for n in (n1, n2):
+            if vss_fragment(n):
+                m[n] = "VSS"
     for d, g, s, b, model in devs:
         pmos = "pmos" in model
         if {d, s} == {"SH_IN", "SH_OUT"}:
@@ -140,7 +162,7 @@ def main():
     c_bare = cap_between(caps_b, "SH_OUT", "VSS")
     c_shielded = cap_between(caps_c, "SH_OUT", "VSS")
     c_env = (c_shielded - c_bare) * C_MODEL / c_bare
-    nm = node_map(devs_a)
+    nm = node_map(devs_a, caps_a)
     unknown = {n for n1, n2, _ in caps_a for n in (n1, n2) if n not in nm}
     assert not unknown, f"unmapped Magic nodes: {unknown}"
 
@@ -167,12 +189,13 @@ def main():
         "* wire parasitics (Magic, C-coupled, layout without the cap and its shield box)",
     ]
     for i, (n1, n2, c) in enumerate(caps_a):
-        lines.append(f"Cw{i} {nm[n1]} {nm[n2]} {c * 1e15:.5f}f")
+        if nm[n1] != nm[n2]:
+            lines.append(f"Cw{i} {nm[n1]} {nm[n2]} {c * 1e15:.5f}f")
     lines += [f"Cenv SH_OUT VSS {c_env * 1e15:.3f}f", ".ends", ""]
     with open(OUT, "w") as f:
         f.write("\n".join(lines))
     print(f"Wrote {OUT}")
-    print(f"  C(SH_OUT,VSS) wires {cap_between(caps_a, 'SH_OUT', 'VSS') * 1e15:.2f} fF, cap environment {c_env * 1e15:.1f} fF")
+    print(f"  C(SH_OUT,VSS) wires {sum(c for n1, n2, c in caps_a if {nm[n1], nm[n2]} == {'SH_OUT', 'VSS'}) * 1e15:.2f} fF, cap environment {c_env * 1e15:.1f} fF")
     for a, b in (("SH_OUT", "SH_IN"), ("SH_OUT", "sw"), ("SH_OUT", "sw_b"), ("SH_OUT", "sw_d"), ("SH_OUT", "VDD")):
         c = sum(c for n1, n2, c in caps_a if {nm[n1], nm[n2]} == {a, b})
         print(f"  C({a},{b}) = {c * 1e15:.3f} fF")

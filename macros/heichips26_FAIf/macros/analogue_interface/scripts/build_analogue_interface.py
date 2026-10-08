@@ -54,7 +54,11 @@ M4_OBS_HALO = 1.0
 # Metal4 PDN strap groups over the macro (macro-local x), measured in final/gds/heichips26_FAIf.gds (2026-10-08):
 # three 1 um straps on a 3 um pitch, groups every 50 um
 M4_STRAP_GROUPS = [(172.38, 179.38), (222.38, 229.38), (272.38, 279.38)]
-M4_STRAP_CLEARANCE = 5.5
+M4_MIN_SPACE = 0.6                 # lid to any strap: Mn.f (wide-metal spacing)
+# LibreLane removes Metal4 PDN straps within PDN_HORIZONTAL_HALO (flow/librelane/config.yaml default, 10 um)
+# of a Metal4 obstruction. The groups listed here must stay intact, so the lid's OBS keeps halo + 0.5 um.
+PDN_HORIZONTAL_HALO = 10.0
+M4_KEEP_GROUPS = [(172.38, 179.38)]
 
 # Existing block layouts: key -> GDS path relative to BLOCKS_DIR
 BLOCKS = {
@@ -91,8 +95,8 @@ PLACEMENT = [
     ("xcap2", "lt", "R0", 4.0, 156.55, "level translator for sh_cap_en[2]"),
     ("xcap3", "lt", "R0", 4.0, 164.6, "level translator for sh_cap_en[3]"),
     ("x8", "opamp", "MY", 187.0, 10.0, "S&H input buffer, mirrored: IOAP above analog_0..2"),
-    ("x10", "sah", "R0", 185.5, 46.0, "sample-and-hold sah_12bit: hold cap between the Metal4 strap groups"),
-    ("x1", "comp", "R0", 195.0, 112.0, "SAR comparator: INN straight above the sah_12bit SH_OUT pin"),
+    ("x10", "sah", "R0", 179.2, 45.5, "sample-and-hold sah_12bit: switches west of the hold cap"),
+    ("x1", "comp", "R0", 180.63, 112.0, "SAR comparator: INN straight above the sah_12bit SH_OUT spine"),
     ("R1", "rhigh", "R0", 220.0, 113.0, "iVREF divider, upper resistor"),
     ("R2", "rhigh", "R0", 220.0, 118.0, "iVREF divider, lower resistor"),
     ("C1", "cmomi", "R0", 220.0, 124.0, "iVREF filter cap"),
@@ -262,14 +266,20 @@ def build_layout():
     m4_cell, m4_trans, m4_inst_box = placed[M4_ALLOWED_INST]
     m4_box = m4_cell.dbbox_per_layer(ly.layer(50, 0)).transformed(m4_trans)
     assert not m4_box.empty() and m4_inst_box.contains(m4_box.p1) and m4_inst_box.contains(m4_box.p2)
+    m4_obs = m4_box.enlarged(M4_OBS_HALO, M4_OBS_HALO)
     for x0, x1 in M4_STRAP_GROUPS:
         clearance = max(x0 - m4_box.right, m4_box.left - x1)
-        assert clearance >= M4_STRAP_CLEARANCE, f"Metal4 lid {m4_box} only {clearance:.2f} um from the strap group {x0}-{x1}"
+        assert clearance >= M4_MIN_SPACE, f"Metal4 lid {m4_box} only {clearance:.2f} um from the strap group {x0}-{x1}"
+    for x0, x1 in M4_KEEP_GROUPS:
+        clearance = max(x0 - m4_obs.right, m4_obs.left - x1)
+        assert clearance >= PDN_HORIZONTAL_HALO + 0.5, \
+            f"Metal4 OBS {m4_obs} only {clearance:.2f} um from the strap group {x0}-{x1}: LibreLane would cut it"
     for li in ly.layer_indexes():
         if ly.get_info(li).layer in FORBIDDEN_LAYERS:
             used = top.dbbox_per_layer(li)
             if ly.get_info(li).layer in (49, 50) and not used.empty():
-                assert m4_box.contains(used.p1) and m4_box.contains(used.p2), \
+                tol = m4_box.enlarged(0.001, 0.001)   # same box after a float transform
+                assert tol.contains(used.p1) and tol.contains(used.p2), \
                     f"{ly.get_info(li)} outside the {M4_ALLOWED_INST} lid: {used}"
                 continue
             assert used.empty(), f"shapes left on forbidden layer {ly.get_info(li)}"
@@ -288,7 +298,7 @@ def build_layout():
     for inst, (cell, trans, box) in placed.items():
         print(f"  {inst:6s} {cell.name:55s} {str(trans):24s} ({box.left:7.3f},{box.bottom:7.3f})-({box.right:7.3f},{box.top:7.3f})")
     print(f"  Metal4 lid of {M4_ALLOWED_INST}: {m4_box}")
-    return pins, m4_box.enlarged(M4_OBS_HALO, M4_OBS_HALO)
+    return pins, m4_obs
 
 
 def pin_names(name, width):

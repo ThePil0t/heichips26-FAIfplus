@@ -1,0 +1,83 @@
+
+Circuit 1 cell sg13_hv_nmos and Circuit 2 cell sg13_hv_nmos are black boxes.
+Warning: Equate pins:  cell sg13_hv_nmos is a placeholder, treated as a black box.
+Warning: Equate pins:  cell sg13_hv_nmos is a placeholder, treated as a black box.
+
+Subcircuit pins:
+Circuit 1: sg13_hv_nmos                    |Circuit 2: sg13_hv_nmos                    
+-------------------------------------------|-------------------------------------------
+1                                          |1                                          
+2                                          |2                                          
+3                                          |3                                          
+4                                          |4                                          
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13_hv_nmos and sg13_hv_nmos are equivalent.
+
+Circuit 1 cell sg13_hv_pmos and Circuit 2 cell sg13_hv_pmos are black boxes.
+Warning: Equate pins:  cell sg13_hv_pmos is a placeholder, treated as a black box.
+Warning: Equate pins:  cell sg13_hv_pmos is a placeholder, treated as a black box.
+
+Subcircuit pins:
+Circuit 1: sg13_hv_pmos                    |Circuit 2: sg13_hv_pmos                    
+-------------------------------------------|-------------------------------------------
+1                                          |1                                          
+2                                          |2                                          
+3                                          |3                                          
+4                                          |4                                          
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13_hv_pmos and sg13_hv_pmos are equivalent.
+
+Class sah_12bit (0):  Merged 6 parallel devices.
+Subcircuit summary:
+Circuit 1: sah_12bit                       |Circuit 2: sah_12bit                       
+-------------------------------------------|-------------------------------------------
+sg13_hv_nmos (10->7)                       |sg13_hv_nmos (9->7)                        
+sg13_hv_pmos (10->7)                       |sg13_hv_pmos (9->7)                        
+(no matching element)                      |cap_cmomi (1)                              
+Number of devices: 14 **Mismatch**         |Number of devices: 15 **Mismatch**         
+Number of nets: 9                          |Number of nets: 9                          
+---------------------------------------------------------------------------------------
+NET mismatches: Class fragments follow (with fanout counts):
+Circuit 1: sah_12bit                       |Circuit 2: sah_12bit                       
+
+---------------------------------------------------------------------------------------
+Net: SH_OUT                                |Net: SH_OUT                                
+  sg13_hv_pmos/(1|3) = 3                   |  sg13_hv_pmos/(1|3) = 3                   
+  sg13_hv_nmos/(1|3) = 3                   |  sg13_hv_nmos/(1|3) = 3                   
+                                           |  cap_cmomi/1 = 1                          
+                                           |                                           
+Net: SH_IN                                 |Net: SH_IN                                 
+  sg13_hv_pmos/(1|3) = 3                   |  sg13_hv_pmos/(1|3) = 3                   
+  sg13_hv_nmos/(1|3) = 3                   |  sg13_hv_nmos/(1|3) = 3                   
+                                           |                                           
+Net: VSS                                   |Net: VSS                                   
+  sg13_hv_nmos/(1|3) = 4                   |  sg13_hv_nmos/(1|3) = 4                   
+  sg13_hv_nmos/4 = 7                       |  sg13_hv_nmos/4 = 7                       
+                                           |  cap_cmomi/2 = 1                          
+---------------------------------------------------------------------------------------
+DEVICE mismatches: Class fragments follow (with node fanout counts):
+Circuit 1: sah_12bit                       |Circuit 2: sah_12bit                       
+
+---------------------------------------------------------------------------------------
+(no matching instance)                     |Instance: cap_cmomi:C1                     
+                                           |  1 = 7                                    
+                                           |  2 = 12                                   
+---------------------------------------------------------------------------------------
+Netlists do not match.
+Port matching may fail to disambiguate symmetries.
+
+Subcircuit pins:
+Circuit 1: sah_12bit                       |Circuit 2: sah_12bit                       
+-------------------------------------------|-------------------------------------------
+VSS                                        |SH_OUT **Mismatch**                        
+SH_OUT                                     |SH_IN **Mismatch**                         
+SH_IN                                      |VSS **Mismatch**                           
+VDD                                        |VDD                                        
+SH_EN                                      |SH_EN                                      
+---------------------------------------------------------------------------------------
+Cell pin lists for sah_12bit and sah_12bit altered to match.
+Device classes sah_12bit and sah_12bit are equivalent.
+
+Final result: Top level cell failed pin matching.
