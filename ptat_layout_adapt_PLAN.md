@@ -60,3 +60,10 @@ Show you the schematic diff and the testbench results (startup voltage and outpu
 - Re-run the startup testbench (tt/ss/ff, −40/27/125 °C) with the final schematic.
 - Then rebuild the analog macro (`make -C …/analogue_interface build-top`), run LibreLane and `make copy-final`, and run `make precheck`: KLayout DRC must stay at 0.
 - Nothing is committed without your OK.
+
+## Step 5 (done, 2026-10-08): shrink the cell
+- Wide version kept as `layout/ptat_curr_gen_wide.gds` (153.2 µm wide).
+- A shared N-well for the startup stack (body on PCSVDD or CSSTARTUP) was simulated and rejected: the stack then never conducts (CSSTARTUP stays at 3.3 V), so the startup branch does nothing and forced-off startup is up to 20× slower.
+- Kept separate wells (body = own source), so no abutment. Stack length swept 1.5/3/4 µm: **l = 3 µm** chosen (ff 125 °C: CSSTARTUP 0.20 V above PBIAS, MS3 off; forced-off startup ~10 % faster than 4 µm). MSS1–5 and MD39/MD40 set to 0.3/3 µm.
+- Stack rebuilt as one column right of the resistor (dummy, MSS5 … MSS1, dummy, rows mirrored in a snake), resistor guard ring extended around it. Cell now **48.6 × 34.8 µm**.
+- Checks: KLayout DRC density only (AFil.g, GFil.g, M1.j, M2.j, M3.j, M4.j, TM1.c), Magic DRC only the known 4 Sal.c/d, KLayout and Magic LVS match, startup TB unchanged (17.0–17.4 / 24.2–24.6 / 39.1–39.5 nA, worst startup 2.69 V at ss −40 °C).
