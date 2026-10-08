@@ -1,0 +1,356 @@
+** sch_path: /home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/analogue_interface/schematic/xschem/analogue_interface.sch
+.subckt analogue_interface VPWR VAPWR VGND adc_ref[7] adc_ref[6] adc_ref[5] adc_ref[4] adc_ref[3] adc_ref[2] adc_ref[1] adc_ref[0]
++ adc_hold adc_comp dac_out[15] dac_out[14] dac_out[13] dac_out[12] dac_out[11] dac_out[10] dac_out[9] dac_out[8] dac_out[7] dac_out[6]
++ dac_out[5] dac_out[4] dac_out[3] dac_out[2] dac_out[1] dac_out[0] sh_cap_en[3] sh_cap_en[2] sh_cap_en[1] sh_cap_en[0] analog_0 analog_1
++ analog_2
+*.PININFO VPWR:B VAPWR:B VGND:B adc_ref[7:0]:I adc_hold:I adc_comp:O dac_out[15:0]:I sh_cap_en[3:0]:I analog_0:B analog_1:B
+*+ analog_2:B
+x1 VAPWR iPBIAS iSAR_COMP iSAR_AN iSAR_DAC VGND 555_comparator
+x2 VPWR iSAR_COMP adc_comp VGND down_digital_translator
+x3 VAPWR iIREF1 iIREF2 iIREF3 iPBIAS VGND iIREF4 ptat_curr_gen
+x4 VAPWR iSAR_DAC iVREF iIREF2 sar_nd7 sar_nd0 sar_nd2 sar_nd4 sar_nd5 sar_nd6 sar_nd3 sar_nd1 VGND VGND r2r_dac
+x5 VAPWR analog_1 iVREF iIREF3 dac0_nd7 dac0_nd0 dac0_nd2 dac0_nd4 dac0_nd5 dac0_nd6 dac0_nd3 dac0_nd1 VGND VGND r2r_dac
+x6 VPWR VAPWR sar_nd7 adc_ref[7] sar_nd6 adc_ref[6] sar_nd5 adc_ref[5] sar_nd4 adc_ref[4] adc_ref[3] sar_nd3 adc_ref[2] sar_nd2
++ sar_nd1 adc_ref[1] adc_ref[0] sar_nd0 VGND 8x_inverting_digital_level_translator
+x7 VPWR VAPWR dac0_nd7 dac_out[7] dac0_nd6 dac_out[6] dac0_nd5 dac_out[5] dac0_nd4 dac_out[4] dac_out[3] dac0_nd3 dac_out[2]
++ dac0_nd2 dac0_nd1 dac_out[1] dac_out[0] dac0_nd0 VGND 8x_inverting_digital_level_translator
+x8 VAPWR iIREF1 sh_in sh_in analog_0 VGND VGND op_amp_ver_2
+x9 VAPWR VPWR adc_hold sh_en VGND digital_level_translator
+x10 VAPWR sh_in iSAR_AN sh_en VGND sah_12bit
+x11 VAPWR analog_2 iVREF iIREF4 dac1_nd7 dac1_nd0 dac1_nd2 dac1_nd4 dac1_nd5 dac1_nd6 dac1_nd3 dac1_nd1 VGND VGND r2r_dac
+x12 VPWR VAPWR dac1_nd7 dac_out[15] dac1_nd6 dac_out[14] dac1_nd5 dac_out[13] dac1_nd4 dac_out[12] dac_out[11] dac1_nd3
++ dac_out[10] dac1_nd2 dac1_nd1 dac_out[9] dac_out[8] dac1_nd0 VGND 8x_inverting_digital_level_translator
+RR1 VAPWR iVREF 148.1k $SUB=VGND $[rhigh] w=0.5e-6 l=50e-6 b=0
+RR2 iVREF VGND 148.1k $SUB=VGND $[rhigh] w=0.5e-6 l=50e-6 b=0
+CC1 iVREF VGND cap_cmomi w=50e-6 l=2e-6
+xcap0 VAPWR VPWR sh_cap_en[0] cap_out0 VGND digital_level_translator
+xcap1 VAPWR VPWR sh_cap_en[1] cap_out1 VGND digital_level_translator
+xcap2 VAPWR VPWR sh_cap_en[2] cap_out2 VGND digital_level_translator
+xcap3 VAPWR VPWR sh_cap_en[3] cap_out3 VGND digital_level_translator
+.ends
+
+* expanding   symbol:  555_comparator.sym # of pins=6
+** sym_path: /home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/comparator/schematic/xschem/555_comparator.sym
+** sch_path: /home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/comparator/schematic/xschem/555_comparator.sch
+.subckt 555_comparator VCCA PBIAS OUT INN INP GNDA
+*.PININFO INP:I VCCA:B OUT:O GNDA:B INN:I PBIAS:I
+MMP1 usource PBIAS VCCA VCCA sg13_hv_pmos w=0.8u l=1u ng=1
+MMN1 diff diff GNDA GNDA sg13_hv_nmos w=0.4u l=1u ng=1
+MMN2 gmn1 diff GNDA GNDA sg13_hv_nmos w=0.4u l=1u ng=1
+MMP4 gmn1 INP usource VCCA sg13_hv_pmos w=5u l=0.45u ng=1 m=2
+MMP3 diff INN usource VCCA sg13_hv_pmos w=5u l=0.45u ng=1 m=2
+MMP2 cout_stage PBIAS VCCA VCCA sg13_hv_pmos w=0.8u l=1u ng=1
+MMN3 cout_stage gmn1 GNDA GNDA sg13_hv_nmos w=2.4u l=0.45u ng=1
+MMN4 inv_stage cout_stage GNDA GNDA sg13_hv_nmos w=0.3u l=0.45u ng=1
+MMP5 inv_stage cout_stage VCCA VCCA sg13_hv_pmos w=0.6u l=0.45u ng=1
+MMN5 OUT inv_stage GNDA GNDA sg13_hv_nmos w=0.3u l=0.45u ng=1 m=2
+MMP6 OUT inv_stage VCCA VCCA sg13_hv_pmos w=0.6u l=0.45u ng=1 m=2
+MMPdum1 VCCA VCCA VCCA VCCA sg13_hv_pmos w=0.8u l=1u ng=1 m=2
+MMPdum2 VCCA VCCA VCCA VCCA sg13_hv_pmos w=2.5u l=0.45u ng=1 m=8
+MMPdum3 VCCA VCCA VCCA VCCA sg13_hv_pmos w=5u l=0.45u ng=1 m=4
+MMNdum2 GNDA GNDA GNDA GNDA sg13_hv_nmos w=1.2u l=0.45u ng=1 m=2
+MMNdum1 GNDA GNDA GNDA GNDA sg13_hv_nmos w=0.4u l=1u ng=1 m=2
+.ends
+
+
+* expanding   symbol:  down_digital_translator.sym # of pins=4
+** sym_path: /home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/down_digital_translator/schematic/xschem/down_digital_translator.sym
+** sch_path: /home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/down_digital_translator/schematic/xschem/down_digital_translator.sch
+.subckt down_digital_translator PDIGVDD DIN DOUT PDIGVSS
+*.PININFO PDIGVDD:B DIN:I DOUT:O PDIGVSS:B
+MM1 net1 DIN PDIGVSS PDIGVSS sg13_hv_nmos w=0.3u l=0.45u ng=1
+MM2 net1 DIN PDIGVDD PDIGVDD sg13_hv_pmos w=0.6u l=0.45u ng=1
+MM3 DOUT net1 PDIGVSS PDIGVSS sg13_hv_nmos w=0.3u l=0.45u ng=1
+MM4 DOUT net1 PDIGVDD PDIGVDD sg13_hv_pmos w=0.6u l=0.45u ng=1
+.ends
+
+
+* expanding   symbol:  ptat_curr_gen.sym # of pins=7
+** sym_path: /home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/ptat_current_source/schematic/xschem/ptat_curr_gen.sym
+** sch_path: /home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/ptat_current_source/schematic/xschem/ptat_curr_gen.sch
+.subckt ptat_curr_gen PCSVDD CSOUT1 CSOUT2 CSOUT3 PBIAS PCSVSS CSOUT4
+*.PININFO PCSVDD:B PCSVSS:B CSOUT1:O CSOUT2:O CSOUT3:O PBIAS:O CSOUT4:O
+MM1 net1 net1 PCSVSS PCSVSS sg13_hv_nmos w=2u l=2u ng=1
+MM2 PBIAS net1 res_tap PCSVSS sg13_hv_nmos w=10u l=2u ng=1
+MM3 net1 PBIAS PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MM4 PBIAS PBIAS PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+RR1 res_tap PCSVSS 1.994MEG $SUB=PCSVSS $[rhigh] w=0.5e-6 l=31.135e-6 ps=0.18e-6 b=21
+MM5 CSOUT3 PBIAS PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MM6 CSOUT2 PBIAS PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MM7 CSOUT1 PBIAS PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMD1 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=10u l=2u ng=1
+MMD2 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=10u l=2u ng=1
+MMD3 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=5u l=2u ng=1
+MMD4 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=5u l=2u ng=1
+MMD5 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=5u l=2u ng=1
+MMD6 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=5u l=2u ng=1
+MMD7 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=5u l=2u ng=1
+MMD8 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=5u l=2u ng=1
+MMD9 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=2u l=2u ng=1
+MMD10 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=2u l=2u ng=1
+MMD11 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=1u l=2u ng=1
+MMD12 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=1u l=2u ng=1
+MMD13 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=1u l=2u ng=1
+MMD14 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=1u l=2u ng=1
+MMD15 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=1u l=2u ng=1
+MMD16 PCSVSS PCSVSS PCSVSS PCSVSS sg13_hv_nmos w=1u l=2u ng=1
+MMD17 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMD24 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMD31 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMD18 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMD19 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMD20 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMD21 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMD22 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMD23 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMD25 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMD26 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMD27 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMD28 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMD29 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMD30 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMD32 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMD33 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMD34 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMD35 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMD36 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMS1 CSSTARTUP PBIAS PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMS3 PCSVSS CSSTARTUP PBIAS PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMSS5 wcs4 wcs4 CSSTARTUP CSSTARTUP sg13_hv_pmos w=0.3u l=3u ng=1
+MM8 CSOUT4 PBIAS PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMSS4 wcs3 wcs3 wcs4 wcs4 sg13_hv_pmos w=0.3u l=3u ng=1
+MMSS3 wcs2 wcs2 wcs3 wcs3 sg13_hv_pmos w=0.3u l=3u ng=1
+MMSS2 wcs1 wcs1 wcs2 wcs2 sg13_hv_pmos w=0.3u l=3u ng=1
+MMSS1 PCSVSS PCSVSS wcs1 wcs1 sg13_hv_pmos w=0.3u l=3u ng=1
+MMD37 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMD38 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.4u l=1u ng=1
+MMD39 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.3u l=3u ng=1
+MMD40 PCSVDD PCSVDD PCSVDD PCSVDD sg13_hv_pmos w=0.3u l=3u ng=1
+.ends
+
+
+* expanding   symbol:  r2r_dac.sym # of pins=14
+** sym_path: /home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/r2r_dac/schematic/xschem/r2r_dac.sym
+** sch_path: /home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/r2r_dac/schematic/xschem/r2r_dac.sch
+.subckt r2r_dac PDACVDD ODACOUT IDACVTAP IDACIREF nD7 nD0 nD2 nD4 nD5 nD6 nD3 nD1 PDACVSS IDACDISABLE
+*.PININFO PDACVDD:B PDACVSS:B nD0:I nD1:I nD2:I IDACIREF:I ODACOUT:O nD3:I nD4:I nD5:I nD6:I nD7:I IDACVTAP:I IDACDISABLE:I
+RR1 net1 PDACVSS 44.67k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
+RR2 net8 net1 44.67k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
+RR4 net2 nD0 44.67k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
+RR5 net7 net2 44.67k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
+RR6 net3 nD1 44.67k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
+RR7 net6 net3 44.67k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
+RR8 net4 nD2 44.67k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
+RR9 net5 net4 44.67k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
+RR10 net7 net8 44.67k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
+RR11 net6 net7 44.67k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
+RR12 net5 net6 44.67k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
+RR14 UNBUF_DAC net9 41.71k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=14e-6 b=0
+RR3 net10 nD3 44.67k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
+RR13 net13 net10 44.67k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
+RR15 net11 nD4 44.67k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
+RR16 net12 net11 44.67k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
+RR17 net13 net5 44.67k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
+RR18 net12 net13 44.67k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
+RR19 net14 nD5 44.67k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
+RR20 net17 net14 44.67k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
+RR21 net15 nD6 44.67k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
+RR22 net16 net15 44.67k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
+RR23 net17 net12 44.67k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
+RR24 net16 net17 44.67k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
+RR25 net18 nD7 44.67k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
+RR26 UNBUF_DAC net18 44.67k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
+RR27 UNBUF_DAC net16 44.67k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
+x1 PDACVDD IDACIREF UNBUF_DAC ODACOUT IDACVTAP PDACVSS IDACDISABLE op_amp_ver_2
+MM1 net9 nIDACDISABLE ODACOUT PDACVSS sg13_hv_nmos w=1u l=0.45u ng=1
+MM2 ODACOUT IDACDISABLE net9 PDACVDD sg13_hv_pmos w=2u l=0.45u ng=1
+RRD2 PDACVSS PDACVSS 44.67k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
+RRD1 PDACVSS PDACVSS 44.67k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
+RRD3 PDACVSS PDACVSS 41.71k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=14e-6 b=0
+MM3 nIDACDISABLE IDACDISABLE PDACVSS PDACVSS sg13_hv_nmos w=0.3u l=0.45u ng=1
+MM4 nIDACDISABLE IDACDISABLE PDACVDD PDACVDD sg13_hv_pmos w=0.6u l=0.45u ng=1
+.ends
+
+
+* expanding   symbol:  8x_inverting_digital_level_translator.sym # of pins=19
+** sym_path: /home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/8x_inverting_digital_level_translator/schematic/xschem/8x_inverting_digital_level_translator.sym
+** sch_path: /home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/8x_inverting_digital_level_translator/schematic/xschem/8x_inverting_digital_level_translator.sch
+.subckt 8x_inverting_digital_level_translator PLDVDD PLAVDD nLOUT7 LIN7 nLOUT6 LIN6 nLOUT5 LIN5 nLOUT4 LIN4 LIN3 nLOUT3 LIN2
++ nLOUT2 nLOUT1 LIN1 LIN0 nLOUT0 PLVSS
+*.PININFO LIN7:I nLOUT7:O PLDVDD:B PLAVDD:B PLVSS:B LIN6:I LIN5:I LIN4:I LIN3:I LIN2:I LIN1:I LIN0:I nLOUT6:O nLOUT5:O nLOUT4:O
+*+ nLOUT3:O nLOUT2:O nLOUT1:O nLOUT0:O
+x1 PLAVDD PLDVDD LIN7 nLOUT7 PLVSS inverting_digital_level_translator
+x2 PLAVDD PLDVDD LIN6 nLOUT6 PLVSS inverting_digital_level_translator
+x3 PLAVDD PLDVDD LIN5 nLOUT5 PLVSS inverting_digital_level_translator
+x4 PLAVDD PLDVDD LIN4 nLOUT4 PLVSS inverting_digital_level_translator
+x5 PLAVDD PLDVDD LIN2 nLOUT2 PLVSS inverting_digital_level_translator
+x6 PLAVDD PLDVDD LIN3 nLOUT3 PLVSS inverting_digital_level_translator
+x7 PLAVDD PLDVDD LIN1 nLOUT1 PLVSS inverting_digital_level_translator
+x8 PLAVDD PLDVDD LIN0 nLOUT0 PLVSS inverting_digital_level_translator
+.ends
+
+
+* expanding   symbol:  op_amp_ver_2.sym # of pins=7
+** sym_path: /home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/opamp/schematic/xschem/op_amp_ver_2.sym
+** sch_path: /home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/opamp/schematic/xschem/op_amp_ver_2.sch
+.subckt op_amp_ver_2 POAVDD IOAIREF IOAM OOA IOAP POAVSS IOADISABLE
+*.PININFO POAVDD:B IOAM:I IOAP:I OOA:O IOAIREF:I POAVSS:B IOADISABLE:I
+MMP13 net1 net1 POAVDD POAVDD sg13_hv_pmos w=2.4u l=0.4u ng=1
+MMP14 ptlg ptlg net1 POAVDD sg13_hv_pmos w=2.4u l=0.4u ng=1
+MMN16 ptlg ncasc net2 POAVSS sg13_hv_nmos w=0.6u l=0.6u ng=1
+MMN13 net2 nbias POAVSS POAVSS sg13_hv_nmos w=0.6u l=2.4u ng=1
+MMN18 ntlg ntlg net3 POAVSS sg13_hv_nmos w=1.2u l=0.6u ng=1
+MMN17 net3 net3 POAVSS POAVSS sg13_hv_nmos w=1.2u l=0.6u ng=1
+MMP10 net11 pbias POAVDD POAVDD sg13_hv_pmos w=1.2u l=1.2u ng=1
+MMP12 ntlg pcasc net11 POAVDD sg13_hv_pmos w=1.2u l=0.6u ng=1
+MMP1 net9 pbias POAVDD POAVDD sg13_hv_pmos w=1.2u l=1.2u ng=1 m=4
+MMP2 net10 pbias POAVDD POAVDD sg13_hv_pmos w=1.2u l=1.2u ng=1 m=4
+MMN1 net9 IOAM net5 POAVSS sg13_hv_nmos w=4.8u l=0.45u ng=1
+MMN2 net10 IOAP net5 POAVSS sg13_hv_nmos w=4.8u l=0.45u ng=1
+MMN3 net4 nbias POAVSS POAVSS sg13_hv_nmos w=0.6u l=2.4u ng=1 m=8
+MMN6 net5 ncasc net4 POAVSS sg13_hv_nmos w=0.6u l=0.6u ng=1 m=8
+MMN7 net8 ncasc net7 POAVSS sg13_hv_nmos w=0.6u l=0.6u ng=1 m=8
+MMN8 ndrive ncasc net6 POAVSS sg13_hv_nmos w=0.6u l=0.6u ng=1 m=8
+MMN4 net7 net8 POAVSS POAVSS sg13_hv_nmos w=0.6u l=2.4u ng=1 m=8
+MMN5 net6 net8 POAVSS POAVSS sg13_hv_nmos w=0.6u l=2.4u ng=1 m=8
+MMP3 net9 pbias POAVDD POAVDD sg13_hv_pmos w=1.2u l=1.2u ng=1 m=4
+MMP5 net8 pcasc net9 POAVDD sg13_hv_pmos w=1.2u l=0.6u ng=1 m=8
+MMP4 net10 pbias POAVDD POAVDD sg13_hv_pmos w=1.2u l=1.2u ng=1 m=4
+MMP6 pdrive pcasc net10 POAVDD sg13_hv_pmos w=1.2u l=0.6u ng=1 m=8
+MMP7 ndrive ptlg pdrive POAVDD sg13_hv_pmos w=2.4u l=0.4u ng=1 m=4
+MMN9 pdrive ntlg ndrive POAVSS sg13_hv_nmos w=1.2u l=0.6u ng=1 m=4
+MMP8 OOA pdrive POAVDD POAVDD sg13_hv_pmos w=2.4u l=0.4u ng=1 m=40
+MMN10 OOA ndrive POAVSS POAVSS sg13_hv_nmos w=1.2u l=0.6u ng=1 m=40
+MMN20 IOAIREF IOAIREF POAVSS POAVSS sg13_hv_nmos w=0.6u l=2.4u ng=1
+MMN21 pcasc IOAIREF POAVSS POAVSS sg13_hv_nmos w=0.6u l=2.4u ng=1
+MMN22 pbias IOAIREF POAVSS POAVSS sg13_hv_nmos w=0.6u l=2.4u ng=1
+MMN23 net19 ncasc POAVSS POAVSS sg13_hv_nmos w=0.4u l=10u ng=1
+MMN25 net13 nbias POAVSS POAVSS sg13_hv_nmos w=0.6u l=2.4u ng=1
+MMN24 ncasc ncasc net22 POAVSS sg13_hv_nmos w=0.4u l=10u ng=1
+MMN26 nbias ncasc net13 POAVSS sg13_hv_nmos w=0.6u l=0.6u ng=1
+MMP21 pcasc pcasc net18 POAVDD sg13_hv_pmos w=1u l=10u ng=1
+MMP20 net18 pcasc net17 POAVDD sg13_hv_pmos w=1u l=10.0u ng=1
+MMP22 net12 pbias POAVDD POAVDD sg13_hv_pmos w=1.2u l=1.2u ng=1
+MMP25 pbias pcasc net12 POAVDD sg13_hv_pmos w=1.2u l=0.6u ng=1
+MMP26 ncasc pcasc net15 POAVDD sg13_hv_pmos w=1.2u l=0.6u ng=1
+MMP23 net15 pbias POAVDD POAVDD sg13_hv_pmos w=1.2u l=1.2u ng=1
+MMP24 net14 pbias POAVDD POAVDD sg13_hv_pmos w=1.2u l=1.2u ng=1
+MMP27 nbias pcasc net14 POAVDD sg13_hv_pmos w=1.2u l=0.6u ng=1
+MMP16 net17 pcasc net16 POAVDD sg13_hv_pmos w=1u l=10.0u ng=1
+MMN11 net20 ncasc net19 POAVSS sg13_hv_nmos w=0.4u l=10u ng=1
+MMP28 net16 pcasc POAVDD POAVDD sg13_hv_pmos w=1u l=10.0u ng=1
+MMN12 net21 ncasc net20 POAVSS sg13_hv_nmos w=0.4u l=10u ng=1
+MMN14 net22 ncasc net21 POAVSS sg13_hv_nmos w=0.4u l=10u ng=1
+MMDP1 POAVDD pbias POAVDD POAVDD sg13_hv_pmos w=1.2u l=1.2u ng=1
+MMDP2 POAVDD pbias POAVDD POAVDD sg13_hv_pmos w=1.2u l=1.2u ng=1
+MMDOP1 POAVDD pcasc POAVDD POAVDD sg13_hv_pmos w=1.2u l=0.6u ng=1
+MMDOP2 POAVDD pcasc POAVDD POAVDD sg13_hv_pmos w=1.2u l=0.6u ng=1
+MMDOP3 POAVDD pcasc POAVDD POAVDD sg13_hv_pmos w=1.2u l=0.6u ng=1
+MMDOP4 POAVDD pcasc POAVDD POAVDD sg13_hv_pmos w=1.2u l=0.6u ng=1
+MMDN1 POAVSS nbias POAVSS POAVSS sg13_hv_nmos w=0.6u l=2.4u ng=1
+MMDN2 POAVSS nbias POAVSS POAVSS sg13_hv_nmos w=0.6u l=2.4u ng=1
+MMDON1 nIOADISABLE IOADISABLE POAVSS POAVSS sg13_hv_nmos w=0.6u l=0.6u ng=1
+MMDON2 ntlg IOADISABLE POAVSS POAVSS sg13_hv_nmos w=0.6u l=0.6u ng=1
+MMDON3 ndrive IOADISABLE POAVSS POAVSS sg13_hv_nmos w=0.6u l=0.6u ng=1
+MMDON4 IOAIREF IOADISABLE POAVSS POAVSS sg13_hv_nmos w=0.6u l=0.6u ng=1
+MMDP7 POAVDD pbias POAVDD POAVDD sg13_hv_pmos w=1.2u l=1.2u ng=1
+MMDP8 POAVDD pbias POAVDD POAVDD sg13_hv_pmos w=1.2u l=1.2u ng=1
+MMDN7 POAVSS nbias POAVSS POAVSS sg13_hv_nmos w=0.6u l=2.4u ng=1
+MMDN8 POAVSS nbias POAVSS POAVSS sg13_hv_nmos w=0.6u l=2.4u ng=1
+MMDN9 POAVSS POAVSS POAVSS POAVSS sg13_hv_nmos w=1.2u l=0.45u ng=1
+MMDN10 POAVSS POAVSS POAVSS POAVSS sg13_hv_nmos w=1.2u l=0.45u ng=1
+MMDN11 POAVSS POAVSS POAVSS POAVSS sg13_hv_nmos w=1.2u l=0.45u ng=1
+MMDN12 POAVSS POAVSS POAVSS POAVSS sg13_hv_nmos w=1.2u l=0.45u ng=1
+MMDN13 POAVSS POAVSS POAVSS POAVSS sg13_hv_nmos w=2.4u l=0.45u ng=1
+MMDN14 POAVSS POAVSS POAVSS POAVSS sg13_hv_nmos w=2.4u l=0.45u ng=1
+MMDN15 POAVSS POAVSS POAVSS POAVSS sg13_hv_nmos w=2.4u l=0.45u ng=1
+MMDN16 POAVSS POAVSS POAVSS POAVSS sg13_hv_nmos w=2.4u l=0.45u ng=1
+MMDN17 POAVSS POAVSS POAVSS POAVSS sg13_hv_nmos w=1.2u l=0.45u ng=1
+MMDN18 POAVSS POAVSS POAVSS POAVSS sg13_hv_nmos w=1.2u l=0.45u ng=1
+MMDN19 POAVSS POAVSS POAVSS POAVSS sg13_hv_nmos w=1.2u l=0.45u ng=1
+MMDN20 POAVSS POAVSS POAVSS POAVSS sg13_hv_nmos w=1.2u l=0.45u ng=1
+MMDN21 POAVSS IOAIREF POAVSS POAVSS sg13_hv_nmos w=0.6u l=2.4u ng=1
+MMDN22 POAVSS IOAIREF POAVSS POAVSS sg13_hv_nmos w=0.6u l=2.4u ng=1
+MMDP9 POAVDD pcasc POAVDD POAVDD sg13_hv_pmos w=1u l=10u ng=1
+MMDN23 POAVSS ncasc POAVSS POAVSS sg13_hv_nmos w=0.4u l=10u ng=1
+MMDP10 POAVDD pcasc POAVDD POAVDD sg13_hv_pmos w=1u l=10u ng=1
+MMDN24 POAVSS ncasc POAVSS POAVSS sg13_hv_nmos w=0.4u l=10u ng=1
+MMDP11 POAVDD pbias POAVDD POAVDD sg13_hv_pmos w=1.2u l=1.2u ng=1
+MMDP12 POAVDD pbias POAVDD POAVDD sg13_hv_pmos w=1.2u l=1.2u ng=1
+MMDP13 POAVDD pcasc POAVDD POAVDD sg13_hv_pmos w=1.2u l=0.6u ng=1
+MMDP14 POAVDD pcasc POAVDD POAVDD sg13_hv_pmos w=1.2u l=0.6u ng=1
+MMDN27 POAVSS ncasc POAVSS POAVSS sg13_hv_nmos w=0.6u l=0.6u ng=1
+MMDN28 POAVSS ncasc POAVSS POAVSS sg13_hv_nmos w=0.6u l=0.6u ng=1
+MMDP15 POAVDD POAVDD POAVDD POAVDD sg13_hv_pmos w=2.4u l=0.4u ng=1 m=8
+MMDN29 POAVSS POAVSS POAVSS POAVSS sg13_hv_nmos w=1.2u l=0.6u ng=1 m=8
+MMDP16 POAVDD POAVDD POAVDD POAVDD sg13_hv_pmos w=2.4u l=0.4u ng=1 m=2
+MMDN30 POAVSS POAVSS POAVSS POAVSS sg13_hv_nmos w=1.2u l=0.6u ng=1 m=2
+MMDP17 POAVDD POAVDD POAVDD POAVDD sg13_hv_pmos w=2.4u l=0.4u ng=1 m=8
+MMDN31 POAVSS POAVSS POAVSS POAVSS sg13_hv_nmos w=1.2u l=0.6u ng=1 m=8
+MMDOP5 nIOADISABLE IOADISABLE POAVDD POAVDD sg13_hv_pmos w=1.2u l=0.6u ng=1
+MMDOP6 ptlg nIOADISABLE POAVDD POAVDD sg13_hv_pmos w=1.2u l=0.6u ng=1
+MMDOP7 pdrive nIOADISABLE POAVDD POAVDD sg13_hv_pmos w=1.2u l=0.6u ng=1
+MMDOP8 pcasc nIOADISABLE POAVDD POAVDD sg13_hv_pmos w=1.2u l=0.6u ng=1
+.ends
+
+
+* expanding   symbol:  digital_level_translator.sym # of pins=5
+** sym_path: /home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/digital_level_translator/schematic/xschem/digital_level_translator.sym
+** sch_path: /home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/digital_level_translator/schematic/xschem/digital_level_translator.sch
+.subckt digital_level_translator PLAVDD PLDVDD LIN LOUT PLVSS
+*.PININFO PLAVDD:B PLVSS:B PLDVDD:B LIN:I LOUT:O
+MM1 n_lin_buf LIN PLVSS PLVSS sg13_lv_nmos w=0.15u l=0.13u ng=1
+MM2 n_lin_buf LIN PLDVDD PLDVDD sg13_lv_pmos w=0.3u l=0.13u ng=1
+MM3 lin_buf n_lin_buf PLVSS PLVSS sg13_lv_nmos w=0.15u l=0.13u ng=1
+MM4 lin_buf n_lin_buf PLDVDD PLDVDD sg13_lv_pmos w=0.3u l=0.13u ng=1
+MM5 q_unbf n_lin_buf PLVSS PLVSS sg13_hv_nmos w=1u l=0.45u ng=1
+MM6 n_q_unbf lin_buf PLVSS PLVSS sg13_hv_nmos w=1u l=0.45u ng=1
+MM7 n_q_unbf q_unbf PLAVDD PLAVDD sg13_hv_pmos w=0.3u l=0.45u ng=1
+MM9 LOUT n_q_unbf PLVSS PLVSS sg13_hv_nmos w=0.3u l=0.45u ng=1 m=4
+MM10 LOUT n_q_unbf PLAVDD PLAVDD sg13_hv_pmos w=0.6u l=0.45u ng=1 m=4
+MM8 q_unbf n_q_unbf PLAVDD PLAVDD sg13_hv_pmos w=0.3u l=0.45u ng=1
+.ends
+
+
+* expanding   symbol:  sah_12bit.sym # of pins=5
+** sym_path: /home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/sah_12bit/schematic/xschem/sah_12bit.sym
+** sch_path: /home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/sah_12bit/schematic/xschem/sah_12bit.sch
+.subckt sah_12bit VDD SH_IN SH_OUT SH_EN VSS
+*.PININFO SH_IN:I SH_EN:I SH_OUT:O VDD:B VSS:B
+MMN1 SH_IN sw SH_OUT VSS sg13_hv_nmos w=0.6u l=0.45u ng=2
+MMP1 SH_IN sw_b SH_OUT VDD sg13_hv_pmos w=1.8u l=0.45u ng=2
+MMND1 SH_IN sw_b SH_IN VSS sg13_hv_nmos w=0.3u l=0.45u ng=1
+MMPD1 SH_IN sw_d SH_IN VDD sg13_hv_pmos w=0.9u l=0.45u ng=1
+MMND2 SH_OUT sw_b SH_OUT VSS sg13_hv_nmos w=0.3u l=0.45u ng=1
+MMPD2 SH_OUT sw_d SH_OUT VDD sg13_hv_pmos w=0.9u l=0.45u ng=1
+MMPI1 sw_n SH_EN VDD VDD sg13_hv_pmos w=1.2u l=0.45u ng=1
+MMNI1 sw_n SH_EN VSS VSS sg13_hv_nmos w=0.6u l=0.45u ng=1
+MMPI2 sw sw_n VDD VDD sg13_hv_pmos w=1.2u l=0.45u ng=1
+MMNI2 sw sw_n VSS VSS sg13_hv_nmos w=0.6u l=0.45u ng=1
+MMPI3 sw_b sw VDD VDD sg13_hv_pmos w=1.2u l=0.45u ng=1 m=2
+MMNI3 sw_b sw VSS VSS sg13_hv_nmos w=0.6u l=0.45u ng=1 m=2
+MMPI4 sw_d sw_b VDD VDD sg13_hv_pmos w=1.2u l=0.45u ng=1 m=2
+MMNI4 sw_d sw_b VSS VSS sg13_hv_nmos w=0.6u l=0.45u ng=1 m=2
+CC1 SH_OUT VSS cap_cmomi w=54.29e-6 l=27.72e-6
+.ends
+
+
+* expanding   symbol:  inverting_digital_level_translator.sym # of pins=5
+** sym_path: /home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/8x_inverting_digital_level_translator/macros/inverting_digital_level_translator/schematic/xschem/inverting_digital_level_translator.sym
+** sch_path: /home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/8x_inverting_digital_level_translator/macros/inverting_digital_level_translator/schematic/xschem/inverting_digital_level_translator.sch
+.subckt inverting_digital_level_translator PLAVDD PLDVDD LIN nLOUT PLVSS
+*.PININFO PLAVDD:B PLVSS:B PLDVDD:B LIN:I nLOUT:O
+MM1 n_lin_buf net1 PLVSS PLVSS sg13_lv_nmos w=0.15u l=0.13u ng=1
+MM2 n_lin_buf net1 PLDVDD PLDVDD sg13_lv_pmos w=0.3u l=0.13u ng=1
+MM3 lin_buf n_lin_buf PLVSS PLVSS sg13_lv_nmos w=0.15u l=0.13u ng=1
+MM4 lin_buf n_lin_buf PLDVDD PLDVDD sg13_lv_pmos w=0.3u l=0.13u ng=1
+MM5 q_unbf n_lin_buf PLVSS PLVSS sg13_hv_nmos w=1u l=0.45u ng=1
+MM6 n_q_unbf lin_buf PLVSS PLVSS sg13_hv_nmos w=1u l=0.45u ng=1
+MM7 n_q_unbf q_unbf PLAVDD PLAVDD sg13_hv_pmos w=0.3u l=0.45u ng=1
+MM9 nLOUT n_q_unbf PLVSS PLVSS sg13_hv_nmos w=0.3u l=0.45u ng=1 m=4
+MM10 nLOUT n_q_unbf PLAVDD PLAVDD sg13_hv_pmos w=0.6u l=0.45u ng=1 m=4
+MM8 q_unbf n_q_unbf PLAVDD PLAVDD sg13_hv_pmos w=0.3u l=0.45u ng=1
+MM11 net1 LIN PLVSS PLVSS sg13_lv_nmos w=0.15u l=0.13u ng=1
+MM12 net1 LIN PLDVDD PLDVDD sg13_lv_pmos w=0.3u l=0.13u ng=1
+.ends
+

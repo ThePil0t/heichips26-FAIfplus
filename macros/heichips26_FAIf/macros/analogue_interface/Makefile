@@ -29,6 +29,10 @@ LIB_DIR         := final/lib
 VH_DIR          := final/vh
 RENDER_DIR      := final/render
 DRC_RPT_DIR     := verification/drc
+LVS_RPT_DIR     := verification/lvs
+XSCHEM_SCH_DIR  := schematic/xschem
+NET_SCH_DIR     := netlist/schematic
+NET_LAY_DIR     := netlist/layout
 
 
 # Help Target
@@ -76,6 +80,34 @@ klayout-drc: ## Run KLayout DRC of the CELL cell (usage: make klayout-drc [CELL=
 # ================================================================================================
 
 
+# LVS Targets
+# The reference schematic is generated from the analog part of the top schematic (needs PDK_ROOT/PDK)
+reference-schematic: ## Regenerate schematic/xschem/analogue_interface.sch/.sym from the top schematic
+	python3 $(SCRIPTS_DIR)/gen_reference_schematic.py
+.PHONY: reference-schematic
+
+klayout-lvs-netlist: ## Export the CDL netlist of the reference schematic for KLayout LVS
+	mkdir -p $(NET_SCH_DIR)
+	xschem -s -r -x -q --rcfile $(XSCHEM_SCH_DIR)/xschemrc --command ' \
+		set spiceprefix 1; \
+		set lvs_netlist 1; \
+		set top_is_subckt 1; \
+		set lvs_ignore 1; \
+		set netlist_dir $(NET_SCH_DIR); \
+		xschem set netlist_name $(TOP)_klayout.cdl; \
+		xschem netlist \
+	' $(XSCHEM_SCH_DIR)/$(TOP).sch
+.PHONY: klayout-lvs-netlist
+
+klayout-lvs: ## Run KLayout LVS of the macro against the reference schematic
+	$(MAKE) klayout-lvs-netlist
+	mkdir -p $(LVS_RPT_DIR) $(NET_LAY_DIR)
+	sh $(SCRIPTS_DIR)/sak-lvs.sh -d -k -w $(LVS_RPT_DIR) -s $(NET_SCH_DIR)/$(TOP)_klayout.cdl -l $(LAY_DIR)/$(TOP).gds -c $(TOP)
+	mv $(LVS_RPT_DIR)/$(TOP).klayout.lvs/$(TOP)_extracted.cir $(NET_LAY_DIR)/$(TOP)_klayout.cir
+.PHONY: klayout-lvs
+# ================================================================================================
+
+
 # Build Target
 build-top: ## Build TOP cell (layout GDS, LEF, LIB, Verilog header, copy GDS, and render image)
 	$(MAKE) layout
@@ -92,6 +124,6 @@ all: ## Build the macro
 # Clean Targets
 clean: ## Delete all generated files and folders (final views, DRC reports)
 	rm -rf final
-	rm -rf $(DRC_RPT_DIR)
+	rm -rf $(DRC_RPT_DIR) $(LVS_RPT_DIR)
 .PHONY: clean
 # ================================================================================================

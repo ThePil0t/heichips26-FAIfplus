@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 The HeiChips Contributors
 # SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
-"""Build the dry-run version of the analogue_interface hard macro.
+"""Build the analogue_interface hard macro.
 
-The existing block layouts are placed (not routed). Unfinished parts become
-sized dummies, and bare pin shapes go on the macro edge. From one placement
-and pin table the script writes:
+The block layouts are placed, the iVREF divider (R1, R2, C1) is generated from the PDK PCells,
+and the DAC path is routed (scripts/macro_routing.py; the ADC path and the PTAT follow).
+Bare pin shapes go on the macro edge. From one placement and pin table the script writes:
 
   layout/analogue_interface.gds
   final/lef/analogue_interface.lef
@@ -19,6 +19,8 @@ import os
 import re
 
 import klayout.db as db
+
+import macro_routing
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 MACRO_DIR = os.path.dirname(SCRIPT_DIR)
@@ -72,13 +74,7 @@ BLOCKS = {
     "sah": "sah_12bit/layout/sah_12bit.gds",
 }
 
-# Dummies for parts without layout: key -> (cell suffix, width, height, label)
-DUMMIES = {
-    "rhigh": ("rhigh_w0p5_l50", 53.0, 2.0, "DUMMY rhigh w=0.5u l=50u 53x2um estimate"),
-    "cmomi": ("cap_cmomi_w50_l2", 51.0, 8.0, "DUMMY cap_cmomi w=50u l=2u 51x8um estimate"),
-}
-
-# Placement: instance (schematic name), block or dummy key, orientation, lower-left of the
+# Placement: instance (schematic name), block or device key, orientation, lower-left of the
 # transformed bbox (macro-local um), description
 PLACEMENT = [
     ("x12", "lt8", "R90", 4.0, 9.35, "8x level translator for DAC1 (dac_out[15:8])"),
@@ -97,9 +93,9 @@ PLACEMENT = [
     ("x8", "opamp", "MY", 187.0, 10.0, "S&H input buffer, mirrored: IOAP above analog_0..2"),
     ("x10", "sah", "R0", 179.2, 45.5, "sample-and-hold sah_12bit: switches west of the hold cap"),
     ("x1", "comp", "R0", 180.63, 112.0, "SAR comparator: INN straight above the sah_12bit SH_OUT spine"),
-    ("R1", "rhigh", "R0", 220.0, 113.0, "iVREF divider, upper resistor"),
-    ("R2", "rhigh", "R0", 220.0, 118.0, "iVREF divider, lower resistor"),
-    ("C1", "cmomi", "R0", 220.0, 124.0, "iVREF filter cap"),
+    ("R1", "rhigh", "R90", 118.0, 166.4, "iVREF divider, upper resistor (VAPWR-iVREF)"),
+    ("R2", "rhigh", "R90", 118.0, 162.5, "iVREF divider, lower resistor (iVREF-VGND)"),
+    ("C1", "cmomi", "R90", 118.0, 156.0, "iVREF filter cap"),
 ]
 
 # Orientation -> (rotation in multiples of 90 deg, mirror at x-axis before rotation)
@@ -171,13 +167,6 @@ def import_block(ly, key, rel_path):
     return cell
 
 
-def make_dummy(ly, suffix, w, h, label):
-    cell = ly.create_cell(f"{PREFIX}dummy_{suffix}")
-    cell.shapes(ly.layer(*PR_BOUNDARY)).insert(db.DBox(0, 0, w, h))
-    cell.shapes(ly.layer(*TEXT)).insert(db.DText(label, db.DTrans(w / 2, h / 2)))
-    return cell
-
-
 def find_label(ly, cell, text, layer):
     li = ly.find_layer(*layer)
     assert li is not None, f"{cell.name}: no layer {layer}"
@@ -203,7 +192,7 @@ def build_layout():
     top = ly.create_cell(TOP)
 
     cells = {key: import_block(ly, key, path) for key, path in BLOCKS.items()}
-    cells.update({key: make_dummy(ly, *spec) for key, spec in DUMMIES.items()})
+    cells.update(macro_routing.make_divider_cells(ly, PREFIX))
 
     # TopMetal1 must stay empty
     for li in ly.layer_indexes():
@@ -261,6 +250,15 @@ def build_layout():
         top.shapes(ly.layer(num, DT_TEXT)).insert(db.DText(name, db.DTrans(box.center().x, box.center().y)))
 
     top.shapes(ly.layer(*PR_BOUNDARY)).insert(db.DBox(0, 0, W, H))
+
+    # Routing (DAC path) with its own clearance and connectivity checks
+    router = macro_routing.Router(ly, top, placed, PREFIX)
+    macro_routing.route_dac_path(router, pins)
+    conflicts = router.check()
+    assert not conflicts, "routing clearance:\n  " + "\n  ".join(conflicts)
+    issues = macro_routing.connectivity(ly, top, macro_routing.dac_probes(router, pins))
+    assert not issues, "routing connectivity:\n  " + "\n  ".join(issues)
+    print(f"Routed the DAC path: {len(router.shapes)} shapes, clearance and connectivity OK")
 
     # Final checks: nothing above Metal3 except the sah_12bit hold-cap lid, unique names, one top cell
     m4_cell, m4_trans, m4_inst_box = placed[M4_ALLOWED_INST]
