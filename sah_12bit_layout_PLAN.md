@@ -156,3 +156,35 @@ Another Claude session is working in the same tree, so I stage files by explicit
   - kickback ≤ 201 µV with the extracted C at −35 %.
 - **Macro:** the builder's asserts pass, macro DRC passes, and the LEF has the Metal4 OBS.
 - **Chip:** the LibreLane run has KLayout DRC 0, and the straps and routing keep off the shield.
+
+---
+
+## Status as of 2026-10-08 (commit 7b33d78)
+
+### Done
+- Steps 0–8 are done. Results are in `sah_12bit/README.md` ("Layout").
+- **Cell checks:** KLayout DRC regular shows only density rules; Magic DRC 0; KLayout LVS matches. Magic LVS differs only by C1.
+- **Macro:** DRC shows global density only.
+- **Chip:** run `RUN_2026-10-08_14-05-39` has KLayout DRC 0, LVS clean, antenna 0, timing met and unchanged IR drop.
+
+### Deviations from the plan
+- **Metal4 lid:** marker + 0.23 µm in x, so 29.98 µm wide. Slt.c allows at most 30 µm of metal without slits.
+  - The lid is tied down through Via3 on the top and bottom fence and on the MINUS pad, not all around.
+  - It sits 6.5 µm from the PDN straps.
+- **SH_OUT entry:** the cap's feed pads are solid on Metal3 only, so SH_OUT enters the PLUS pad on Metal3. The gap is in the Metal3 fence; there is no Via3 there.
+- **SH_IN pin:** at the bottom-left corner, straight above the opamp's OOA exit, instead of on the west edge.
+- **Comparator x1:** moved from (187, 112) to (195, 112), so INN sits straight above the SH_OUT pin.
+- **Post-layout netlist:** Magic PEX can't be used for the hold node, because it has no `cap_cmomi` device. `scripts/layout/hybrid_pex.py` combines:
+  - the PDK C1 model;
+  - the KLayout junction areas;
+  - the Magic wire parasitics of the layout without the cap;
+  - the cap-environment delta.
+- **PDN straps:** LibreLane's pdngen trims the Metal4 straps within ≈ 9 µm of the lid's LEF obstruction. The power grid stays connected and the IR drop is unchanged.
+
+### Open
+- **Hold feedthrough:** −72 dB post-layout (−69 dB at C −35 %), from 0.36 fF SH_IN–SH_OUT coupling, mostly the switch's own S/D straps.
+  - That is ≈ 1 LSB at 12 bit for a full-scale input change during the hold, and fine for 8 bit.
+  - The circuit fix, if needed, is a T-switch.
+- **Final TB "droop" column:** contaminated by feedthrough, because its window starts while the follower is still slewing. Read leakage droop from the 1.6 → 1.7 V step.
+- **Macro routing:** SH_IN, SH_OUT, SH_EN, VDD, VSS. The rules are in the `analogue_interface` README.
+- **Waiting for OK:** `make copy-final` and `make precheck` with the new chip run, because `final/` is shared.
