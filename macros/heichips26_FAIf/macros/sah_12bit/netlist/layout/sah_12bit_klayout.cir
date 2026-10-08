@@ -1,33 +1,33 @@
-* Extracted by KLayout with SG13CMOS5L LVS runset on : 09/10/2026 01:03
+* Extracted by KLayout with SG13CMOS5L LVS runset on : 09/10/2026 01:42
 
 .SUBCKT sah_12bit SH_EN SH_IN SH_OUT VDD VSS
 C$1 SH_OUT VSS cap_cmomi w=54.93u l=29.52u A=0p P=0u m=1
-M$2 VSS \$7 \$10 VSS sg13_hv_nmos L=0.45u W=1.2u AS=0.318p AD=0.318p PS=2.86u
+M$2 VSS \$3 \$6 VSS sg13_hv_nmos L=0.45u W=1.2u AS=0.318p AD=0.318p PS=2.86u
 + PD=2.86u rfmode=0
-M$4 VSS \$10 \$11 VSS sg13_hv_nmos L=0.45u W=1.2u AS=0.318p AD=0.318p PS=2.86u
+M$4 VSS \$6 \$12 VSS sg13_hv_nmos L=0.45u W=1.2u AS=0.318p AD=0.318p PS=2.86u
 + PD=2.86u rfmode=0
-M$6 VDD \$7 \$10 VDD sg13_hv_pmos L=0.45u W=2.4u AS=0.636p AD=0.636p PS=4.66u
+M$6 VDD \$3 \$6 VDD sg13_hv_pmos L=0.45u W=2.4u AS=0.636p AD=0.636p PS=4.66u
 + PD=4.66u rfmode=0
-M$8 VDD \$10 \$11 VDD sg13_hv_pmos L=0.45u W=2.4u AS=0.636p AD=0.636p PS=4.66u
+M$8 VDD \$6 \$12 VDD sg13_hv_pmos L=0.45u W=2.4u AS=0.636p AD=0.636p PS=4.66u
 + PD=4.66u rfmode=0
 M$10 VSS SH_EN \$I1 VSS sg13_hv_nmos L=0.45u W=0.6u AS=0.204p AD=0.204p
 + PS=1.88u PD=1.88u rfmode=0
-M$11 VSS \$I1 \$7 VSS sg13_hv_nmos L=0.45u W=0.6u AS=0.204p AD=0.204p PS=1.88u
+M$11 VSS \$I1 \$3 VSS sg13_hv_nmos L=0.45u W=0.6u AS=0.204p AD=0.204p PS=1.88u
 + PD=1.88u rfmode=0
 M$12 VDD SH_EN \$I1 VDD sg13_hv_pmos L=0.45u W=1.2u AS=0.408p AD=0.408p
 + PS=3.08u PD=3.08u rfmode=0
-M$13 VDD \$I1 \$7 VDD sg13_hv_pmos L=0.45u W=1.2u AS=0.408p AD=0.408p PS=3.08u
+M$13 VDD \$I1 \$3 VDD sg13_hv_pmos L=0.45u W=1.2u AS=0.408p AD=0.408p PS=3.08u
 + PD=3.08u rfmode=0
-M$14 SH_IN \$10 SH_IN VSS sg13_hv_nmos L=0.45u W=0.3u AS=0.102p AD=0.057p
+M$14 SH_IN \$6 SH_IN VSS sg13_hv_nmos L=0.45u W=0.3u AS=0.102p AD=0.057p
 + PS=1.28u PD=0.68u rfmode=0
-M$15 SH_IN \$7 SH_OUT VSS sg13_hv_nmos L=0.45u W=0.6u AS=0.114p AD=0.159p
+M$15 SH_IN \$3 SH_OUT VSS sg13_hv_nmos L=0.45u W=0.6u AS=0.114p AD=0.159p
 + PS=1.36u PD=1.96u rfmode=0
-M$16 SH_OUT \$10 SH_OUT VSS sg13_hv_nmos L=0.45u W=0.3u AS=0.057p AD=0.057p
+M$16 SH_OUT \$6 SH_OUT VSS sg13_hv_nmos L=0.45u W=0.3u AS=0.057p AD=0.057p
 + PS=0.68u PD=0.68u rfmode=0
-M$18 SH_IN \$11 SH_IN VDD sg13_hv_pmos L=0.45u W=0.9u AS=0.306p AD=0.171p
+M$18 SH_IN \$12 SH_IN VDD sg13_hv_pmos L=0.45u W=0.9u AS=0.306p AD=0.171p
 + PS=2.48u PD=1.28u rfmode=0
-M$19 SH_IN \$10 SH_OUT VDD sg13_hv_pmos L=0.45u W=1.8u AS=0.342p AD=0.477p
+M$19 SH_IN \$6 SH_OUT VDD sg13_hv_pmos L=0.45u W=1.8u AS=0.342p AD=0.477p
 + PS=2.56u PD=3.76u rfmode=0
-M$20 SH_OUT \$11 SH_OUT VDD sg13_hv_pmos L=0.45u W=0.9u AS=0.171p AD=0.171p
+M$20 SH_OUT \$12 SH_OUT VDD sg13_hv_pmos L=0.45u W=0.9u AS=0.171p AD=0.171p
 + PS=1.28u PD=1.28u rfmode=0
 .ENDS sah_12bit
