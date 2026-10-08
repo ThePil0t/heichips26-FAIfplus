@@ -193,9 +193,8 @@ DAC_PAIRS = [
     ("x12", "x11", 8, "analog_2"),
     ("x7", "x5", 0, "analog_1"),
 ]
-# The PTAT (x3) is not routed in this round: it moves next to the comparator first. Its iIREF3/4
-# routes are planned as Metal2 trunks in the west channel (x 19/20) and a Metal3 entry at
-# R2R + 19.2 (between bit 3 and the R2R's Metal3 feedback line) down onto IDACIREF.
+# The PTAT (x3, now east of the comparator) is routed in the ADC round. IDACIREF of each R2R can be
+# entered on Metal3 at R2R + 19.2 (between bit 3 and the R2R's Metal3 feedback line) from the west.
 DIS_X = 61.9            # IDACDISABLE drop column (between nD7 and the opamp's UNBUF_DAC Metal3)
 DIS_DY = 0.8            # IDACDISABLE track above the R2R bottom (onto the POAVSS rail)
 VREF_X = 173.6          # iVREF trunk (Metal2), just east of the R2R column

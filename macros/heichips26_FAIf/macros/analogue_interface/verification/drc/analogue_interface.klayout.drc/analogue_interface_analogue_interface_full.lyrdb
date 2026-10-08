@@ -7,7 +7,13 @@
  <tags>
  </tags>
  <categories>
-  <category>
+ <category>
+   <name>TGO.f</name>
+   <description>5.7. TGO.f : Min. ThickGateOx width: 0.86 µm</description>
+   <categories>
+   </categories>
+  </category>
+ <category>
    <name>Act.a</name>
    <description>5.5. Act.a : Min. Activ width : 0.15 µm</description>
    <categories>
@@ -70,12 +76,6 @@
   <category>
    <name>CntB.h1</name>
    <description>5.15. CntB.h1 Min. Metal1 enclosure of ContBar is 0.05 um</description>
-   <categories>
-   </categories>
-  </category>
- <category>
-   <name>TGO.f</name>
-   <description>5.7. TGO.f : Min. ThickGateOx width: 0.86 µm</description>
    <categories>
    </categories>
   </category>
@@ -224,12 +224,6 @@
    </categories>
   </category>
  <category>
-   <name>pSD.c1</name>
-   <description>5.10. pSD.c1 Min. pSD enclosure of P+Activ in PWell is 0.03 um</description>
-   <categories>
-   </categories>
-  </category>
- <category>
    <name>TV1.a</name>
    <description>5.21. TV1.a : Min. and max. TopVia1 width: 0.42 um</description>
    <categories>
@@ -250,6 +244,12 @@
   <category>
    <name>TV1.d</name>
    <description>5.21. TV1.d : Min. TopMetal1 enclosure of TopVia1 is 0.42 um</description>
+   <categories>
+   </categories>
+  </category>
+ <category>
+   <name>pSD.c1</name>
+   <description>5.10. pSD.c1 Min. pSD enclosure of P+Activ in PWell is 0.03 um</description>
    <categories>
    </categories>
   </category>
@@ -404,18 +404,6 @@
    </categories>
   </category>
  <category>
-   <name>TM1Fil.c</name>
-   <description>5.23. TM1Fil.c : Min. TopMetal1:filler space to TopMetal1 is 3.0 um</description>
-   <categories>
-   </categories>
-  </category>
-  <category>
-   <name>TM1Fil.a1</name>
-   <description>5.23. TM1Fil.a1 : Max. TopMetal1:filler width is 10.0 um</description>
-   <categories>
-   </categories>
-  </category>
- <category>
    <name>Slt.e1_M1</name>
    <description>7.3. Slt.e1_M1 : No M1:slit required on MIM</description>
    <categories>
@@ -442,6 +430,18 @@
   <category>
    <name>Slt.e1_TM1</name>
    <description>7.3. Slt.e1_TM1 : No TM1:slit required on MIM</description>
+   <categories>
+   </categories>
+  </category>
+ <category>
+   <name>TM1Fil.c</name>
+   <description>5.23. TM1Fil.c : Min. TopMetal1:filler space to TopMetal1 is 3.0 um</description>
+   <categories>
+   </categories>
+  </category>
+  <category>
+   <name>TM1Fil.a1</name>
+   <description>5.23. TM1Fil.a1 : Max. TopMetal1:filler width is 10.0 um</description>
    <categories>
    </categories>
   </category>
@@ -668,66 +668,6 @@
    </categories>
   </category>
  <category>
-   <name>CMOS5L.FORB.Metal5</name>
-   <description>CMOS5L.FORB.Metal5 : 3.2. Metal5 layer is prohibited in CMOS5L (M1-M4-TM1 stack).</description>
-   <categories>
-   </categories>
-  </category>
-  <category>
-   <name>CMOS5L.FORB.Metal5.filler</name>
-   <description>CMOS5L.FORB.Metal5.filler : 3.2. Metal5.filler layer is prohibited in CMOS5L (M1-M4-TM1 stack).</description>
-   <categories>
-   </categories>
-  </category>
-  <category>
-   <name>CMOS5L.FORB.Via4</name>
-   <description>CMOS5L.FORB.Via4 : 3.2. Via4 layer is prohibited in CMOS5L (M1-M4-TM1 stack).</description>
-   <categories>
-   </categories>
-  </category>
-  <category>
-   <name>CMOS5L.FORB.TopMetal2</name>
-   <description>CMOS5L.FORB.TopMetal2 : 3.2. TopMetal2 layer is prohibited in CMOS5L (M1-M4-TM1 stack).</description>
-   <categories>
-   </categories>
-  </category>
-  <category>
-   <name>CMOS5L.FORB.TopMetal2.filler</name>
-   <description>CMOS5L.FORB.TopMetal2.filler : 3.2. TopMetal2.filler layer is prohibited in CMOS5L (M1-M4-TM1 stack).</description>
-   <categories>
-   </categories>
-  </category>
-  <category>
-   <name>CMOS5L.FORB.TopVia2</name>
-   <description>CMOS5L.FORB.TopVia2 : 3.2. TopVia2 layer is prohibited in CMOS5L (M1-M4-TM1 stack).</description>
-   <categories>
-   </categories>
-  </category>
-  <category>
-   <name>CMOS5L.FORB.TRANS</name>
-   <description>CMOS5L.FORB.TRANS : 3.2. TRANS layer is prohibited in CMOS5L (M1-M4-TM1 stack).</description>
-   <categories>
-   </categories>
-  </category>
-  <category>
-   <name>CMOS5L.FORB.nBuLay</name>
-   <description>CMOS5L.FORB.nBuLay : 3.2. nBuLay layer is prohibited in CMOS5L (M1-M4-TM1 stack).</description>
-   <categories>
-   </categories>
-  </category>
-  <category>
-   <name>CMOS5L.FORB.MIM</name>
-   <description>CMOS5L.FORB.MIM : 3.2. MIM layer is prohibited in CMOS5L (M1-M4-TM1 stack).</description>
-   <categories>
-   </categories>
-  </category>
-  <category>
-   <name>CMOS5L.FORB.Vmim</name>
-   <description>CMOS5L.FORB.Vmim : 3.2. Vmim layer is prohibited in CMOS5L (M1-M4-TM1 stack).</description>
-   <categories>
-   </categories>
-  </category>
- <category>
    <name>forbidden.biwind</name>
    <description>forbidden.biwind : 3.2. biwind is forbidden in designs submitted for all 0.13 um techs.</description>
    <categories>
@@ -794,6 +734,66 @@
    </categories>
   </category>
   <category>
+   <name>CMOS5L.FORB.Metal5</name>
+   <description>CMOS5L.FORB.Metal5 : 3.2. Metal5 layer is prohibited in CMOS5L (M1-M4-TM1 stack).</description>
+   <categories>
+   </categories>
+  </category>
+  <category>
+   <name>CMOS5L.FORB.Metal5.filler</name>
+   <description>CMOS5L.FORB.Metal5.filler : 3.2. Metal5.filler layer is prohibited in CMOS5L (M1-M4-TM1 stack).</description>
+   <categories>
+   </categories>
+  </category>
+  <category>
+   <name>CMOS5L.FORB.Via4</name>
+   <description>CMOS5L.FORB.Via4 : 3.2. Via4 layer is prohibited in CMOS5L (M1-M4-TM1 stack).</description>
+   <categories>
+   </categories>
+  </category>
+  <category>
+   <name>CMOS5L.FORB.TopMetal2</name>
+   <description>CMOS5L.FORB.TopMetal2 : 3.2. TopMetal2 layer is prohibited in CMOS5L (M1-M4-TM1 stack).</description>
+   <categories>
+   </categories>
+  </category>
+  <category>
+   <name>CMOS5L.FORB.TopMetal2.filler</name>
+   <description>CMOS5L.FORB.TopMetal2.filler : 3.2. TopMetal2.filler layer is prohibited in CMOS5L (M1-M4-TM1 stack).</description>
+   <categories>
+   </categories>
+  </category>
+  <category>
+   <name>CMOS5L.FORB.TopVia2</name>
+   <description>CMOS5L.FORB.TopVia2 : 3.2. TopVia2 layer is prohibited in CMOS5L (M1-M4-TM1 stack).</description>
+   <categories>
+   </categories>
+  </category>
+  <category>
+   <name>CMOS5L.FORB.TRANS</name>
+   <description>CMOS5L.FORB.TRANS : 3.2. TRANS layer is prohibited in CMOS5L (M1-M4-TM1 stack).</description>
+   <categories>
+   </categories>
+  </category>
+  <category>
+   <name>CMOS5L.FORB.nBuLay</name>
+   <description>CMOS5L.FORB.nBuLay : 3.2. nBuLay layer is prohibited in CMOS5L (M1-M4-TM1 stack).</description>
+   <categories>
+   </categories>
+  </category>
+  <category>
+   <name>CMOS5L.FORB.MIM</name>
+   <description>CMOS5L.FORB.MIM : 3.2. MIM layer is prohibited in CMOS5L (M1-M4-TM1 stack).</description>
+   <categories>
+   </categories>
+  </category>
+  <category>
+   <name>CMOS5L.FORB.Vmim</name>
+   <description>CMOS5L.FORB.Vmim : 3.2. Vmim layer is prohibited in CMOS5L (M1-M4-TM1 stack).</description>
+   <categories>
+   </categories>
+  </category>
+ <category>
    <name>CMOS5L.FORB.Metal5</name>
    <description>CMOS5L.FORB.Metal5 : 3.2. Metal5 layer is prohibited in CMOS5L (M1-M4-TM1 stack).</description>
    <categories>

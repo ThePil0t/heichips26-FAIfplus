@@ -83,7 +83,7 @@ PLACEMENT = [
     ("x5", "r2r", "R0", 25.0, 48.0, "R2R DAC0 -> analog_1"),
     ("x6", "lt8", "R90", 4.0, 85.35, "8x level translator for the SAR DAC (adc_ref)"),
     ("x4", "r2r", "R0", 25.0, 86.0, "R2R SAR DAC -> comparator"),
-    ("x3", "ptat", "R0", 25.0, 124.0, "PTAT current source (bias)"),
+    ("x3", "ptat", "MX", 205.43, 112.0, "PTAT current source (bias): east of the comparator, outputs facing down"),
     ("x2", "dlt", "MY", 4.0, 124.5, "down translator for adc_comp"),
     ("x9", "lt", "R0", 4.0, 132.4, "level translator for adc_hold"),
     ("xcap0", "lt", "R0", 4.0, 140.45, "level translator for sh_cap_en[0]"),
