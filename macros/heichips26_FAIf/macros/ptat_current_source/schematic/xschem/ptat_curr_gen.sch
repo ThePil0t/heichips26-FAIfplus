@@ -7,8 +7,8 @@ F {}
 E {}
 L 4 1510 -600 1520 -610 {}
 L 4 1520 -610 1930 -610 {}
-L 4 2100 -610 2490 -610 {}
-L 4 2490 -610 2500 -600 {}
+L 4 2100 -610 2790 -610 {}
+L 4 2790 -610 2800 -600 {}
 T {Analog Design for CMOS VLSI Systems
 by Franco Maloberti
 Chapter 4.2.3 "Self Biased Micro-Current Generator"} 180 -680 0 0 0.4 0.4 {}
@@ -445,8 +445,9 @@ N 2480 -460 2480 -450 {lab=PCSVDD}
 N 2480 -460 2490 -460 {lab=PCSVDD}
 N 2490 -480 2490 -460 {lab=PCSVDD}
 N 2040 -40 2120 -40 {lab=PCSVSS}
-N 630 -520 650 -520 {lab=#net2}
-N 630 -520 630 -410 {lab=#net2}
+N 630 -520 650 -520 {lab=PBIAS}
+N 630 -520 630 -460 {lab=PBIAS}
+N 630 -460 630 -410 {lab=PBIAS}
 N 670 -380 690 -380 {lab=CSSTARTUP}
 N 620 -380 630 -380 {lab=PCSVDD}
 N 690 -520 700 -520 {lab=PCSVDD}
@@ -531,6 +532,38 @@ N 1020 -490 1020 -400 {lab=CSOUT3}
 N 870 -580 870 -520 {lab=PCSVDD}
 N 860 -580 870 -580 {lab=PCSVDD}
 N 790 -460 820 -460 {lab=PBIAS}
+N 2630 -550 2640 -550 {lab=PCSVDD}
+N 2630 -520 2640 -520 {lab=PCSVDD}
+N 2630 -490 2640 -490 {lab=PCSVDD}
+N 2640 -550 2640 -490 {lab=PCSVDD}
+N 2590 -520 2570 -520 {lab=PCSVDD}
+N 2570 -520 2570 -560 {lab=PCSVDD}
+N 2570 -560 2640 -560 {lab=PCSVDD}
+N 2640 -560 2640 -550 {lab=PCSVDD}
+N 2630 -450 2640 -450 {lab=PCSVDD}
+N 2630 -420 2640 -420 {lab=PCSVDD}
+N 2630 -390 2640 -390 {lab=PCSVDD}
+N 2640 -450 2640 -390 {lab=PCSVDD}
+N 2590 -420 2570 -420 {lab=PCSVDD}
+N 2570 -420 2570 -460 {lab=PCSVDD}
+N 2570 -460 2640 -460 {lab=PCSVDD}
+N 2640 -460 2640 -450 {lab=PCSVDD}
+N 2780 -550 2790 -550 {lab=PCSVDD}
+N 2780 -520 2790 -520 {lab=PCSVDD}
+N 2780 -490 2790 -490 {lab=PCSVDD}
+N 2790 -550 2790 -490 {lab=PCSVDD}
+N 2740 -520 2720 -520 {lab=PCSVDD}
+N 2720 -520 2720 -560 {lab=PCSVDD}
+N 2720 -560 2790 -560 {lab=PCSVDD}
+N 2790 -560 2790 -550 {lab=PCSVDD}
+N 2780 -450 2790 -450 {lab=PCSVDD}
+N 2780 -420 2790 -420 {lab=PCSVDD}
+N 2780 -390 2790 -390 {lab=PCSVDD}
+N 2790 -450 2790 -390 {lab=PCSVDD}
+N 2740 -420 2720 -420 {lab=PCSVDD}
+N 2720 -420 2720 -460 {lab=PCSVDD}
+N 2720 -460 2790 -460 {lab=PCSVDD}
+N 2790 -460 2790 -450 {lab=PCSVDD}
 C {sg13g2_pr/sg13_hv_nmos.sym} 350 -300 0 1 {name=M1
 l=2u
 w=2u
@@ -571,7 +604,6 @@ body=PCSVSS
 spiceprefix=X
 b=21
 m=1
-lvs_format="tcleval(@name @@P @@M @model w=@w l=31.135e-6 ps=0.18e-6 m=@m b=@b )"
 }
 C {iopin.sym} 220 -580 2 0 {name=p1 lab=PCSVDD
 }
@@ -936,7 +968,7 @@ spiceprefix=X
 C {lab_wire.sym} 710 -310 0 1 {name=p8 sig_type=std_logic lab=CSSTARTUP}
 C {lab_wire.sym} 710 -200 0 1 {name=p11 sig_type=std_logic lab=wcs4}
 C {sg13g2_pr/sg13_hv_pmos.sym} 690 -260 0 0 {name=MSS5
-l=0.4u
+l=4u
 w=0.3u
 ng=1
 m=1
@@ -955,7 +987,7 @@ C {opin.sym} 1360 -370 0 0 {name=p12 lab=CSOUT4}
 C {lab_wire.sym} 910 -240 0 1 {name=p_mss4_s sig_type=std_logic lab=wcs4}
 C {lab_wire.sym} 910 -130 0 1 {name=p_mss4_d sig_type=std_logic lab=wcs3}
 C {sg13g2_pr/sg13_hv_pmos.sym} 890 -190 0 0 {name=MSS4
-l=0.4u
+l=4u
 w=0.3u
 ng=1
 m=1
@@ -965,7 +997,7 @@ spiceprefix=X
 C {lab_wire.sym} 1010 -240 0 1 {name=p_mss3_s sig_type=std_logic lab=wcs3}
 C {lab_wire.sym} 1010 -130 0 1 {name=p_mss3_d sig_type=std_logic lab=wcs2}
 C {sg13g2_pr/sg13_hv_pmos.sym} 990 -190 0 0 {name=MSS3
-l=0.4u
+l=4u
 w=0.3u
 ng=1
 m=1
@@ -975,7 +1007,7 @@ spiceprefix=X
 C {lab_wire.sym} 1110 -240 0 1 {name=p_mss2_s sig_type=std_logic lab=wcs2}
 C {lab_wire.sym} 1110 -130 0 1 {name=p_mss2_d sig_type=std_logic lab=wcs1}
 C {sg13g2_pr/sg13_hv_pmos.sym} 1090 -190 0 0 {name=MSS2
-l=0.4u
+l=4u
 w=0.3u
 ng=1
 m=1
@@ -985,10 +1017,46 @@ spiceprefix=X
 C {lab_wire.sym} 1210 -240 0 1 {name=p_mss1_s sig_type=std_logic lab=wcs1}
 C {lab_wire.sym} 1210 -130 0 1 {name=p_mss1_d sig_type=std_logic lab=PCSVSS}
 C {sg13g2_pr/sg13_hv_pmos.sym} 1190 -190 0 0 {name=MSS1
-l=0.4u
+l=4u
 w=0.3u
 ng=1
 m=1
 model=sg13_hv_pmos
 spiceprefix=X
 }
+C {sg13g2_pr/sg13_hv_pmos.sym} 2610 -520 0 0 {name=MD37
+l=1u
+w=0.4u
+ng=1
+m=1
+model=sg13_hv_pmos
+spiceprefix=X
+}
+C {lab_wire.sym} 2610 -560 0 0 {name=p13 sig_type=std_logic lab=PCSVDD}
+C {sg13g2_pr/sg13_hv_pmos.sym} 2610 -420 0 0 {name=MD38
+l=1u
+w=0.4u
+ng=1
+m=1
+model=sg13_hv_pmos
+spiceprefix=X
+}
+C {lab_wire.sym} 2610 -460 0 0 {name=p14 sig_type=std_logic lab=PCSVDD}
+C {sg13g2_pr/sg13_hv_pmos.sym} 2760 -520 0 0 {name=MD39
+l=4u
+w=0.3u
+ng=1
+m=1
+model=sg13_hv_pmos
+spiceprefix=X
+}
+C {lab_wire.sym} 2760 -560 0 0 {name=p15 sig_type=std_logic lab=PCSVDD}
+C {sg13g2_pr/sg13_hv_pmos.sym} 2760 -420 0 0 {name=MD40
+l=4u
+w=0.3u
+ng=1
+m=1
+model=sg13_hv_pmos
+spiceprefix=X
+}
+C {lab_wire.sym} 2760 -460 0 0 {name=p16 sig_type=std_logic lab=PCSVDD}
