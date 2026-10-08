@@ -100,3 +100,15 @@ Show you the route picture and table. Wait for your go before changing the build
 - **Macro LVS** against `analogue_interface.sch`: run it and record the remaining mismatches, which must be **only** the ADC-round nets. That becomes the pass gate for the next round.
 - **Rebuild:** you run `make build-top` / LibreLane / `copy-final` / precheck later. Nothing is committed without your OK, except the plan file in step 0.
 - **Next:** D6, the DAC sims into the pad load, also with Magic PEX of the routed DAC part.
+
+## Revision (2026-10-08, after the route-design break point)
+- **PTAT (x3) routing is left out of this round** (your decision): no iIREF3/iIREF4 routes and no PTAT supply connections (PCSVDD riser, PCSVSS rail). The PTAT will move close to the comparator x1. I propose a new location first and wait for your choice before moving it or routing it.
+- **Route design (step 3 result, approved apart from the PTAT):**
+  - dac_out stubs: Metal3 from the west pins, Via2 onto LINk.
+  - Bit nets: Metal3 along the nLOUT rows; bits 0–3 drop on Metal2 onto the nD pads, bits 4–7 go up on Metal3 (staircase).
+  - iVREF: divider (R1/R2/C1 PCells, R90, x 118–169, y 156–167) → Metal2 trunk at x 173.6 → into x11/x5/x4. IDACVTAP is reached from below the R2R: exit at x ≈ 123.5, then west at R2R + 2.5. The east side is blocked by the opamp output stage.
+  - analog_1/2: Metal3, 1.2 µm wide, down at x 178.3 / 175.6 and along the south channel at y 7.0 / 4.5. analog_1 stays ≥ 4 µm from SH_IN, as agreed with the S&H session.
+  - IDACDISABLE (x11, x5): to the opamp POAVSS rail.
+  - Supplies: translator trunks to the straps, rails in the row gaps (x4 included).
+  - Kept free for the ADC round: SH_EN at Metal3 y 83.9 and Metal2 x 22.5.
+- **Gate for this round:** the routing module's clearance check and the metal-only connectivity check (each DAC-path net one island, no shorts), plus KLayout DRC. The full macro LVS stays informational until the ADC round, because flat matching can't pair nets while the ADC path is unrouted.
