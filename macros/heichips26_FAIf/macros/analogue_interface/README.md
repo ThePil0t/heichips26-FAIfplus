@@ -40,7 +40,9 @@ The script stops with an error if a block leaves the macro, two blocks are close
 ## Geometry
 
 - **Size:** 300 × 185 µm, 1 nm dbu, `prBoundary` at (0,0)–(300,185).
-- **Layers:** Metal1–Metal3 only. There is no Via3/Metal4/TopMetal1, so the top-level Metal4 PDN straps can run across the macro. The LEF obstructs Metal1–Metal3 over the whole macro except the pins; Metal4 is not obstructed.
+- **Layers:** Metal1–Metal3, with one exception: the **Metal4 lid (VSS) over the hold cap of `sah_12bit`** (x10) and its Via3 rows. Otherwise there is no Via3/Metal4/TopMetal1, so the top-level Metal4 PDN straps can run across the macro.
+  - The build script allows Via3/Metal4 only inside the lid. It asserts ≥ 5.5 µm from the lid to the Metal4 PDN strap groups at macro x 172.38–179.38, 222.38–229.38 and 272.38–279.38 (measured in `final/gds/heichips26_FAIf.gds`, 2026-10-08); today the clearance is 6.5 µm on both sides.
+  - The LEF obstructs Metal1–Metal3 over the whole macro except the pins, and Metal4 over the lid + 1 µm. The rest of Metal4 is not obstructed.
 - **Cell names:** every subcell is prefixed `heichips26_FAIf_` for chip-level uniqueness. This also removes the leading digit of `555_comparator`. The top cell is `analogue_interface`, the module name used in `rtl/heichips26_FAIf.sv`.
 - **Location in `heichips26_FAIf`:** (190, 8.82), orientation N (`DIE_LOCATION` in the build script). The macro then covers die x 190–490 and y 8.82–193.82, and leaves x < 180 (after the 10 µm horizontal macro halo) for the digital logic.
   - **x = 190:** only at this x are `analog_0..2` directly above the die pins of `heichips26_template_small_analog` (x = 450.24 / 455.04 / 459.84).
@@ -51,9 +53,9 @@ y=185 ┌───────────────────────�
       │ VAPWR / VGND / VPWR pin straps (Metal3, x 2–298)                    │
   172 ├──────┬───────────────────────────────────┬──────────────────────────┤
       │ 4×LT │ PTAT x3                           │ (spare)                  │
-      │ x9 LT│                                   │ x1 comp   R1/R2/C1 dummy │
+      │ x9 LT│                                   │  x1 comp  R1/R2/C1 dummy │
   124 │ x2 ↓ │                                   │──────────────────────────│
-      │LT8 x6│ R2R DAC x4 (SAR DAC)              │ S&H trim dummy x10       │
+      │LT8 x6│ R2R DAC x4 (SAR DAC)              │ S&H sah_12bit x10        │
    86 │LT8 x7│ R2R DAC x5 (DAC0 → analog_1)      │                          │
    48 │LT8x12│ R2R DAC x11 (DAC1 → analog_2)     │ opamp x8 (mirrored)      │
    10 │      │                                   │                          │
@@ -65,7 +67,8 @@ Why the blocks sit where they do:
 - **West column:** all level translators face the digital logic, so the VPWR domain stays in this one column.
 - **DAC rows:** each 8× translator is rotated R90 next to its DAC row, with its LIN inputs facing west and its nLOUT outputs facing the DAC's nD inputs.
 - **East column:** the ADC front end sits next to the analog pins. The opamp is mirrored so its IOAP input is directly above `analog_0..2`.
-- **Comparator:** at the same height as the SAR DAC output.
+- **Comparator:** at the same height as the SAR DAC output, shifted east so that INN sits straight above the `SH_OUT` pin of the S&H.
+- **S&H (x10):** between the opamp and the comparator. Its hold cap sits in the Metal4-strap-free gap at x 229–272; the switch is at the top left, under the comparator.
 - **Top row:** the PTAT bias source, above the DACs and the opamp it feeds.
 
 
@@ -82,13 +85,12 @@ Coordinates are macro-local in µm and give the lower-left corner of each placed
 | x9 | level translator (`adc_hold`) | `../digital_level_translator/layout/digital_level_translator.gds` | R0 | (4, 132.4) | 12.12 × 5.05 | layout, unverified |
 | xcap0–3 | level translator (`sh_cap_en[0..3]`) | same as x9 | R0 | (4, 140.45 / 148.5 / 156.55 / 164.6) | 12.12 × 5.05 | **not in the top schematic yet** |
 | x8 | opamp (S&H input buffer) | `../opamp/layout/op_amp_ver_2.gds` | MY | (187, 10) | 105.66 × 32.29 | layout, unverified |
-| x10 | **DUMMY** sample_and_hold_trim | – | – | (185, 48) | 110 × 58 (estimate) | schematic only |
-| x1 | comparator | `../comparator/layout/555_comparator.gds` | R0 | (187, 112) | 21.80 × 19.81 | layout, unverified |
+| x10 | sample-and-hold `sah_12bit` | `../sah_12bit/layout/sah_12bit.gds` | R0 | (185.5, 46) | 81.5 × 62.5 | layout, DRC/LVS clean (cell) |
+| x1 | comparator | `../comparator/layout/555_comparator.gds` | R0 | (195, 112) | 21.80 × 19.81 | layout, unverified |
 | R1, R2 | **DUMMY** rhigh w=0.5 µm l=50 µm | – | – | (220, 113), (220, 118) | 53 × 2 (estimate) | no layout |
 | C1 | **DUMMY** cap_cmomi w=50 µm l=2 µm | – | – | (220, 124) | 51 × 8 (estimate) | no layout |
 
 How the dummy sizes are estimated:
-- **sample_and_hold_trim** (with its 5 aswitch/asw_inv switches): the MOM caps are 3750 µm² drawn (C4 and C5 are 50×25 each, C3 25×25, C1 and C2 12.5×25 each). They are laid out in two ≈27 µm rows, with the 5 HV switch cells and the inverter next to C1–C3, plus ≈25 % for feeds and spacing. That gives ≈6400 µm².
 - **R1, R2:** the rhigh body is 0.5 × 50 µm; contact heads are added and the resistor is laid horizontal.
 - **C1:** 2 × 50 µm of MOM finger area plus feed pads, laid horizontal.
 
@@ -97,6 +99,23 @@ The PDK's PCell library (`SG13_dev`) does not register in batch KLayout, so real
 xcap0–3 are needed because the trimmed S&H's `cap_en` runs in the 3.3 V domain, while every digital-side pin of the macro is in the 1.2 V domain.
 
 The r2r_dac GDS carries a TopMetal1 text label (`ODACOUT`, 126/25). The build script strips it, because TopMetal1 must stay empty.
+
+
+## ADC front end: opamp x8 → S&H x10 → comparator x1
+
+| Net | From | To | Route (macro) |
+|---|---|---|---|
+| SH_IN | opamp OOA, leaves the opamp's west edge at (187, 26.3) | S&H pin `SH_IN`, bottom edge (187.0, 46.0) | ≈ 20 µm along the opamp's west edge |
+| SH_OUT (hold node, `iSAR_AN`) | S&H pin `SH_OUT`, top edge (205.8, 108.5) | comparator INN, Metal3 pad (205.8, 121.7) | ≈ 13 µm straight up on Metal3 |
+| SH_EN | x9 LOUT | S&H pin `SH_EN`, west edge (185.5, 105.1) | from the north through the channel x 173–185 |
+| VSS | S&H pin `VSS`, top edge (206.7, 108.5) | comparator GNDA (south edge) | short hop up, then to VGND |
+| VDD | S&H pin `VDD`, west edge (185.5, 102.15) | VAPWR | |
+
+Routing rules for the hold node (see `../sah_12bit/README.md`):
+- SH_OUT is a direct Metal3 hop to INN; nothing runs alongside it.
+- iSAR_DAC enters the comparator INP from the west at y ≈ 122.4, never along the S&H top edge.
+- SH_EN never runs alongside SH_IN or SH_OUT without a VSS track between them. SH_IN comes from the south and SH_EN from the north, so they don't have to meet.
+- No routing over the S&H on Metal1–Metal3 (LEF obstruction) or over its lid on Metal4 (LEF obstruction).
 
 
 ## Pins
@@ -131,7 +150,7 @@ The LEF declares `USE POWER` for VPWR and VAPWR and `USE GROUND` for VGND. The L
 - **Schematic:** the top schematic still uses the untrimmed `sample_and_hold.sym` and has no translators for `cap_en`.
 - **RTL:** `rtl/heichips26_FAIf.sv` ties `sh_cap_en` to `4'b0000` until the config register exists.
 - **Location-dependent pins:** the analog pins only line up with the die pins, and the west-edge pins only sit on the Metal3 tracks, at location (190, 8.82). Change `DIE_LOCATION` and rebuild if the macro moves.
-- **Metal4:** it is not obstructed, so top-level signal routes may cross the analog blocks. The Metal4 keep-out plan is still open (TAPEOUT_PLAN §5.4).
+- **Metal4:** apart from the `sah_12bit` lid (obstructed), it is not obstructed, so top-level signal routes may cross the analog blocks. The Metal4 keep-out plan is still open (TAPEOUT_PLAN §5.4).
 
 
 ## LibreLane integration

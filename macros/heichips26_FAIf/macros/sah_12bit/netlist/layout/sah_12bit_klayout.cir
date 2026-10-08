@@ -1,0 +1,33 @@
+* Extracted by KLayout with SG13CMOS5L LVS runset on : 08/10/2026 13:50
+
+.SUBCKT sah_12bit SH_EN SH_IN SH_OUT VDD VSS
+M$1 VSS \$6 \$18 VSS sg13_hv_nmos L=0.45u W=1.2u AS=0.318p AD=0.318p PS=2.86u
++ PD=2.86u rfmode=0
+M$3 VSS \$18 \$14 VSS sg13_hv_nmos L=0.45u W=1.2u AS=0.318p AD=0.318p PS=2.86u
++ PD=2.86u rfmode=0
+M$5 VDD \$18 \$14 VDD sg13_hv_pmos L=0.45u W=2.4u AS=0.636p AD=0.636p PS=4.66u
++ PD=4.66u rfmode=0
+M$7 VDD \$6 \$18 VDD sg13_hv_pmos L=0.45u W=2.4u AS=0.636p AD=0.636p PS=4.66u
++ PD=4.66u rfmode=0
+M$9 VSS SH_EN \$17 VSS sg13_hv_nmos L=0.45u W=0.6u AS=0.204p AD=0.204p PS=1.88u
++ PD=1.88u rfmode=0
+M$10 VSS \$17 \$6 VSS sg13_hv_nmos L=0.45u W=0.6u AS=0.204p AD=0.204p PS=1.88u
++ PD=1.88u rfmode=0
+M$11 VDD \$17 \$6 VDD sg13_hv_pmos L=0.45u W=1.2u AS=0.408p AD=0.408p PS=3.08u
++ PD=3.08u rfmode=0
+M$12 VDD SH_EN \$17 VDD sg13_hv_pmos L=0.45u W=1.2u AS=0.408p AD=0.408p
++ PS=3.08u PD=3.08u rfmode=0
+M$13 SH_IN \$18 SH_IN VSS sg13_hv_nmos L=0.45u W=0.3u AS=0.102p AD=0.057p
++ PS=1.28u PD=0.68u rfmode=0
+M$14 SH_IN \$6 SH_OUT VSS sg13_hv_nmos L=0.45u W=0.6u AS=0.114p AD=0.159p
++ PS=1.36u PD=1.96u rfmode=0
+M$15 SH_OUT \$18 SH_OUT VSS sg13_hv_nmos L=0.45u W=0.3u AS=0.057p AD=0.057p
++ PS=0.68u PD=0.68u rfmode=0
+M$17 SH_IN \$14 SH_IN VDD sg13_hv_pmos L=0.45u W=0.9u AS=0.306p AD=0.171p
++ PS=2.48u PD=1.28u rfmode=0
+M$18 SH_IN \$18 SH_OUT VDD sg13_hv_pmos L=0.45u W=1.8u AS=0.342p AD=0.477p
++ PS=2.56u PD=3.76u rfmode=0
+M$19 SH_OUT \$14 SH_OUT VDD sg13_hv_pmos L=0.45u W=0.9u AS=0.171p AD=0.171p
++ PS=1.28u PD=1.28u rfmode=0
+C$21 SH_OUT VSS cap_cmomi w=54.93u l=29.52u A=0p P=0u m=1
+.ENDS sah_12bit

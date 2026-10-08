@@ -6,7 +6,7 @@ S {}
 F {}
 E {}
 T {sah_12bit - single-ended track & hold for 12 bit (HV transmission gate, dummies, MOM hold cap)} 40 -1160 0 0 0.6 0.6 {}
-T {SH_EN = 1: track, SH_EN = 0: hold. Hold cap C1 = cap_cmomi 59.63 x 25.2 um, M1-M3: 1.214 pF nominal
+T {SH_EN = 1: track, SH_EN = 0: hold. Hold cap C1 = cap_cmomi w 54.29 x l 27.72 um (33 x 60 cells), M1-M3: 1.214 pF nominal
 (sized for a +-35 % cap spread, + ~0.05 pF switch/comparator parasitics). Switch: main NMOS 0.6/0.45 um and main PMOS
 1.8/0.45 um (2 fingers each); dummies = one finger of the main device. Sized for the op_amp_ver_2 follower as driver.
 Gate-driver chain SH_EN -> I1 -> I2 (sw) -> I3 (sw_b) -> I4 (sw_d): the main NMOS turns off first (sw), then the main PMOS and the
@@ -202,8 +202,8 @@ C {lab_pin.sym} 1020 -320 0 1 {name=l56 sig_type=std_logic lab=VSS}
 T {hold capacitor} 1260 -560 0 0 0.4 0.4 {}
 C {sg13cmos5l_pr/cap_cmomi.sym} 1300 -400 0 0 {name=C1
 model=cap_cmomi
-w=59.63e-6
-l=25.2e-6
+w=54.29e-6
+l=27.72e-6
 mmin=1
 mmax=3
 feed=double

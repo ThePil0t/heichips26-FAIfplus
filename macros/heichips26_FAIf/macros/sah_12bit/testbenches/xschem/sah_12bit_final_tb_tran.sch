@@ -45,7 +45,7 @@ value="** ===== stimulus =====
 .csparam tped=\{TPED\}
 .csparam tstop=\{TH2+TF+TPED+50n\}
 ** frozen sah_12bit sizes (um); CWP is set from the cap corner in the NGSPICE block
-.param WNFP=0.6 WPFP=1.8 LSWP=0.45 KDNP=0.5 KDPP=0.5 CWP=59.63 CLP=25.2
+.param WNFP=0.6 WPFP=1.8 LSWP=0.45 KDNP=0.5 KDPP=0.5 CWP=54.29 CLP=27.72
 ** opamp bias (PTAT CSOUT in the top level), comparator bias, DAC level at the comparator INP
 .param IBIAS=25n
 .param IBCOMP=100n
@@ -79,15 +79,15 @@ value="
     set outraw = \\"sah_12bit_final_tb_tran$pvt_tag$ext_raw\\"
   end
   ** hold-cap spread: cap corner of the PVT point -> drawn cap width
-  set cwf = 59.63
+  set cwf = 54.29
   if $?pvt_cap
     strcmp capw $pvt_cap wcs
     if $capw = 0
-      set cwf = 39.16
+      set cwf = 35.6
     end
     strcmp capb $pvt_cap bcs
     if $capb = 0
-      set cwf = 80.1
+      set cwf = 72.98
     end
   end
   set v1_l = ( 0.5 2.8 1.6 3.2 )

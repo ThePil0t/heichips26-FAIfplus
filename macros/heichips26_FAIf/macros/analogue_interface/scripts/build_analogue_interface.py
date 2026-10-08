@@ -47,6 +47,14 @@ PR_BOUNDARY = (189, 4)
 TEXT = (63, 0)
 STRIP_LAYERS = {126}  # TopMetal1 (r2r_dac carries a TopMetal1 text label)
 FORBIDDEN_LAYERS = {49, 50, 125, 126, 133, 134}  # Via3, Metal4, TopVia1, TopMetal1, TopVia2, TopMetal2
+# Exception: the Metal4 lid (VSS) over the hold cap of sah_12bit, with its Via3 rows. It must stay inside
+# that instance, keep clear of the top-level Metal4 PDN straps and is covered by a Metal4 OBS in the LEF.
+M4_ALLOWED_INST = "x10"
+M4_OBS_HALO = 1.0
+# Metal4 PDN strap groups over the macro (macro-local x), measured in final/gds/heichips26_FAIf.gds (2026-10-08):
+# three 1 um straps on a 3 um pitch, groups every 50 um
+M4_STRAP_GROUPS = [(172.38, 179.38), (222.38, 229.38), (272.38, 279.38)]
+M4_STRAP_CLEARANCE = 5.5
 
 # Existing block layouts: key -> GDS path relative to BLOCKS_DIR
 BLOCKS = {
@@ -57,12 +65,11 @@ BLOCKS = {
     "lt": "digital_level_translator/layout/digital_level_translator.gds",
     "opamp": "opamp/layout/op_amp_ver_2.gds",
     "comp": "comparator/layout/555_comparator.gds",
+    "sah": "sah_12bit/layout/sah_12bit.gds",
 }
 
 # Dummies for parts without layout: key -> (cell suffix, width, height, label)
 DUMMIES = {
-    "sh_trim": ("sample_and_hold_trim", 110.0, 58.0,
-                "DUMMY sample_and_hold_trim (5 MOM caps 3750um2 + 5 aswitch) 110x58um estimate"),
     "rhigh": ("rhigh_w0p5_l50", 53.0, 2.0, "DUMMY rhigh w=0.5u l=50u 53x2um estimate"),
     "cmomi": ("cap_cmomi_w50_l2", 51.0, 8.0, "DUMMY cap_cmomi w=50u l=2u 51x8um estimate"),
 }
@@ -84,8 +91,8 @@ PLACEMENT = [
     ("xcap2", "lt", "R0", 4.0, 156.55, "level translator for sh_cap_en[2]"),
     ("xcap3", "lt", "R0", 4.0, 164.6, "level translator for sh_cap_en[3]"),
     ("x8", "opamp", "MY", 187.0, 10.0, "S&H input buffer, mirrored: IOAP above analog_0..2"),
-    ("x10", "sh_trim", "R0", 185.0, 48.0, "trimmed sample-and-hold"),
-    ("x1", "comp", "R0", 187.0, 112.0, "SAR comparator"),
+    ("x10", "sah", "R0", 185.5, 46.0, "sample-and-hold sah_12bit: hold cap between the Metal4 strap groups"),
+    ("x1", "comp", "R0", 195.0, 112.0, "SAR comparator: INN straight above the sah_12bit SH_OUT pin"),
     ("R1", "rhigh", "R0", 220.0, 113.0, "iVREF divider, upper resistor"),
     ("R2", "rhigh", "R0", 220.0, 118.0, "iVREF divider, lower resistor"),
     ("C1", "cmomi", "R0", 220.0, 124.0, "iVREF filter cap"),
@@ -251,10 +258,21 @@ def build_layout():
 
     top.shapes(ly.layer(*PR_BOUNDARY)).insert(db.DBox(0, 0, W, H))
 
-    # Final checks: nothing above Metal3, unique names, one top cell
+    # Final checks: nothing above Metal3 except the sah_12bit hold-cap lid, unique names, one top cell
+    m4_cell, m4_trans, m4_inst_box = placed[M4_ALLOWED_INST]
+    m4_box = m4_cell.dbbox_per_layer(ly.layer(50, 0)).transformed(m4_trans)
+    assert not m4_box.empty() and m4_inst_box.contains(m4_box.p1) and m4_inst_box.contains(m4_box.p2)
+    for x0, x1 in M4_STRAP_GROUPS:
+        clearance = max(x0 - m4_box.right, m4_box.left - x1)
+        assert clearance >= M4_STRAP_CLEARANCE, f"Metal4 lid {m4_box} only {clearance:.2f} um from the strap group {x0}-{x1}"
     for li in ly.layer_indexes():
         if ly.get_info(li).layer in FORBIDDEN_LAYERS:
-            assert top.dbbox_per_layer(li).empty(), f"shapes left on forbidden layer {ly.get_info(li)}"
+            used = top.dbbox_per_layer(li)
+            if ly.get_info(li).layer in (49, 50) and not used.empty():
+                assert m4_box.contains(used.p1) and m4_box.contains(used.p2), \
+                    f"{ly.get_info(li)} outside the {M4_ALLOWED_INST} lid: {used}"
+                continue
+            assert used.empty(), f"shapes left on forbidden layer {ly.get_info(li)}"
     cell_names = [c.name for c in ly.each_cell()]
     assert len(cell_names) == len(set(cell_names)), "duplicate cell names"
     assert all(n == TOP or n.startswith(PREFIX) for n in cell_names), "unprefixed cell name"
@@ -269,7 +287,8 @@ def build_layout():
     print(f"Wrote {gds} ({len(cell_names)} cells)")
     for inst, (cell, trans, box) in placed.items():
         print(f"  {inst:6s} {cell.name:55s} {str(trans):24s} ({box.left:7.3f},{box.bottom:7.3f})-({box.right:7.3f},{box.top:7.3f})")
-    return pins
+    print(f"  Metal4 lid of {M4_ALLOWED_INST}: {m4_box}")
+    return pins, m4_box.enlarged(M4_OBS_HALO, M4_OBS_HALO)
 
 
 def pin_names(name, width):
@@ -293,7 +312,7 @@ def obs_rects(pins, layer):
     return sorted([[v * DBU for v in (r.left, r.bottom, r.right, r.top)] for r in rects], key=lambda r: (r[1], r[0]))
 
 
-def write_lef(pins):
+def write_lef(pins, m4_obs):
     path = os.path.join(MACRO_DIR, "final", "lef", f"{TOP}.lef")
     os.makedirs(os.path.dirname(path), exist_ok=True)
     rect = lambda r: f"RECT {r[0]:.3f} {r[1]:.3f} {r[2]:.3f} {r[3]:.3f} ;"
@@ -331,6 +350,8 @@ def write_lef(pins):
     for layer in METAL:
         lines.append(f"    LAYER {layer} ;")
         lines.extend(f"      {rect(r)}" for r in obs_rects(pins, layer))
+    lines.append("    LAYER Metal4 ;")     # keeps top-level routing off the hold-cap lid
+    lines.append(f"      {rect([m4_obs.left, m4_obs.bottom, m4_obs.right, m4_obs.top])}")
     lines += ["  END", f"END {TOP}", "", "END LIBRARY", ""]
     with open(path, "w") as f:
         f.write("\n".join(lines))
@@ -428,7 +449,7 @@ def write_lib():
 
 
 if __name__ == "__main__":
-    pins = build_layout()
-    write_lef(pins)
+    pins, m4_obs = build_layout()
+    write_lef(pins, m4_obs)
     write_vh()
     write_lib()

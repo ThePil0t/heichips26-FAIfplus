@@ -104,7 +104,7 @@ The chain per DAC: digital pins `dac_out[7:0]` / `dac_out[15:8]` → 8x level tr
 ## E. ADC path (after D)
 | Block | Open tasks |
 |---|---|
-| **S&H `sah_12bit`** | draw the layout (transmission gate N 0.6 / P 1.8 µm with dummies, gate driver, 1.21 pF MOM cap 59.6 × 25.2 µm). [\*] Set up the Makefile (`TOP`) for DRC/LVS, then DRC/LVS, PEX and post-layout sims (testbenches from the sizing study exist). |
+| **S&H `sah_12bit`** | **Layout done (2026-10-08, `sah_12bit_layout_PLAN.md`):** cell 81.5 × 62.5 µm, hold cap reshaped to 33 × 60 cells (same 1.214 pF), VSS shield box with a Metal4 lid. Cell KLayout DRC (density only), Magic DRC 0, KLayout LVS match; post-layout final check and kickback within budget. Placed in the macro at (185.5, 46), comparator moved to (195, 112). Open: hold feedthrough −72 dB post-layout (≈ 1 LSB at 12 bit for a full-scale input change during the hold; fine for 8 bit); macro routing of SH_IN/SH_OUT/SH_EN (rules in the macro README). |
 | **Spare translators** for `sh_cap_en` | not in the top schematic yet; add the 4 × `digital_level_translator` (xcap0–3) as spares when the macro reference schematic (E1) is drawn. |
 | **Xschem start-up** | [\*] add a `make xschem` target that opens the top schematic from its own folder with `PDK_ROOT`/`PDK` set. Started anywhere else, or without the PDK variables, Xschem shows all symbols as missing. |
 | **Opamp** `op_amp_ver_2` (x8) | [\*] re-run DRC/LVS and commit the reports. AC stability and CM-range TBs. |
@@ -115,7 +115,7 @@ The chain per DAC: digital pins `dac_out[7:0]` / `dac_out[15:8]` → 8x level tr
 **Macro constraints (both paths):**
 - **Location:** at (190, 8.82). `analog_0..2` stay on the south edge at macro x 260.24 / 265.04 / 269.84; west-edge pins stay on the Metal3 track grid (die y = 0.42 · k).
 - **Height:** ≤ ≈187 µm. The bottom cell row links the Metal4 straps over the macro to the core grid.
-- **Layers:** Metal1–Metal3 only, TopMetal1 empty, Metal4 keep-out per the organizer answer.
+- **Layers:** Metal1–Metal3 only, TopMetal1 empty, Metal4 keep-out per the organizer answer. **Exception:** the Metal4 lid (VSS) over the `sah_12bit` hold cap, obstructed in the macro LEF; the build script checks ≥ 5.5 µm to the PDN straps.
 - **Power pins:** Metal3 strips, LEF `USE POWER/GROUND`.
 
 **After routing:**

@@ -11,7 +11,7 @@ Plan: [`sah_12bit_sizing_PLAN.md`](../../../../../sah_12bit_sizing_PLAN.md). All
 
 | | Value |
 |---|---|
-| Hold cap C1 | `cap_cmomi` 59.63 × 25.2 µm, Metal1–Metal3: **1.21 pF**, 1.5k µm². All 12-bit limits hold at **−35 %** cap spread |
+| Hold cap C1 | `cap_cmomi` w 54.29 × l 27.72 µm (33 × 60 unit cells; the sweeps used the same 1980 cells as 59.63 × 25.2 µm), Metal1–Metal3: **1.21 pF**, 1.5k µm². All 12-bit limits hold at **−35 %** cap spread |
 | Switch | HV transmission gate: NMOS **0.6/0.45 µm**, PMOS **1.8/0.45 µm** (2 fingers each); dummies one finger; buffered 4-inverter gate drive |
 | Binding limit | comparator kickback (555_comparator INN): 157 µV at C −35 %, against the 201 µV budget |
 | Next limit | sampled noise of the `op_amp_ver_2` follower: 184 µV (27 °C) to 218 µV (125 °C, C −35 %) rms, almost independent of C. It uses most of the 12-bit noise budget |
@@ -188,7 +188,7 @@ Testbench `sah_12bit_trim_tb_tran` compares two cells, each driven by its own fo
   - reduce the PMOS junction area on the hold node.
 - **Bias:** the follower bias was an ideal 25 nA source. The PTAT block (`iIREF1`) was not simulated, and its spread changes acquisition time and noise.
 - **Comparator and DAC noise** were not simulated. The budget leaves them only about 90 µV rms at 125 °C.
-- **Layout:** no parasitics yet. CPAR = 0.05 pF is an estimate; re-check after layout.
+- **Layout (done 2026-10-08, see the README):** the post-layout netlist adds 0.21 pF on SH_OUT (shield box and wiring) instead of the CPAR = 0.05 pF assumed here, which helps kickback and kT/C and slows acquisition by 2–5 %. Pedestal nonlinearity stays ≤ 86 µV and the leakage droop drops by 15–23 % (smaller hold-node junctions). Hold feedthrough rises to −72 dB (−69 dB at C −35 %) because of the switch's own S/D strap coupling (0.36 fF in total).
 - **Input range:** 0.5–3.2 V for full-speed 12-bit operation.
 - **Offset:** the follower offset at 125 °C reaches 1.6–2.3 mV (calibratable, not INL).
 - **Integration:** `sah_12bit` is pin-compatible with `sample_and_hold` but not yet instantiated in the top level.

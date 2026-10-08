@@ -135,6 +135,40 @@ sim-final: ## Final check of the frozen cell: sah_12bit_final_tb_tran at the PVT
 	$(MAKE) sim-xschem-pvt TB=sah_12bit_final_tb_tran PVT="$(PVT_FINAL)"
 .PHONY: sim-final
 
+# Post-layout netlist (scripts/layout/hybrid_pex.py): devices with the extracted junction areas, PDK model C1,
+# wire and shield parasitics. sim-pex-pvt swaps it in for sah_12bit_param (CW/CL stay, so the cap spread still works).
+PEX_NETLIST := $(abspath $(NET_PEX_DIR)/sah_12bit_hybrid_pex.spice)
+
+sim-pex-pvt: ## Run TB with the post-layout netlist at every PVT point, outputs get a _pex_<corner>_... suffix (usage: make sim-pex-pvt [TB=<testbenchname>] [PVT="..."])
+	mkdir -p $(XSCHEM_TB_DIR)/simulations
+	cd $(XSCHEM_TB_DIR) && xschem -r -x -q --rcfile xschemrc --command ' \
+		xschem set netlist_type spice; \
+		set netlist_dir $(abspath $(XSCHEM_TB_DIR)/simulations); \
+		xschem netlist \
+	' $(TB).sch || true
+	cd $(XSCHEM_TB_DIR)/simulations && \
+	sed -E -e 's/sah_12bit_param WNF=[^ ]* WPF=[^ ]* LSW=[^ ]* MSW=[^ ]* KDN=[^ ]* KDP=[^ ]* MINV=[^ ]*/sah_12bit_pex/' \
+		-e '1a .include $(PEX_NETLIST)' $(TB).spice > $(TB)_pex.spice && \
+	! grep -q '^x.* sah_12bit_param' $(TB)_pex.spice && \
+	rm -f $(TB)_pex_pvt.txt && for p in $(PVT); do \
+		set -- $$(echo $$p | tr ':' ' '); \
+		tag=_pex_$$1_$$2_$$(echo $$3 | tr '-' 'm')C_$$(echo $$4 | tr '.' 'p')V; \
+		sed -e "s/mos_tt/mos_$$1/g" -e "s/cap_typ/cap_$$2/g" $(TB)_pex.spice > $(TB)$$tag.spice; \
+		ngspice -b -D pvt_corner=$$1 -D pvt_cap=$$2 -D pvt_temp=$$3 -D pvt_vdd=$$4 -D pvt_tag=$$tag $(TB)$$tag.spice > $(TB)$$tag.log 2>&1 & \
+	done; wait; \
+	for p in $(PVT); do \
+		set -- $$(echo $$p | tr ':' ' '); \
+		tag=_pex_$$1_$$2_$$(echo $$3 | tr '-' 'm')C_$$(echo $$4 | tr '.' 'p')V; \
+		if [ -f $(TB)_pex_pvt.txt ]; then tail -n +2 $(TB)$$tag.txt >> $(TB)_pex_pvt.txt; else cp $(TB)$$tag.txt $(TB)_pex_pvt.txt; fi; \
+	done
+	@echo "===== PVT summary: $(XSCHEM_TB_DIR)/simulations/$(TB)_pex_pvt.txt ====="
+	@cat $(XSCHEM_TB_DIR)/simulations/$(TB)_pex_pvt.txt
+.PHONY: sim-pex-pvt
+
+sim-final-pex: ## Post-layout final check: sah_12bit_final_tb_tran with the hybrid PEX netlist at the PVT_FINAL points
+	$(MAKE) sim-pex-pvt TB=sah_12bit_final_tb_tran PVT="$(PVT_FINAL)"
+.PHONY: sim-final-pex
+
 sim-view-xschem: ## Plot Xschem simulation results (usage: make sim-view-xschem [SCRIPT=<scriptname>])
 	SHOW_PLOTS=1 python3 $(SIM_PLOT_DIR)/$(SCRIPT).py
 .PHONY: sim-view-xschem

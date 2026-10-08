@@ -3,7 +3,7 @@ G {}
 K {type=subcircuit
 format="@name @pinlist @symname WNF=@WNF WPF=@WPF LSW=@LSW MSW=@MSW KDN=@KDN KDP=@KDP MINV=@MINV CW=@CW CL=@CL"
 spectre_format="@name ( @pinlist ) @symname"
-template="name=x1 WNF=0.6u WPF=1.8u LSW=0.45u MSW=1 KDN=0.5 KDP=0.5 MINV=1 CW=59.63e-6 CL=25.2e-6"
+template="name=x1 WNF=0.6u WPF=1.8u LSW=0.45u MSW=1 KDN=0.5 KDP=0.5 MINV=1 CW=54.29e-6 CL=27.72e-6"
 }
 V {}
 S {}
