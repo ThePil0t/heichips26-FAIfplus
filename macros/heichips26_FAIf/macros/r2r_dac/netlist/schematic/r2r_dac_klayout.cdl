@@ -1,4 +1,4 @@
-** sch_path: /home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/r2r_dac/schematic/xschem/r2r_dac.sch
+** sch_path: /home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/r2r_dac/schematic/xschem/r2r_dac.sch
 .subckt r2r_dac PDACVDD ODACOUT IDACVTAP IDACIREF nD7 nD0 nD2 nD4 nD5 nD6 nD3 nD1 PDACVSS IDACDISABLE
 *.PININFO PDACVDD:B PDACVSS:B nD0:I nD1:I nD2:I IDACIREF:I ODACOUT:O nD3:I nD4:I nD5:I nD6:I nD7:I IDACVTAP:I IDACDISABLE:I
 RR1 net1 PDACVSS 44.668k $SUB=PDACVSS $[rhigh] w=0.5e-6 l=15e-6 b=0
@@ -39,8 +39,8 @@ MM4 nIDACDISABLE IDACDISABLE PDACVDD PDACVDD sg13_hv_pmos w=0.6u l=0.45u ng=1
 .ends
 
 * expanding   symbol:  ../../../opamp/schematic/xschem/op_amp_ver_2.sym # of pins=7
-** sym_path: /home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/r2r_dac/schematic/xschem/../../../opamp/schematic/xschem/op_amp_ver_2.sym
-** sch_path: /home/gfcwfzkm/eda/designs/heichips26-FAIf/macros/heichips26_analog_project/macros/r2r_dac/schematic/xschem/../../../opamp/schematic/xschem/op_amp_ver_2.sch
+** sym_path: /home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/r2r_dac/schematic/xschem/../../../opamp/schematic/xschem/op_amp_ver_2.sym
+** sch_path: /home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/r2r_dac/schematic/xschem/../../../opamp/schematic/xschem/op_amp_ver_2.sch
 .subckt op_amp_ver_2 POAVDD IOAIREF IOAM OOA IOAP POAVSS IOADISABLE
 *.PININFO POAVDD:B IOAM:I IOAP:I OOA:O IOAIREF:I POAVSS:B IOADISABLE:I
 MMP13 net1 net1 POAVDD POAVDD sg13_hv_pmos w=2.4u l=0.4u ng=1

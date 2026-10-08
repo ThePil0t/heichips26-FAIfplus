@@ -1,0 +1,24 @@
+* Extracted by KLayout with SG13CMOS5L LVS runset on : 08/10/2026 02:03
+
+.SUBCKT digital_level_translator LIN LOUT PLAVDD PLDVDD PLVSS
+M$1 \$8 LIN PLDVDD PLDVDD sg13_lv_pmos L=0.13u W=0.3u AS=0.102p AD=0.102p
++ PS=1.28u PD=1.28u rfmode=0
+M$2 \$13 \$8 PLDVDD PLDVDD sg13_lv_pmos L=0.13u W=0.3u AS=0.102p AD=0.102p
++ PS=1.28u PD=1.28u rfmode=0
+M$3 PLVSS \$8 \$13 PLVSS sg13_lv_nmos L=0.13u W=0.15u AS=0.1005p AD=0.1005p
++ PS=1.34u PD=1.34u rfmode=0
+M$4 PLVSS LIN \$8 PLVSS sg13_lv_nmos L=0.13u W=0.15u AS=0.1005p AD=0.1005p
++ PS=1.34u PD=1.34u rfmode=0
+M$5 PLVSS \$11 LOUT PLVSS sg13_hv_nmos L=0.45u W=1.2u AS=0.408p AD=0.408p
++ PS=5.12u PD=5.12u rfmode=0
+M$9 LOUT \$11 PLAVDD PLAVDD sg13_hv_pmos L=0.45u W=2.4u AS=0.816p AD=0.816p
++ PS=7.52u PD=7.52u rfmode=0
+M$13 \$10 \$11 PLAVDD PLAVDD sg13_hv_pmos L=0.45u W=0.3u AS=0.102p AD=0.102p
++ PS=1.28u PD=1.28u rfmode=0
+M$14 \$11 \$10 PLAVDD PLAVDD sg13_hv_pmos L=0.45u W=0.3u AS=0.102p AD=0.102p
++ PS=1.28u PD=1.28u rfmode=0
+M$15 PLVSS \$8 \$10 PLVSS sg13_hv_nmos L=0.45u W=1u AS=0.34p AD=0.34p PS=2.68u
++ PD=2.68u rfmode=0
+M$16 PLVSS \$13 \$11 PLVSS sg13_hv_nmos L=0.45u W=1u AS=0.34p AD=0.34p PS=2.68u
++ PD=2.68u rfmode=0
+.ENDS digital_level_translator

@@ -1,0 +1,4 @@
+** sch_path: /home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/8x_inverting_digital_level_translator/schematic/xschem/inverter.sch
+.subckt inverter
+
+.ends

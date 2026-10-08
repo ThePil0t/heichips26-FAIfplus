@@ -1,0 +1,108 @@
+
+Circuit 1 cell sg13_lv_nmos and Circuit 2 cell sg13_lv_nmos are black boxes.
+Warning: Equate pins:  cell sg13_lv_nmos is a placeholder, treated as a black box.
+Warning: Equate pins:  cell sg13_lv_nmos is a placeholder, treated as a black box.
+
+Subcircuit pins:
+Circuit 1: sg13_lv_nmos                    |Circuit 2: sg13_lv_nmos                    
+-------------------------------------------|-------------------------------------------
+1                                          |1                                          
+2                                          |2                                          
+3                                          |3                                          
+4                                          |4                                          
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13_lv_nmos and sg13_lv_nmos are equivalent.
+
+Circuit 1 cell sg13_hv_nmos and Circuit 2 cell sg13_hv_nmos are black boxes.
+Warning: Equate pins:  cell sg13_hv_nmos is a placeholder, treated as a black box.
+Warning: Equate pins:  cell sg13_hv_nmos is a placeholder, treated as a black box.
+
+Subcircuit pins:
+Circuit 1: sg13_hv_nmos                    |Circuit 2: sg13_hv_nmos                    
+-------------------------------------------|-------------------------------------------
+1                                          |1                                          
+2                                          |2                                          
+3                                          |3                                          
+4                                          |4                                          
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13_hv_nmos and sg13_hv_nmos are equivalent.
+
+Circuit 1 cell sg13_lv_pmos and Circuit 2 cell sg13_lv_pmos are black boxes.
+Warning: Equate pins:  cell sg13_lv_pmos is a placeholder, treated as a black box.
+Warning: Equate pins:  cell sg13_lv_pmos is a placeholder, treated as a black box.
+
+Subcircuit pins:
+Circuit 1: sg13_lv_pmos                    |Circuit 2: sg13_lv_pmos                    
+-------------------------------------------|-------------------------------------------
+1                                          |1                                          
+2                                          |2                                          
+3                                          |3                                          
+4                                          |4                                          
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13_lv_pmos and sg13_lv_pmos are equivalent.
+
+Circuit 1 cell sg13_hv_pmos and Circuit 2 cell sg13_hv_pmos are black boxes.
+Warning: Equate pins:  cell sg13_hv_pmos is a placeholder, treated as a black box.
+Warning: Equate pins:  cell sg13_hv_pmos is a placeholder, treated as a black box.
+
+Subcircuit pins:
+Circuit 1: sg13_hv_pmos                    |Circuit 2: sg13_hv_pmos                    
+-------------------------------------------|-------------------------------------------
+1                                          |1                                          
+2                                          |2                                          
+3                                          |3                                          
+4                                          |4                                          
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13_hv_pmos and sg13_hv_pmos are equivalent.
+Flattening unmatched subcell nmos in circuit digital_level_translator (0)(2 instances)
+Flattening unmatched subcell nmosHV in circuit digital_level_translator (0)(4 instances)
+Flattening unmatched subcell nmosHV$1 in circuit digital_level_translator (0)(2 instances)
+Flattening unmatched subcell pmos$1 in circuit digital_level_translator (0)(2 instances)
+Flattening unmatched subcell pmosHV in circuit digital_level_translator (0)(4 instances)
+Flattening unmatched subcell pmosHV$1 in circuit digital_level_translator (0)(2 instances)
+
+Class digital_level_translator (0):  Merged 6 parallel devices.
+Subcircuit summary:
+Circuit 1: digital_level_translator        |Circuit 2: digital_level_translator        
+-------------------------------------------|-------------------------------------------
+sg13_lv_nmos (2)                           |sg13_lv_nmos (2)                           
+sg13_hv_nmos (6->3)                        |sg13_hv_nmos (6->3)                        
+sg13_lv_pmos (2)                           |sg13_lv_pmos (2)                           
+sg13_hv_pmos (6->3)                        |sg13_hv_pmos (6->3)                        
+Number of devices: 10                      |Number of devices: 10                      
+Number of nets: 11 **Mismatch**            |Number of nets: 9 **Mismatch**             
+---------------------------------------------------------------------------------------
+NET mismatches: Class fragments follow (with fanout counts):
+Circuit 1: digital_level_translator        |Circuit 2: digital_level_translator        
+
+---------------------------------------------------------------------------------------
+Net: PLDVDD                                |Net: PLDVDD                                
+  sg13_lv_pmos/(1|3) = 2                   |  sg13_lv_pmos/(1|3) = 2                   
+                                           |  sg13_lv_pmos/4 = 2                       
+                                           |                                           
+Net: PLAVDD                                |Net: PLAVDD                                
+  sg13_hv_pmos/(1|3) = 3                   |  sg13_hv_pmos/(1|3) = 3                   
+                                           |  sg13_hv_pmos/4 = 3                       
+                                           |                                           
+Net: w_1101_1020#                          |(no matching net)                          
+  sg13_hv_pmos/4 = 3                       |                                           
+                                           |                                           
+Net: w_377_958#                            |(no matching net)                          
+  sg13_lv_pmos/4 = 2                       |                                           
+---------------------------------------------------------------------------------------
+Netlists do not match.
+Port matching may fail to disambiguate symmetries.
+
+Subcircuit pins:
+Circuit 1: digital_level_translator        |Circuit 2: digital_level_translator        
+-------------------------------------------|-------------------------------------------
+PLDVDD                                     |PLAVDD **Mismatch**                        
+Cell pin lists are equivalent.
+Device classes digital_level_translator and digital_level_translator are equivalent.
+
+Final result: Netlists do not match.
+Port matching may fail to disambiguate symmetries.

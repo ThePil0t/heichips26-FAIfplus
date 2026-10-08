@@ -1,0 +1,14 @@
+** sch_path: /home/benedikt/heichips26-FAIf/macros/heichips26_FAIf/macros/digital_level_translator/schematic/xschem/digital_level_translator.sch
+.subckt digital_level_translator PLAVDD PLDVDD LIN LOUT PLVSS
+*.PININFO PLAVDD:B PLVSS:B PLDVDD:B LIN:I LOUT:O
+MM1 n_lin_buf LIN PLVSS PLVSS sg13_lv_nmos w=0.15u l=0.13u ng=1
+MM2 n_lin_buf LIN PLDVDD PLDVDD sg13_lv_pmos w=0.3u l=0.13u ng=1
+MM3 lin_buf n_lin_buf PLVSS PLVSS sg13_lv_nmos w=0.15u l=0.13u ng=1
+MM4 lin_buf n_lin_buf PLDVDD PLDVDD sg13_lv_pmos w=0.3u l=0.13u ng=1
+MM5 q_unbf n_lin_buf PLVSS PLVSS sg13_hv_nmos w=1u l=0.45u ng=1
+MM6 n_q_unbf lin_buf PLVSS PLVSS sg13_hv_nmos w=1u l=0.45u ng=1
+MM7 n_q_unbf q_unbf PLAVDD PLAVDD sg13_hv_pmos w=0.3u l=0.45u ng=1
+MM9 LOUT n_q_unbf PLVSS PLVSS sg13_hv_nmos w=0.3u l=0.45u ng=1 m=4
+MM10 LOUT n_q_unbf PLAVDD PLAVDD sg13_hv_pmos w=0.6u l=0.45u ng=1 m=4
+MM8 q_unbf n_q_unbf PLAVDD PLAVDD sg13_hv_pmos w=0.3u l=0.45u ng=1
+.ends
