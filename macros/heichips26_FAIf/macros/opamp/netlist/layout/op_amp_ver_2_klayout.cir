@@ -1,4 +1,4 @@
-* Extracted by KLayout with SG13CMOS5L LVS runset on : 08/10/2026 02:15
+* Extracted by KLayout with SG13CMOS5L LVS runset on : 08/10/2026 16:07
 
 .SUBCKT op_amp_ver_2 IOADISABLE IOAIREF IOAM IOAP OOA POAVDD POAVSS
 M$1 POAVSS \$9 \$I666 POAVSS sg13_hv_nmos L=2.4u W=0.6u AS=0.204p AD=0.114p
@@ -53,9 +53,9 @@ M$74 POAVDD \$177 \$163 POAVDD sg13_hv_pmos L=1.2u W=9.6u AS=2.544p AD=2.544p
 + PS=18.64u PD=18.64u rfmode=0
 M$75 \$163 \$176 \$57 POAVDD sg13_hv_pmos L=0.6u W=9.6u AS=2.544p AD=2.544p
 + PS=18.64u PD=18.64u rfmode=0
-M$86 POAVDD \$177 \$I1718 POAVDD sg13_hv_pmos L=1.2u W=1.2u AS=0.408p AD=0.228p
+M$86 POAVDD \$177 \$I1680 POAVDD sg13_hv_pmos L=1.2u W=1.2u AS=0.408p AD=0.228p
 + PS=3.08u PD=1.58u rfmode=0
-M$87 \$I1718 \$176 \$7 POAVDD sg13_hv_pmos L=0.6u W=1.2u AS=0.228p AD=0.408p
+M$87 \$I1680 \$176 \$7 POAVDD sg13_hv_pmos L=0.6u W=1.2u AS=0.228p AD=0.408p
 + PS=1.58u PD=3.08u rfmode=0
 M$102 \$177 \$176 \$I1901 POAVDD sg13_hv_pmos L=0.6u W=1.2u AS=0.408p AD=0.228p
 + PS=3.08u PD=1.58u rfmode=0
@@ -79,9 +79,9 @@ M$125 POAVDD \$63 \$176 POAVDD sg13_hv_pmos L=0.6u W=1.2u AS=0.228p AD=0.408p
 + PS=1.58u PD=3.08u rfmode=0
 M$126 POAVSS POAVSS POAVSS POAVSS sg13_hv_nmos L=0.6u W=21.6u AS=7.344p
 + AD=7.344p PS=55.44u PD=55.44u rfmode=0
-M$127 \$17 \$17 POAVSS POAVSS sg13_hv_nmos L=0.6u W=1.2u AS=0.408p AD=0.408p
+M$127 \$16 \$16 POAVSS POAVSS sg13_hv_nmos L=0.6u W=1.2u AS=0.408p AD=0.408p
 + PS=3.08u PD=3.08u rfmode=0
-M$129 \$12 \$12 \$17 POAVSS sg13_hv_nmos L=0.6u W=1.2u AS=0.408p AD=0.408p
+M$129 \$12 \$12 \$16 POAVSS sg13_hv_nmos L=0.6u W=1.2u AS=0.408p AD=0.408p
 + PS=3.08u PD=3.08u rfmode=0
 M$134 OOA \$18 POAVSS POAVSS sg13_hv_nmos L=0.6u W=48u AS=16.32p AD=16.32p
 + PS=123.2u PD=123.2u rfmode=0

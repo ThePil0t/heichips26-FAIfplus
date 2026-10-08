@@ -127,8 +127,6 @@ MMDP11 POAVDD pbias POAVDD POAVDD sg13_hv_pmos w=1.2u l=1.2u ng=1
 MMDP12 POAVDD pbias POAVDD POAVDD sg13_hv_pmos w=1.2u l=1.2u ng=1
 MMDP13 POAVDD pcasc POAVDD POAVDD sg13_hv_pmos w=1.2u l=0.6u ng=1
 MMDP14 POAVDD pcasc POAVDD POAVDD sg13_hv_pmos w=1.2u l=0.6u ng=1
-MMDN25 POAVSS POAVSS POAVSS POAVSS sg13_hv_nmos w=0.6u l=2.4u ng=1
-MMDN26 POAVSS POAVSS POAVSS POAVSS sg13_hv_nmos w=0.6u l=2.4u ng=1
 MMDN27 POAVSS ncasc POAVSS POAVSS sg13_hv_nmos w=0.6u l=0.6u ng=1
 MMDN28 POAVSS ncasc POAVSS POAVSS sg13_hv_nmos w=0.6u l=0.6u ng=1
 MMDP15 POAVDD POAVDD POAVDD POAVDD sg13_hv_pmos w=2.4u l=0.4u ng=1 m=8

@@ -43,11 +43,11 @@ Flattening unmatched subcell nmosHV in circuit op_amp_ver_2 (0)(7 instances)
 Flattening unmatched subcell nmosHV$6 in circuit op_amp_ver_2 (0)(4 instances)
 
 Class op_amp_ver_2 (0):  Merged 223 parallel devices.
-Class op_amp_ver_2 (1):  Merged 39 parallel devices.
+Class op_amp_ver_2 (1):  Merged 37 parallel devices.
 Subcircuit summary:
 Circuit 1: op_amp_ver_2                    |Circuit 2: op_amp_ver_2                    
 -------------------------------------------|-------------------------------------------
-sg13_hv_nmos (156->32)                     |sg13_hv_nmos (154->32)                     
+sg13_hv_nmos (156->32)                     |sg13_hv_nmos (152->32)                     
 sg13_hv_pmos (126->27)                     |sg13_hv_pmos (126->27)                     
 Number of devices: 59                      |Number of devices: 59                      
 Number of nets: 38                         |Number of nets: 38                         
@@ -241,8 +241,40 @@ nmosHV$8_58/sg13_hv_nmos:0 vs. sg13_hv_nmos:MDN9:
 Property mm_ok in circuit2 has no matching property in circuit1
 nmosHV$8_58/sg13_hv_nmos:0 vs. sg13_hv_nmos:MDN9:
 Property mm_ok in circuit2 has no matching property in circuit1
-nmosHV$8_58/sg13_hv_nmos:0 vs. sg13_hv_nmos:MDN9:
-Property mm_ok in circuit2 has no matching property in circuit1
+Circuit 2 parallel/series network does not match Circuit 1
+Circuit 1 instance /nmosHV$8_58/sg13_hv_nmos:0 network:
+  l = 4.5e-07
+  w = 1.92e-05
+  ps = 5.48e-06
+  as = 8.16e-13
+  pd = 5.48e-06
+  ad = 8.16e-13
+  M = 1
+  l = 6e-07
+  w = 2.16e-05
+  ps = 3.08e-06
+  as = 4.08e-13
+  pd = 3.08e-06
+  ad = 4.08e-13
+  M = 1
+  l = 2.4e-06
+  w = 1.2e-06
+  ps = 1.88e-06
+  as = 2.04e-13
+  pd = 1.88e-06
+  ad = 2.04e-13
+  M = 1
+Circuit 2 instance sg13_hv_nmos:MDN9 network:
+  mm_ok = 1
+  m = 1
+  ng = 1
+  l = 4.5e-07
+  w = 1.92e-05
+  mm_ok = 1
+  m = 1
+  ng = 1
+  l = 6e-07
+  w = 2.16e-05
 nmosHV_3/sg13_hv_nmos:0 vs. sg13_hv_nmos:MDN21:
 Property mm_ok in circuit2 has no matching property in circuit1
 nmosHV$4_7/sg13_hv_nmos:0 vs. sg13_hv_nmos:MDN1:
