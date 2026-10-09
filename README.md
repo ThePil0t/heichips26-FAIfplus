@@ -3,11 +3,10 @@
 This repository is the fork of the HeiChips 2026 submission template for the analogue peripherals project at the HeiChips 2026 Hackathon.
 
 This project is implemented as a digital-on-top design with the following peripherals:
-* 16-bit DAC
-* 16-bit ADC
-* DDS
+* 2× 8-bit R-2R DAC with on-chip output buffer (analogue pins 1 and 2)
+* 8-bit SAR ADC with sample & hold (analogue pin 0)
 
-The project makes use of three dedicated analogue pins and uses the small tile size.
+The analogue blocks run from the separate 3.3 V analogue supply (VAPWR). The project makes use of three dedicated analogue pins and uses the small tile size.
 
 ## Block Diagram
 ![FAIf Block Diagram](FAIf-Block-Diagram.svg)

@@ -49,7 +49,7 @@ H Housekeeping: any time before G
 
 ## A. Small loose ends and open points
 1. [\*] Add the power pins (`VPWR`, `VAPWR`, `VGND` under `USE_POWER_PINS`) to the simulation stand-in `rtl/analogue_interface.sv`, so it matches the macro's `.vh`.
-2. **Open, not changed yet:** add `ERROR_ON_MAGIC_DRC: false` to `flow/librelane/config.yaml`.
+2. **Set in the working tree** (2026-10-09, by the macro routing session, not committed yet): `ERROR_ON_MAGIC_DRC: false` in `flow/librelane/config.yaml`.
    - The organizer confirmed that KLayout DRC is the sign-off deck; Magic can even be disabled in the precheck.
    - With the flag on, every full run ends with "deferred errors" and LibreLane doesn't update `flow/final/` (workaround: copy the run's `final/` by hand).
    - If set, watch the Magic count in the run summary instead.
@@ -98,7 +98,7 @@ See `sar_rtl_fixes_PLAN.md` for the reasons and the exact changes of C1–C4 (20
    - Verilog TB: config register and a closed-loop ADC sweep through the top, with the input changed during each conversion;
    - cocotb TB rewritten for `heichips26_FAIf`: reset, DAC byte order, config register, ADC sweep, clear (RTL: 5/5 pass);
    - Makefile: `sim-vhdl`, `$(GEN_VERILOG)` prerequisites.
-   - **Open:** `sim-gl-cocotb` and the netlist/STA check of `adc_hold` after the next `make build-top` (G1/G2). STA baseline with the old RTL (`RUN_2026-10-09_01-12-07`, OpenSTA `report_checks -unconstrained -to analogue_interface_instance/adc_hold`, final netlist + SPEF): max arrival typ 1.469 ns, slow 2.331 ns, fast 0.969 ns (path flip-flop → hold-fix delay cell → nor4 → buf → inv). The new run must be ≤ these, with only buffers between the `sh_en` flip-flop and the pin.
+   - **Done on `RUN_2026-10-09_13-18-52`** (first run with the new RTL): `sim-gl-cocotb` 5/5 pass. clk → `adc_hold` max arrival (OpenSTA `report_checks -unconstrained`, final netlist + SPEF) typ 0.559 / slow 0.879 / fast 0.373 ns, against the old RTL's 1.469 / 2.331 / 0.969 ns (`RUN_2026-10-09_01-12-07`, path flip-flop → hold-fix delay cell → nor4 → buf → inv). New path: flip-flop → one inverter → pin. Deviation from the plan's "only buffers": the std-cell library has no flip-flop with asynchronous set, so the reset-to-1 `sh_en` flip-flop is a reset-to-0 flip-flop plus an inverter; a single-input inverter can't glitch. Repeat both checks on the sign-off run (G1/G2).
 5. Optional: FPGA prototype of the full top.
 
 ## D. DAC path first (`analog_1` = DAC0, `analog_2` = DAC1)
@@ -138,16 +138,16 @@ The chain per DAC: digital pins `dac_out[7:0]` / `dac_out[15:8]` → 8x level tr
 For every block, also: replace the template READMEs and `cace` copies, and run ss/ff corners at −40/27/125 °C, plus Monte Carlo for DAC and opamp offset.
 
 ## F. LibreLane integration (`flow/librelane/`)
-1. [\*] **SDC:** false paths for `analog_*` and the macro I/O; async `rst_n`; extra hold corners at 1.35/1.5/1.65 V. `CLOCK_PERIOD: 10` (100 MHz) stays, as confirmed by the organizer.
+1. **SDC, done (2026-10-09)** in `impl.sdc` and `signoff.sdc`: false paths from/to `analog_0..2` and from `rst_n`, with the reasons as comments. The macro pins get no constraint: OpenSTA doesn't treat them as endpoints (a false path there only adds warnings). Checked on `RUN_2026-10-09_13-18-52`: worst setup/hold slack and TNS identical with the old and new SDC in all three corners, no warnings. **Open:** extra hold corners at 1.35/1.5/1.65 V (the PDK has these libraries), only if VPWR is above 1.32 V: ask the organizer. `CLOCK_PERIOD: 10` (100 MHz) stays, as confirmed by the organizer.
 2. ~~VAPWR straps~~: **resolved**, no change needed (organizer answer). The Metal4 keep-out over the macro is still open (A4).
-3. [\*] **Makefile:** add a `build-analogue-interface` target to `build-macros`; remove the `counter`/`inverter` references so `make all` works.
+3. **Makefile, done (2026-10-09):** `build-macros` → `build-analogue-interface`; `lint-verilog-all` lints only the top; `counter` targets removed. `clean-macros` deliberately doesn't clean the analog macro (its `final/` views and DRC/LVS reports are committed sign-off data). `make -n all` resolves; `build-fpga` inside `make all` still needs H1.
 
 ## G. Sign-off and submission
 1. [\*] `make build-top`. All reports must be clean: KLayout DRC (sign-off), LVS, antenna, STA, IR drop including VAPWR; Magic as far as possible. Commit `final/` and `verification/`.
 2. [\*] Gate-level simulation on `final/nl` with the cocotb suite.
-3. [\*] `submission.yaml`: draft a new `long-description` for you to review. It must describe the 8-bit SAR ADC, 2× DAC, S&H, the eFPGA driver sequence and the test/PCB needs; the current one still lists 16-bit DAC/ADC and DDS.
-4. [\*] README: fix the feature list (still 16-bit DAC/ADC) and the SPDX headers.
-5. `make precheck` passes locally, Actions are green on the fork; post on issue #13.
+3. **Done (2026-10-09):** new `long-description` in `submission.yaml` (pins, digital interface, driver sequence, timing, test/PCB needs). **Open:** add the maximum ADC clock, the ADC input range, the DAC output range and the maximum DAC load once the D6/E simulations give them.
+4. **Done (2026-10-09):** README feature list (2× 8-bit R-2R DAC, 8-bit SAR ADC with S&H, VAPWR) and the `XXX` SPDX placeholders in the top RTL and the two top testbenches ("HeiChips 2026 FAIf team"). The template `counter` files still have them (H4).
+5. `make precheck` passes locally, Actions are green on the fork; post on issue #13. **Trial run 2026-10-09** on the in-progress `final/` of `RUN_2026-10-09_13-18-52` (new RTL, macro routing unfinished): "Precheck successfully completed", KLayout DRC clean, Magic 1248 errors as warning only. Magic's GDS reader also warns that cells in the opamp layout are placed twice on top of each other (`pmosHV`, `via_stack`; it ignores the extra copy). **Open:** the final run after the macro routing; push to the fork and the issue post need your OK.
 
 ## H. Housekeeping (any time before G)
 1. [\*] GHDL fix in `fpga/fpga.mk` (`ghdl synth file.vhdl -e entity`).

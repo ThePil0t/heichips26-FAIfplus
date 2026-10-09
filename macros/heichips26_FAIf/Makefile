@@ -33,8 +33,8 @@ FLOW_FINAL_DIR 	:= flow/final
 FINAL_DIR      	:= final
 
 # Variables for simulation and linting targets
-# The counter sub-macro is hardened separately (see macros/counter/), but its RTL
-# is needed for linting and RTL simulation of the whole design.
+# The analog macro (macros/analogue_interface/) is a hard macro; for simulation
+# rtl/analogue_interface.sv stands in for it (behavioral model with SIM defined).
 # Verilog files generated from the VHDL sources with GHDL (see the $(SRC_DIR)/gen/%.v rule)
 GEN_VERILOG := \
 	$(SRC_DIR)/gen/dac_reg.v \
@@ -82,8 +82,7 @@ lint-verilog: $(_LINT_SRCS) ## Lint Verilog source files with Verilator (usage: 
 	verilator --lint-only -I"$(SRC_DIR)" -I"$(SRC_DIR)/gen" $(_LINT_SRCS)
 .PHONY: lint-verilog
 
-lint-verilog-all: ## Lint all Verilog source files (counter sub-macro + heichips26_digital_project)
-	$(MAKE) -C $(MACROS_DIR)/counter lint-verilog-all
+lint-verilog-all: ## Lint all Verilog source files (the hard macros have no RTL to lint)
 	$(MAKE) lint-verilog
 .PHONY: lint-verilog-all
 # ================================================================================================
@@ -228,13 +227,12 @@ copy-netlist: ## Copy final output spice, pnl and nl netlists from the last Libr
 
 
 # Build Targets
-build-counter: ## Lint, build, verify and simulate the counter macro
-	@$(MAKE) -C $(MACROS_DIR)/counter all
-.PHONY: build-counter
+build-analogue-interface: ## Build the analog macro views (GDS, LEF, LIB, Verilog header, render)
+	@$(MAKE) -C $(MACROS_DIR)/analogue_interface all
+.PHONY: build-analogue-interface
 
-build-macros: ## Lint, build, verify and simulate all macros
-	$(MAKE) build-counter
-#	ToDo: further macros
+build-macros: ## Build all macros
+	$(MAKE) build-analogue-interface
 .PHONY: build-macros
 
 build-fpga: ## Build FPGA bitstream (usage: make build-fpga [BOARD=ulx3s])
@@ -285,13 +283,9 @@ clean: ## Delete all generated files and folders of the TOP cell (LibreLane outp
 	@$(MAKE) -C fpga clean
 .PHONY: clean
 
-clean-counter: ## Delete all generated files and folders of the counter macro
-	@$(MAKE) -C $(MACROS_DIR)/counter clean
-.PHONY: clean-counter
-
-clean-macros: ## Delete all generated files and folders of all macros
-	$(MAKE) clean-counter
-#	ToDo: further macros
+clean-macros: ## Delete all generated files and folders of all macros (none: see the comment)
+#	The analogue_interface final views and DRC/LVS reports are committed sign-off data,
+#	so they are not deleted here. Use 'make -C $(MACROS_DIR)/analogue_interface clean' on purpose.
 .PHONY: clean-macros
 
 clean-all: ## Delete all generated files and folders of the macros and the TOP cell

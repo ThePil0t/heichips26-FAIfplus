@@ -74,3 +74,16 @@ set_clock_transition $::env(CLOCK_TRANSITION_CONSTRAINT) $clocks
 puts "\[INFO] Setting timing derate to: $::env(TIME_DERATING_CONSTRAINT)%"
 set_timing_derate -early [expr 1-[expr $::env(TIME_DERATING_CONSTRAINT) / 100]]
 set_timing_derate -late [expr 1+[expr $::env(TIME_DERATING_CONSTRAINT) / 100]]
+
+# FAIf: paths without a digital timing relation.
+# - analog_0..2: analog pads, wired only to the analog macro.
+# - analog macro pins (DAC/S&H inputs, comparator output): no constraint needed;
+#   OpenSTA doesn't treat them as endpoints/startpoints at all (no timing arcs),
+#   and their analog settling is covered by the clock period, which the RP2350
+#   can slow down as needed.
+# - rst_n: comes asynchronously from outside. Its release is harmless: after
+#   reset every flip-flop keeps its reset value until start or a load input
+#   goes high.
+set_false_path -from [get_ports {analog_0 analog_1 analog_2}]
+set_false_path -to [get_ports {analog_0 analog_1 analog_2}]
+set_false_path -from [get_ports rst_n]

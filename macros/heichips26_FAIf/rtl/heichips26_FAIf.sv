@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: © 2026 XXX Authors
+// SPDX-FileCopyrightText: © 2026 HeiChips 2026 FAIf team
 // SPDX-License-Identifier: Apache-2.0
 
 // Adapted from the Tiny Tapeout template

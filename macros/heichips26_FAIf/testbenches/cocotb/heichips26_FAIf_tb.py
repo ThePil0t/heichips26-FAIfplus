@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2026 XXX
+# SPDX-FileCopyrightText: 2026 HeiChips 2026 FAIf team
 # SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 
 """cocotb testbench for heichips26_FAIf (RTL and gate level).
