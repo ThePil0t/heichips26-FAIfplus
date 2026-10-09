@@ -16,14 +16,13 @@ LAYER = {"M1": (8, 0), "M2": (10, 0), "M3": (30, 0), "M4": (50, 0),
          "V1": (19, 0), "V2": (29, 0), "V3": (49, 0)}
 SPACE = {"M1": 0.18, "M2": 0.21, "M3": 0.21, "M4": 0.21, "V1": 0.22, "V2": 0.22, "V3": 0.22}
 VIA = {"V1": ("M1", "M2"), "V2": ("M2", "M3"), "V3": ("M3", "M4")}
-# Metal4: vertical routes only, >= 10.5 um from the chip PDN Metal4 strap groups (LibreLane removes
-# straps within PDN_HORIZONTAL_HALO = 10 um of a Metal4 obstruction) and off the S&H lid.
-M4_BANDS = [(0.0, 161.88), (189.88, 211.88), (239.88, 261.88), (289.88, 300.0)]
+# Metal4: vertical routes only, off the S&H lid and clear of the chip PDN Metal4 straps (checked in the
+# builder, like the lid).
 CUT, CUT_SPACE, PAD = 0.19, 0.22, 0.30
 GRID = 0.005
 PAD_STACK = 0.40          # middle pads of via stacks (min metal area 0.144 um2)
 W_SIG = 0.30          # signal wires
-W_OUT = 1.20          # DAC outputs analog_1/2 (same as the opamp OOA bar)
+W_OUT = 1.20          # DAC outputs analog_0/1 (same as the opamp OOA bar)
 W_SUP = 1.11          # supply trunks (same as the translator supply bars)
 W_RAIL = 0.80         # supply rails in the row gaps
 
@@ -122,6 +121,24 @@ class Router:
         hit = reg.interacting(probe)
         assert not hit.is_empty(), f"{inst}: no {layer} at {p}"
         return hit.bbox().to_dtype(self.ly.dbu)
+
+    def cut(self, inst, layer, p, x1, x2):
+        """Cut a gap x1..x2 (macro x) into the block's own shape on layer that contains point p.
+        Changes the macro's copy of the block cell, so the cell must be placed only once."""
+        cell, trans, _ = self.placed[inst]
+        assert len(list(cell.each_parent_inst())) == 1, f"{inst}: cell {cell.name} is placed more than once"
+        li = self.ly.find_layer(*LAYER[layer])
+        it = trans.inverted().to_itrans(self.ly.dbu)
+        q = (trans.inverted() * p).to_itype(self.ly.dbu)
+        hits = [s for s in cell.shapes(li).each() if not s.is_text() and s.polygon.inside(q)]
+        assert len(hits) == 1, f"{inst}: {len(hits)} {layer} shapes at {p}"
+        s = hits[0]
+        b = s.bbox()
+        gap = db.Region(db.DBox(x1, -1e4, x2, 1e4).to_itype(self.ly.dbu).transformed(it)) & db.Region(b)
+        rest = db.Region(s.polygon) - gap
+        assert rest.count() == 2, f"{inst}: cutting {layer} at {p} does not leave two pieces"
+        cell.shapes(li).erase(s)
+        cell.shapes(li).insert(rest)
 
     # ---- checks -----------------------------------------------------------------------------
     def check(self, exclude_cells=()):
@@ -263,11 +280,11 @@ def make_divider_cells(ly, prefix):
 
 
 # ================================================================================================
-# DAC path (round 1): x12 -> x11 -> analog_2 and x7 -> x5 -> analog_1, bias, divider, supplies
+# DAC path (round 1): x12 -> x11 -> analog_0 and x7 -> x5 -> analog_1, bias, divider, supplies
 # ================================================================================================
 DAC_PAIRS = [
     # translator, R2R, dac_out base bit, output pin
-    ("x12", "x11", 8, "analog_2"),
+    ("x12", "x11", 8, "analog_0"),
     ("x7", "x5", 0, "analog_1"),
 ]
 # The PTAT (x3, now east of the comparator) is routed in the ADC round. IDACIREF of each R2R can be
@@ -278,10 +295,11 @@ VREF_X = 173.6          # iVREF trunk (Metal2), just east of the R2R column
 VTAP_DY = 2.5           # IDACVTAP exit track above the R2R bottom (above the opamp POAVSS rail)
 VTAP_EXIT_DX = 33.0     # exit column east of IDACVTAP: past the POAVSS rail end, before the output stage
 VTAP_GAP = 0.8          # iVREF run below the R2R bottom edge (in the row gap)
-OUT_ROUTE = {           # DAC outputs (Metal3, W_OUT): x of the down-leg, y of the south-channel run.
+OUT_ROUTE = {           # DAC outputs (Metal3, W_OUT): x of the down-leg, y of the south-channel run
+    # (x_end: east end of that run, default: over the pin).
     # analog_1 stays >= 4 um from the S&H SH_IN route (Metal3 at x 186.2, y 26.3-44) and clear of the
-    # S&H west edge (x 179.2 above y 45.5); analog_2 goes down first, west of analog_1.
-    "analog_2": dict(x_down=175.6, y_south=4.5),
+    # S&H west edge (x 179.2 above y 45.5); analog_0 goes down first, west of analog_1.
+    "analog_0": dict(x_down=175.6, y_south=4.5, x_end=260.95),
     "analog_1": dict(x_down=178.3, y_south=7.0),
 }
 TRUNK = {"VPWR": "PLDVDD", "VGND": "PLVSS", "VAPWR": "PLAVDD"}   # 8x translator supply bar per net
@@ -335,7 +353,8 @@ def route_dac_path(r, pins):
         yo = ob.center().y
         sp = pins[out][1]
         c = OUT_ROUTE[out]
-        pts = [(ob.right - 0.6, yo), (c["x_down"], yo), (c["x_down"], c["y_south"]), (sp.center().x, c["y_south"])]
+        xr = c.get("x_end", sp.center().x + W_OUT / 2) - W_OUT / 2
+        pts = [(ob.right - 0.6, yo), (c["x_down"], yo), (c["x_down"], c["y_south"]), (xr, c["y_south"])]
         r.wire(out, "M3", pts, W_OUT)
         r.contact(out, "M3", db.DPoint(ob.right - 0.6, yo))
         r.via(out, "V2", sp.center().x, c["y_south"], 2, 2)
@@ -505,7 +524,7 @@ def connectivity(ly, top, probes):
     """Metal-only net extraction of the macro; returns a list of problems (empty = OK)."""
     l2n = db.LayoutToNetlist(db.RecursiveShapeIterator(ly, top, []))
     lay = {k: l2n.make_layer(ly.layer(*v), k) for k, v in LAYER.items()}
-    for k in ("M1", "M2", "M3"):
+    for k in ("M1", "M2", "M3", "M4"):
         l2n.connect(lay[k])
     for v, (lo, hi) in VIA.items():
         l2n.connect(lay[v])
@@ -552,6 +571,17 @@ SH_IN_Y = 43.9                       # SH_IN run between the opamp top and the S
 VAPWR_E_X, VGND_E_X = 262.0, 297.0   # east supply trunks (Metal3)
 IREF1_X, IREF1_Y = 295.0, 117.3      # iIREF1: east down-leg, run below the PTAT outputs
 W_SUP_E = 1.0
+# ADC input analog_2 -> opamp IOAP (hand-drawn in e59578f): straight down through a gap in the opamp's
+# bottom VGND Metal3 rail (the two halves stay VGND through the opamp), a VGND guard (Metal2 + Metal3)
+# towards analog_1 and a vertical VGND Metal4 shield over both
+RAIL_GAP = (266.85, 271.49)          # gap in the opamp rail (macro x)
+IOAP_VIA_Y = (8.77, 9.20)            # Via2 IOAP Metal3 -> Metal2 below the rail
+GUARD_X = 267.06
+GUARD_M2_Y = (2.6, 9.2)
+GUARD_M3_Y = (3.84, 9.10)
+GUARD_V2_Y = (3.84, 4.36, 4.97, 5.49, 6.18, 6.70, 7.31, 7.83, 8.51, 9.03)
+GUARD_TAP = (266.115, 8.64, 267.44, 10.47)   # Metal2 from the guard onto the opamp's VGND Metal2 pad
+SHIELD = (266.91, 4.04, 270.84, 23.9)         # Metal4 over the guard and the IOAP line
 
 
 def stack(r, net, x, y, lo, hi):
@@ -659,17 +689,25 @@ def route_rest(r, pins):
     r.wire("sh_in", "M3", [(oo.right - 0.3, oo.center().y), (am.x, oo.center().y), (am.x, am.y)])
     r.contact("sh_in", "M3", db.DPoint(oo.right - 0.3, oo.center().y)); r.contact("sh_in", "M3", am)
 
-    # ---- analog_0 -> opamp IOAP: south out of the opamp (like IDACVTAP), Metal2 to the pin -----
+    # ---- analog_2 -> opamp IOAP: straight down through the rail gap, guard and shield ----------
     ap = r.label("x8", "IOAP", (30, 25))
     y8 = r.placed["x8"][2].bottom
-    xe = ap.x - VTAP_EXIT_DX
-    a0 = pins["analog_0"][1]
-    r.wire("analog_0", "M3", [(ap.x, ap.y), (ap.x, y8 + VTAP_DY), (xe, y8 + VTAP_DY), (xe, y8 - VTAP_GAP)])
-    r.contact("analog_0", "M3", ap)
-    r.via("analog_0", "V2", xe, y8 - VTAP_GAP)
-    ya = a0.top + 0.6
-    r.wire("analog_0", "M2", [(xe, y8 - VTAP_GAP), (xe, ya), (a0.center().x, ya), (a0.center().x, a0.top - 0.5)])
-    r.contact("analog_0", "M2", db.DPoint(a0.center().x, a0.top - 0.5))
+    a2 = pins["analog_2"][1]
+    xa = a2.center().x
+    r.wire("analog_2", "M3", [(ap.x, ap.y), (ap.x, y8 + VTAP_DY), (xa, y8 + VTAP_DY), (xa, IOAP_VIA_Y[0])])
+    r.contact("analog_2", "M3", ap)
+    for y in IOAP_VIA_Y:
+        r.via("analog_2", "V2", xa, y)
+    r.wire("analog_2", "M2", [(xa, IOAP_VIA_Y[-1]), (xa, a2.top - 0.5)])
+    r.contact("analog_2", "M2", db.DPoint(xa, a2.top - 0.5))
+    r.wire("VGND", "M2", [(GUARD_X, GUARD_M2_Y[0]), (GUARD_X, GUARD_M2_Y[1])])
+    r.rect("VGND", "M2", *GUARD_TAP)
+    r.contact("VGND", "M2", db.DPoint(GUARD_TAP[0] + 0.3, GUARD_TAP[3] - 0.2))
+    r.wire("VGND", "M3", [(GUARD_X, GUARD_M3_Y[0]), (GUARD_X, GUARD_M3_Y[1])])
+    for y in GUARD_V2_Y:
+        r.via("VGND", "V2", GUARD_X, y)
+    r.via("VGND", "V3", GUARD_X, (GUARD_M3_Y[0] + GUARD_M3_Y[1]) / 2, 1, 4)
+    r.rect("VGND", "M4", *SHIELD)
 
     # ---- east supplies: VAPWR trunk (S&H VDD, PTAT PCSVDD, opamp POAVDD), VGND trunk ------------
     pv = r.metal_under("x8", "M3", r.label("x8", "POAVDD", (30, 25)))
@@ -796,6 +834,9 @@ def route_rest(r, pins):
     r.wire("sh_en", "M3", [(SH_EN_M4_X, sh.y), (sh.x, sh.y)])
     r.contact("sh_en", "M3", sh)
 
+    # rail gap for the IOAP line: cut last, the east supplies locate POAVSS on the whole rail
+    r.cut("x8", "M3", db.DPoint(xa, y8 + 0.7), *RAIL_GAP)
+
 
 def rest_probes(r, pins):
     P = []
@@ -809,7 +850,8 @@ def rest_probes(r, pins):
     add("iSAR_AN", "M3", r.label("x10", "SH_OUT", (30, 25))); add("iSAR_AN", "M3", r.label("x1", "INN", (30, 25)))
     add("sh_in", "M3", r.label("x8", "OOA", (30, 25))); add("sh_in", "M3", r.label("x10", "SH_IN", (30, 25)))
     add("sh_in", "M3", r.label("x8", "IOAM", (30, 25)))
-    add("analog_0", "M3", r.label("x8", "IOAP", (30, 25))); add("analog_0", "M2", pins["analog_0"][1].center())
+    add("analog_2", "M3", r.label("x8", "IOAP", (30, 25))); add("analog_2", "M2", pins["analog_2"][1].center())
+    add("VGND", "M3", db.DPoint(GUARD_X, GUARD_M3_Y[0])); add("VGND", "M4", db.DPoint(SHIELD[0] + 0.2, SHIELD[3] - 0.2))
     add("iIREF1", "M2", r.label("x3", "CSOUT1", (10, 25))); add("iIREF1", "M3", r.label("x8", "IOAIREF", (30, 25)))
     add("iPBIAS", "M2", r.label("x3", "PBIAS", (10, 25))); add("iPBIAS", "M2", r.label("x1", "PBIAS", (10, 25)))
     for cs_lab, net, dac_, yw, xd in IREF_ROUTE:

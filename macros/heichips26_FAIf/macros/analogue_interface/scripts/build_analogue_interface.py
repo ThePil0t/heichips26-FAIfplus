@@ -78,7 +78,7 @@ BLOCKS = {
 # transformed bbox (macro-local um), description
 PLACEMENT = [
     ("x12", "lt8", "R90", 4.0, 9.35, "8x level translator for DAC1 (dac_out[15:8])"),
-    ("x11", "r2r", "R0", 25.0, 10.0, "R2R DAC1 -> analog_2"),
+    ("x11", "r2r", "R0", 25.0, 10.0, "R2R DAC1 -> analog_0"),
     ("x7", "lt8", "R90", 4.0, 47.35, "8x level translator for DAC0 (dac_out[7:0])"),
     ("x5", "r2r", "R0", 25.0, 48.0, "R2R DAC0 -> analog_1"),
     ("x6", "lt8", "R90", 4.0, 85.35, "8x level translator for the SAR DAC (adc_ref)"),
@@ -287,17 +287,18 @@ def build_layout():
                     f"{ly.get_info(li)} outside the {M4_ALLOWED_INST} lid: {used}"
                 continue
             assert used.empty(), f"shapes left on forbidden layer {ly.get_info(li)}"
-    # routing Metal4: vertical only, inside the allowed bands, clear of the lid
+    # routing Metal4: vertical only, clear of the lid, same strap rules as the lid
     m4_route_obs = []
     for net, layer, b in router.shapes:
         if layer != "M4":
             continue
         assert b.height() + 1e-6 >= b.width(), f"Metal4 route of {net} is not vertical: {b}"
-        assert any(x0 <= b.left and b.right <= x1 for x0, x1 in macro_routing.M4_BANDS), \
-            f"Metal4 route of {net} outside the allowed bands: {b}"
         ob = b.enlarged(M4_OBS_HALO, M4_OBS_HALO)
         assert not ob.overlaps(m4_obs), f"Metal4 route of {net} over the S&H lid: {b}"
         for x0, x1 in M4_STRAP_GROUPS:
+            clearance = max(x0 - b.right, b.left - x1)
+            assert clearance >= M4_MIN_SPACE, f"Metal4 route of {net} {b} only {clearance:.2f} um from the strap group {x0}-{x1}"
+        for x0, x1 in M4_KEEP_GROUPS:
             assert max(x0 - ob.right, ob.left - x1) >= PDN_HORIZONTAL_HALO + 0.5, \
                 f"Metal4 route of {net} too close to the strap group {x0}-{x1}: LibreLane would cut it"
         m4_route_obs.append(ob)
