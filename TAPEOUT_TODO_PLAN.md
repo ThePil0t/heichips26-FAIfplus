@@ -82,21 +82,23 @@ H Housekeeping: any time before G
 3. ~~PDK pin with `cap_cmomi`~~: **resolved.** MOM caps are fine per the organizer, and our PDK has `cap_cmomi`.
 
 ## C. Digital RTL and verification (`macros/heichips26_FAIf/`)
+See `sar_rtl_fixes_PLAN.md` for the reasons and the exact changes of C1–C4 (2026-10-09).
 1. **`rtl/sar.vhdl`:**
-   - [\*] add a 2-FF synchronizer on `comp`;
-   - [\*] make `hold` a registered flip-flop; today it is a combinational decode of `mask_reg`;
-   - [\*] latch the result at end of conversion and line up `tick` with valid data;
-   - [\*] after C3: fix the S&H polarity (`sar_sh_en = not hold`);
-   - optional: a bit-period prescaler and acquisition phase. The organizer can slow the clock from outside (RP2350), so the analog settling time can also be met by a slower clock.
-2. [\*] Optional. **Config register:** when `load_config` (`uio_in[7]`) is 1, latch `ui_in` into `cfg`; `cfg[3:0]` replaces the `4'b0000` tie-off on `sh_cap_en` (spare trim outputs, see B1). Update `_unused` and the README pinout.
-3. **Polarity bugs:** confirm both in simulation. The S&H enable must be `not hold`, and the comparator output must be 1 when V_in ≥ V_dac.
-4. **Testbenches:**
-   - [\*] add `gcc` to `flake.nix` for `ghdl -e/-r`;
-   - [\*] fix `testbenches/vhdl/sar_tb.vhdl` (`ref` → `ref_out`) and add asserts;
-   - [\*] add a closed-loop SAR system TB (±1 LSB);
-   - [\*] extend the Verilog TB (SAR, config register, DAC byte order);
-   - [\*] rewrite the cocotb TB, which is still the template counter test, for RTL and gate level;
-   - [\*] add the `sim-vhdl` and `$(GEN_VERILOG)` prerequisites in the Makefile.
+   - ~~[\*] add a 2-FF synchronizer on `comp`~~ **not done, by decision:** the SAR keeps 1 clock per bit; the clock period has to cover DAC + comparator settling (the RP2350 can slow the clock);
+   - **Done:** `hold` replaced by the registered `sh_en` (loaded from `mask_next`, same clock edge, no gate to the macro pin); `done` from the same flip-flop;
+   - **Done:** result register, `tick` registered: `tick` and the final value appear in the same cycle (the old SAR showed the trial LSB at `tick` in 128 of 256 conversions);
+   - **Done:** S&H polarity (see C3);
+   - optional, not done: a bit-period prescaler and acquisition phase.
+2. **Done:** config register `cfg` (loads `ui_in` while `load_config` = `uio_in[7]` is 1); `cfg[3:0]` → `sh_cap_en`, `cfg[7:4]` unused. README pinout and interface behavior updated.
+3. **Done, polarity bugs confirmed with ngspice** on the macro netlist and fixed in `rtl/heichips26_FAIf.sv`: the comparator gives 1 when V_dac > V_in (now `.comp(~adc_comp)`); the S&H tracks when SH_EN = 1 and x9 doesn't invert (macro pin `adc_hold` now driven by `sh_en`).
+4. **Testbenches, done:**
+   - `gcc`, `zlib` and `LIBRARY_PATH` in `flake.nix` for `ghdl -e/-r`;
+   - `testbenches/vhdl/sar_tb.vhdl` (`make sim-vhdl`): all 256 codes exact, plus cycle-by-cycle equivalence with `sar_ref.vhdl` (the old SAR) over 20 000 random cycles;
+   - analog behavioral model in `rtl/analogue_interface.sv` (`ifdef SIM`, real polarities);
+   - Verilog TB: config register and a closed-loop ADC sweep through the top, with the input changed during each conversion;
+   - cocotb TB rewritten for `heichips26_FAIf`: reset, DAC byte order, config register, ADC sweep, clear (RTL: 5/5 pass);
+   - Makefile: `sim-vhdl`, `$(GEN_VERILOG)` prerequisites.
+   - **Open:** `sim-gl-cocotb` and the netlist/STA check of `adc_hold` after the next `make build-top` (G1/G2). STA baseline with the old RTL (`RUN_2026-10-09_01-12-07`, OpenSTA `report_checks -unconstrained -to analogue_interface_instance/adc_hold`, final netlist + SPEF): max arrival typ 1.469 ns, slow 2.331 ns, fast 0.969 ns (path flip-flop → hold-fix delay cell → nor4 → buf → inv). The new run must be ≤ these, with only buffers between the `sh_en` flip-flop and the pin.
 5. Optional: FPGA prototype of the full top.
 
 ## D. DAC path first (`analog_1` = DAC0, `analog_2` = DAC1)

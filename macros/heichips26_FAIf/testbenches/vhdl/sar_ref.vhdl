@@ -2,15 +2,18 @@
 -- Title      : Successive Approximation Register
 -- Project    : FABulous Analogue Interface (FAIf) for HeiChips 2026
 -------------------------------------------------------------------------------
--- File       : sar.vhdl
+-- File       : sar_ref.vhdl
 -- Author     : Torsten Maehne  <torsten.maehne@bfh.ch>
 -- Company    : BFH-EIT
 -- Created    : 2026-08-06
--- Last update: 2026-10-09
+-- Last update: 2026-08-06
 -- Platform   : GHDL + Yosys
 -- Standard   : VHDL'93/02, Math Packages
 -------------------------------------------------------------------------------
 -- Description:
+-- Reference copy of rtl/sar.vhdl before the 2026-10-09 fixes (entity renamed
+-- sar_ref). Golden model for the equivalence checks in sar_tb.vhdl; do not edit.
+--
 --
 -- This entity implements the Successive Approximation Register (SAR)
 -- for a SAR Analogue to Digital Converter (ADC). The block has a
@@ -31,20 +34,11 @@
 -- and the next bit in direction to LSB is set to '1'. If the `comp`
 -- input is '0' then the previous set bit is cleared, i.e., set to
 -- '0'. Once the decision for the LSB value is made, the conversion is
--- done: the final value is copied into the result register, which
--- drives the `value` output, and the `tick` output is set to '1' for
--- one clock cycle. `tick` and the new `value` appear in the same clock
--- cycle; `value` keeps the last result during the next conversion.
--- The synchronous clear also clears the result register. The `done`
--- output is always at '1' when the SAR is idle, i.e., no conversion is
--- in progress.
---
--- The `sh_en` output drives the sample & hold enable: '1' (track)
--- while the SAR is idle, '0' (hold) during the conversion. `sh_en`,
--- `done` and `tick` come directly from flip-flops, so no glitch can
--- reach the analogue domain or the output pins. The `sh_en` flip-flop
--- is loaded from `mask_next`, i.e., it switches at the same clock edge
--- as the mask register.
+-- done and the `tick` output is set to '1' for one clock cycle. The
+-- `done` output is always at '1' when the SAR is idle, i.e., no
+-- conversion is in progress. The `value` output is also connected to
+-- the internal value register, i.e., it shows the conversion in
+-- progress.
 --
 -------------------------------------------------------------------------------
 -- Copyright (c) 2026 HeiChips 2026 FAIf team
@@ -52,15 +46,12 @@
 -- Revisions  :
 -- Date        Version  Author  Description
 -- 2026-08-06  1.0      maehne	Created
--- 2026-10-09  1.1      FAIf    registered sh_en (replaces hold, inverted
---                              for the S&H enable), done and tick; result
---                              register, so tick lines up with value
 -------------------------------------------------------------------------------
 
 library ieee;
 use ieee.std_logic_1164.all;
 
-entity sar is
+entity sar_ref is
   
   generic (
     NBITS : positive := 8);             -- SAR register width
@@ -72,18 +63,18 @@ entity sar is
     ena      : in  std_logic;              -- enable input
     start    : in  std_logic;              -- start conversion
     done     : out std_logic;              -- conversion done
-    tick     : out std_logic;  -- one clock cycle pulse when a new value is valid
-    value    : out std_logic_vector(NBITS-1 downto 0);   -- last conversion result
+    tick     : out std_logic;  -- one clock cycle pulse at end of conversion
+    value    : out std_logic_vector(NBITS-1 downto 0);   -- conversion value
     -- Interface to the analogue domain -> requires level conversion
-    sh_en    : out std_logic;              -- S&H enable: '1' track, '0' hold
+    hold     : out std_logic;              -- activates the sample & hold block
     ref_out  : out std_logic_vector(NBITS-1 downto 0);   -- reference value for DAC
     comp     : in  std_logic);             -- input from the analogue comparator
 
-end entity sar;
+end entity sar_ref;
 
 --------------------------------------------------------------------------------
 
-architecture rtl of sar is
+architecture rtl of sar_ref is
   -- Value register to hold the converted ADC value
   signal value_reg, value_next : std_logic_vector(NBITS-1 downto 0);
   -- Mask register for setting/clearing bits in the value register.
@@ -92,40 +83,20 @@ architecture rtl of sar is
   -- is done.
   signal mask_reg, mask_next : std_logic_vector(NBITS downto 0);
   constant MASK_ZERO : std_logic_vector(mask_reg'range) := (others => '0');
-  -- S&H enable, '1' when the SAR is idle (= mask register zero)
-  signal sh_en_reg : std_logic;
-  -- Result register and end-of-conversion pulse
-  signal result_reg : std_logic_vector(NBITS-1 downto 0);
-  signal tick_next, tick_reg : std_logic;
 begin  -- architecture rtl
 
   -- purpose: describe the registers
   -- type   : sequential
-  -- inputs : clk, rst_n, clear, value_next, mask_next, tick_next
-  -- outputs: value_reg, mask_reg, sh_en_reg, result_reg, tick_reg
+  -- inputs : clk, rst_n, clear, ena, value_next, mask_next
+  -- outputs: value_reg, mask_reg
   REG: process (clk, rst_n) is
   begin  -- process REG
     if rst_n = '0' then                 -- asynchronous reset (active low)
       value_reg <= (others => '0');
       mask_reg <= (others => '0');
-      sh_en_reg <= '1';
-      result_reg <= (others => '0');
-      tick_reg <= '0';
     elsif rising_edge(clk) then
       value_reg <= value_next;
       mask_reg <= mask_next;
-      -- same edge as mask_reg, so sh_en_reg = '1' exactly when mask_reg = 0
-      if mask_next = MASK_ZERO then
-        sh_en_reg <= '1';
-      else
-        sh_en_reg <= '0';
-      end if;
-      if clear = '1' then
-        result_reg <= (others => '0');
-      elsif tick_next = '1' then
-        result_reg <= value_next;
-      end if;
-      tick_reg <= tick_next;
     end if;
   end process REG;
 
@@ -162,15 +133,14 @@ begin  -- architecture rtl
     end if;
   end process NSL;
 
-  -- last decision of a conversion: value_next holds the final value
-  tick_next <= '1' when ena = '1' and mask_reg(0) = '1' and mask_next = MASK_ZERO else
-               '0';
-
   -- output logic
-  done <= sh_en_reg;
-  tick <= tick_reg;
-  value <= result_reg;
-  sh_en <= sh_en_reg;
+  done <= '1' when mask_reg = MASK_ZERO else
+          '0';
+  tick <= '1' when ena = '1' and mask_reg(0) = '1' and mask_next = MASK_ZERO else
+          '0';
+  value <= value_reg;
+  hold <= '1' when mask_reg /= MASK_ZERO else
+          '0';
   ref_out   <= value_reg;
 
 end architecture rtl;

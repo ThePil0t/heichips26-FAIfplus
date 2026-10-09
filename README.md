@@ -53,7 +53,7 @@ Preliminary pinout for the FPGA interface:
   </tr>
   <tr>
     <td>uo_out</td>
-    <td colspan="8">ADC MSB</td>
+    <td colspan="8">ADC Result</td>
   </tr>
   <tr>
     <td>uio_out</td>
@@ -90,6 +90,18 @@ We also use three dedicated analogue pins:
 |  0  | ADC In   |
 |  1  | DAC1 Out |
 |  2  | DAC2 Out |
+
+### Interface behavior
+All inputs are sampled at the rising edge of `clk`; `rst_n` clears all registers.
+
+- **DACs:** with `DAC Load` = 1 and `DAC Sel` = 0, `ui_in` goes into the LSB register. With `DAC Load` = 1 and `DAC Sel` = 1, both DACs update together: DAC1 gets the LSB register, DAC2 gets `ui_in`.
+- **Configuration:** `Load Config` = 1 latches `ui_in` into the config register `cfg`. `cfg[3:0]` drives four spare 3.3 V outputs of the analog macro (`sh_cap_en`, not used by the S&H); `cfg[7:4]` is unused.
+- **ADC:** with `ADC Ena` = 1 (0 freezes the SAR):
+  - while the ADC is idle (`ADC Done` = 1), the sample & hold tracks analog pin 0;
+  - `ADC Start` = 1 starts a conversion: the S&H holds and `ADC Done` goes 0;
+  - the SAR decides one bit per clock, MSB first. Each decision uses the comparator one clock period after the DAC changed, so the clock period must cover DAC and comparator settling; slow the clock as needed;
+  - 9 clock edges after the start edge (1 + 8 bits), `ADC Done` goes 1 and `ADC Tick` is 1 for one clock, in the same cycle as the new result appears on `uo_out`. `uo_out` keeps it until the next result;
+  - `ADC Clear` stops a conversion and clears the result to 0.
 
 
 ## Rest of the README

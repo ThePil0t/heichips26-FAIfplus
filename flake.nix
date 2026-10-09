@@ -61,6 +61,8 @@
 
               # Simulation
               ghdl-bin
+              gcc # GHDL's LLVM backend links testbenches (ghdl -e/-r) with it
+              zlib # linked into every GHDL testbench executable
               iverilog
               verilator
 
@@ -108,6 +110,12 @@
               {
                 name = "QT_LOGGING_RULES";
                 eval = "\"qt.multimedia.*=false\"";
+              }
+              # GHDL (LLVM backend) links every testbench executable against libz; the
+              # shell only puts zlib on PATH, so give gcc its library directory.
+              {
+                name = "LIBRARY_PATH";
+                eval = "${pkgs.lib.getLib pkgs.zlib}/lib";
               }
             ];
           });

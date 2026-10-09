@@ -25,15 +25,17 @@ module heichips26_FAIf (
     inout wire analog_0, analog_1, analog_2
 );
 
+    logic [7:0] cfg;
+
     // List all unused inputs to prevent warnings
-    wire _unused = &{ena, uio_in[4:3]};
+    wire _unused = &{ena, uio_in[4:3], cfg[7:4]};
     assign uio_out[7:5] = '0;
     assign uio_out[2:0] = '0;
-    
+
 
     logic adc_clear, adc_ena, adc_start;
     logic adc_done, adc_tick;
-    logic adc_hold;
+    logic adc_sh_en;
     logic [7:0] adc_value;
     logic [7:0] adc_ref_out;
     logic adc_comp;
@@ -43,6 +45,15 @@ module heichips26_FAIf (
     logic [15:0] dac_out;
 
     logic load_config;
+
+    // Config register: loads ui_in while load_config is 1.
+    // cfg[3:0] drives the spare 3.3 V outputs sh_cap_en, cfg[7:4] is unused.
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n)
+            cfg <= '0;
+        else if (load_config)
+            cfg <= ui_in;
+    end
 
     // Instanciate the DAC Register
     dac_reg dac_reg_instance (
@@ -54,6 +65,9 @@ module heichips26_FAIf (
         .dac_out(dac_out)
     );
 
+    // The comparator in the macro gives adc_comp = 1 when V_dac > V_in
+    // (INP = DAC, INN = S&H output; the down translator doesn't invert).
+    // The SAR keeps a bit on comp = 1, i.e. it needs V_in >= V_dac: invert.
     sar sar_instance (
         .clk(clk),
         .rst_n(rst_n),
@@ -63,9 +77,9 @@ module heichips26_FAIf (
         .done(adc_done),
         .tick(adc_tick),
         .value(adc_value),
-        .hold(adc_hold),
+        .sh_en(adc_sh_en),
         .ref_out(adc_ref_out),
-        .comp(adc_comp)
+        .comp(~adc_comp)
     );
 
     analogue_interface analogue_interface_instance (
@@ -75,10 +89,12 @@ module heichips26_FAIf (
         .VGND(VGND),
     `endif
         .adc_ref(adc_ref_out),
-        .adc_hold(adc_hold),
+        // The macro pin adc_hold is the S&H enable SH_EN (x9 doesn't invert):
+        // 1 = track, 0 = hold. Driven straight from the SAR's sh_en flip-flop.
+        .adc_hold(adc_sh_en),
         .adc_comp(adc_comp),
         .dac_out(dac_out),
-        .sh_cap_en(4'b0000),
+        .sh_cap_en(cfg[3:0]),
         .analog_0(analog_0),
         .analog_1(analog_1),
         .analog_2(analog_2)

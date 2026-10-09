@@ -22,6 +22,7 @@ WAVEFORM_VIEWER ?= gtkwave
 MACROS_DIR      := macros
 COCOTB_DIR      := testbenches/cocotb
 VERILOG_TB_DIR 	:= testbenches/verilog
+VHDL_TB_DIR 	:= testbenches/vhdl
 REPORT_DIR     	:= verification
 SRC_DIR 		:= rtl
 NET_NL_DIR    	:= netlist/nl
@@ -89,7 +90,7 @@ lint-verilog-all: ## Lint all Verilog source files (counter sub-macro + heichips
 
 
 # Simulation Targets
-sim-rtl-verilog: ## Run RTL simulation of CELL cell with Icarus Verilog (usage: make sim-rtl-verilog [CELL=<cellname>])
+sim-rtl-verilog: $(GEN_VERILOG) ## Run RTL simulation of CELL cell with Icarus Verilog (usage: make sim-rtl-verilog [CELL=<cellname>])
 	iverilog -g2012 -DSIM -o $(VERILOG_TB_DIR)/test_$(CELL) $(_SIM_SRCS) $(VERILOG_TB_DIR)/$(CELL)_tb.$(_TB_EXT)
 	cd $(VERILOG_TB_DIR) && vvp test_$(CELL) -fst
 	rm -f $(VERILOG_TB_DIR)/test_$(CELL)
@@ -105,7 +106,14 @@ sim-view-verilog: ## View CELL cell Verilog simulation waveforms (usage: make si
 	fi
 .PHONY: sim-view-verilog
 
-sim-rtl-cocotb: ## Run RTL simulation of CELL cell with cocotb (usage: make sim-rtl-cocotb [CELL=<cellname>])
+sim-vhdl: ## Run the VHDL SAR testbench with GHDL (all codes, cycle-by-cycle equivalence with sar_ref)
+	mkdir -p $(VHDL_TB_DIR)/sim_build
+	cd $(VHDL_TB_DIR) && ghdl -a --workdir=sim_build ../../$(SRC_DIR)/sar.vhdl sar_ref.vhdl sar_tb.vhdl
+	cd $(VHDL_TB_DIR) && ghdl -e --workdir=sim_build -o sim_build/sar_tb sar_tb
+	cd $(VHDL_TB_DIR) && ./sim_build/sar_tb --fst=sar_tb.fst --assert-level=error
+.PHONY: sim-vhdl
+
+sim-rtl-cocotb: $(GEN_VERILOG) ## Run RTL simulation of CELL cell with cocotb (usage: make sim-rtl-cocotb [CELL=<cellname>])
 	cd $(COCOTB_DIR) && python3 $(CELL)_tb.py
 .PHONY: sim-rtl-cocotb
 
@@ -123,7 +131,8 @@ sim-view-cocotb: ## View CELL cell cocotb simulation waveforms (usage: make sim-
 	fi
 .PHONY: sim-view-cocotb
 
-sim-all: ## Simulate the macro (RTL Verilog + RTL/GL cocotb for heichips26_digital_project)
+sim-all: ## Simulate the macro (VHDL SAR + RTL Verilog + RTL/GL cocotb)
+	$(MAKE) sim-vhdl
 	$(MAKE) sim-rtl-verilog
 	$(MAKE) sim-rtl-cocotb
 	$(MAKE) sim-gl-cocotb
@@ -272,6 +281,7 @@ clean: ## Delete all generated files and folders of the TOP cell (LibreLane outp
 	rm -rf final netlist
 	rm -rf $(REPORT_DIR)
 	rm -rf $(COCOTB_DIR)/sim_build $(VERILOG_TB_DIR)/*.fst
+	rm -rf $(VHDL_TB_DIR)/sim_build $(VHDL_TB_DIR)/*.fst
 	@$(MAKE) -C fpga clean
 .PHONY: clean
 

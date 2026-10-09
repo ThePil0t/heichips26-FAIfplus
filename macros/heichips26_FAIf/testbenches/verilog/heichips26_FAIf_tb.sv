@@ -121,7 +121,53 @@ module heichips26_FAIf_tb;
     if (dut_heichips26_FAIf.dac_out !== 16'b1111000000001111)
       $fatal(1, "FAIL: dac_out not what we expected (got %0d)", dac_out);
 
-    // Check the SAR
+    dac_load = 1'b0;
+    dac_sel = 1'b0;
+    #(2 * CLK_PERIOD_NS);
+
+    // Config register: loads ui_in while load_config is 1, cfg[3:0] -> sh_cap_en
+    dac_in = 8'hA5;
+    load_config = 1'b1;
+    #(CLK_PERIOD_NS);
+    load_config = 1'b0;
+    dac_in = 8'h3C;
+    #(2 * CLK_PERIOD_NS);
+    if (dut_heichips26_FAIf.analogue_interface_instance.sh_cap_en !== 4'h5)
+      $fatal(1, "FAIL: sh_cap_en not 5 after loading cfg = A5 (got %0h)",
+             dut_heichips26_FAIf.analogue_interface_instance.sh_cap_en);
+    if (dut_heichips26_FAIf.dac_out !== 16'b1111000000001111)
+      $fatal(1, "FAIL: dac_out changed by a config load (got %0d)", dac_out);
+
+    // Closed-loop ADC sweep through the top with the analog model of
+    // rtl/analogue_interface.sv (real polarities: comparator 1 when V_dac > V_in,
+    // S&H tracks while adc_hold = 1). The input is changed during every
+    // conversion, so the result is only right if the S&H holds.
+    adc_ena = 1'b1;
+    for (int code = 0; code < 256; code++) begin
+      dut_heichips26_FAIf.analogue_interface_instance.vin = (code + 0.5) * 3.3 / 256.0;
+      #(2 * CLK_PERIOD_NS);                       // track
+      if (dut_heichips26_FAIf.analogue_interface_instance.adc_hold !== 1'b1)
+        $fatal(1, "FAIL: S&H not tracking while idle (code %0d)", code);
+      adc_start = 1'b1;
+      #(CLK_PERIOD_NS);
+      adc_start = 1'b0;
+      dut_heichips26_FAIf.analogue_interface_instance.vin = (255 - code + 0.5) * 3.3 / 256.0;
+      if (dut_heichips26_FAIf.analogue_interface_instance.adc_hold !== 1'b0)
+        $fatal(1, "FAIL: S&H not holding during the conversion (code %0d)", code);
+      for (int n = 0; adc_tick !== 1'b1; n++) begin
+        if (n > 20)
+          $fatal(1, "FAIL: no tick for code %0d", code);
+        #(CLK_PERIOD_NS);
+      end
+      if (adc_value !== code[7:0])
+        $fatal(1, "FAIL: code %0d converted to %0d", code, adc_value);
+      if (adc_done !== 1'b1)
+        $fatal(1, "FAIL: done not 1 on tick (code %0d)", code);
+      #(CLK_PERIOD_NS);
+      if (adc_value !== code[7:0])
+        $fatal(1, "FAIL: value not held after tick (code %0d)", code);
+    end
+    $display("PASS: ADC closed loop, all 256 codes exact.");
 
     $display("PASS: simulation complete.");
     $finish;
