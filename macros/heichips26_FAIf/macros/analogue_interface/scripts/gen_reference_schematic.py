@@ -25,7 +25,7 @@ TOP_SCH = os.path.join(TOP_DIR, "heichips26_FAIf.sch")
 OUT_DIR = os.path.join(MACRO_DIR, "schematic", "xschem")
 NAME = "analogue_interface"
 
-KEEP = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8", "x9", "x10", "x11", "x12", "R1", "R2", "C1"]
+KEEP = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8", "x9", "x10", "x11", "x12", "R1", "R2", "C1", "C2"]
 SPARES = 4
 
 # macro ports in .vh/LEF order: (name, xschem pin symbol, symbol pin direction)

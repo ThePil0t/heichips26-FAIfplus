@@ -95,7 +95,7 @@ PLACEMENT = [
     ("x1", "comp", "R0", 180.63, 115.5, "SAR comparator: INN straight above the sah_12bit SH_OUT spine"),
     ("R1", "rhigh", "R90", 118.0, 166.4, "iVREF divider, upper resistor (VAPWR-iVREF)"),
     ("R2", "rhigh", "R90", 118.0, 162.5, "iVREF divider, lower resistor (iVREF-VGND)"),
-    ("C1", "cmomi", "R90", 118.0, 156.0, "iVREF filter cap"),
+    ("C1", "cvref", "R0", 118.0, 121.4, "iVREF filter: MOM cap C1 (Metal1/Metal2) on the HV MOS cap C2"),
 ]
 
 # Orientation -> (rotation in multiples of 90 deg, mirror at x-axis before rotation)
@@ -254,11 +254,13 @@ def build_layout():
     # Routing (DAC path) with its own clearance and connectivity checks
     router = macro_routing.Router(ly, top, placed, PREFIX)
     macro_routing.route_dac_path(router, pins)
+    macro_routing.route_rest(router, pins)
     conflicts = router.check()
     assert not conflicts, "routing clearance:\n  " + "\n  ".join(conflicts)
-    issues = macro_routing.connectivity(ly, top, macro_routing.dac_probes(router, pins))
+    probes = macro_routing.dac_probes(router, pins) + macro_routing.rest_probes(router, pins)
+    issues = macro_routing.connectivity(ly, top, probes)
     assert not issues, "routing connectivity:\n  " + "\n  ".join(issues)
-    print(f"Routed the DAC path: {len(router.shapes)} shapes, clearance and connectivity OK")
+    print(f"Routed the macro: {len(router.shapes)} shapes, {len(probes)} pin probes, clearance and connectivity OK")
 
     # Final checks: nothing above Metal3 except the sah_12bit hold-cap lid, unique names, one top cell
     m4_cell, m4_trans, m4_inst_box = placed[M4_ALLOWED_INST]
@@ -274,13 +276,31 @@ def build_layout():
             f"Metal4 OBS {m4_obs} only {clearance:.2f} um from the strap group {x0}-{x1}: LibreLane would cut it"
     for li in ly.layer_indexes():
         if ly.get_info(li).layer in FORBIDDEN_LAYERS:
-            used = top.dbbox_per_layer(li)
+            used = db.DBox()
+            for inst in top.each_inst():          # blocks only; routing Metal4 is checked below
+                if inst.cell_index != router.cell.cell_index():
+                    used += ly.cell(inst.cell_index).dbbox_per_layer(li).transformed(inst.dcplx_trans)
+            used += top.dbbox_per_layer(li) if not top.shapes(li).is_empty() else db.DBox()
             if ly.get_info(li).layer in (49, 50) and not used.empty():
                 tol = m4_box.enlarged(0.001, 0.001)   # same box after a float transform
                 assert tol.contains(used.p1) and tol.contains(used.p2), \
                     f"{ly.get_info(li)} outside the {M4_ALLOWED_INST} lid: {used}"
                 continue
             assert used.empty(), f"shapes left on forbidden layer {ly.get_info(li)}"
+    # routing Metal4: vertical only, inside the allowed bands, clear of the lid
+    m4_route_obs = []
+    for net, layer, b in router.shapes:
+        if layer != "M4":
+            continue
+        assert b.height() + 1e-6 >= b.width(), f"Metal4 route of {net} is not vertical: {b}"
+        assert any(x0 <= b.left and b.right <= x1 for x0, x1 in macro_routing.M4_BANDS), \
+            f"Metal4 route of {net} outside the allowed bands: {b}"
+        ob = b.enlarged(M4_OBS_HALO, M4_OBS_HALO)
+        assert not ob.overlaps(m4_obs), f"Metal4 route of {net} over the S&H lid: {b}"
+        for x0, x1 in M4_STRAP_GROUPS:
+            assert max(x0 - ob.right, ob.left - x1) >= PDN_HORIZONTAL_HALO + 0.5, \
+                f"Metal4 route of {net} too close to the strap group {x0}-{x1}: LibreLane would cut it"
+        m4_route_obs.append(ob)
     cell_names = [c.name for c in ly.each_cell()]
     assert len(cell_names) == len(set(cell_names)), "duplicate cell names"
     assert all(n == TOP or n.startswith(PREFIX) for n in cell_names), "unprefixed cell name"
@@ -296,7 +316,7 @@ def build_layout():
     for inst, (cell, trans, box) in placed.items():
         print(f"  {inst:6s} {cell.name:55s} {str(trans):24s} ({box.left:7.3f},{box.bottom:7.3f})-({box.right:7.3f},{box.top:7.3f})")
     print(f"  Metal4 lid of {M4_ALLOWED_INST}: {m4_box}")
-    return pins, m4_obs
+    return pins, [m4_obs] + m4_route_obs
 
 
 def pin_names(name, width):
@@ -320,7 +340,7 @@ def obs_rects(pins, layer):
     return sorted([[v * DBU for v in (r.left, r.bottom, r.right, r.top)] for r in rects], key=lambda r: (r[1], r[0]))
 
 
-def write_lef(pins, m4_obs):
+def write_lef(pins, m4_obs_list):
     path = os.path.join(MACRO_DIR, "final", "lef", f"{TOP}.lef")
     os.makedirs(os.path.dirname(path), exist_ok=True)
     rect = lambda r: f"RECT {r[0]:.3f} {r[1]:.3f} {r[2]:.3f} {r[3]:.3f} ;"
@@ -358,8 +378,9 @@ def write_lef(pins, m4_obs):
     for layer in METAL:
         lines.append(f"    LAYER {layer} ;")
         lines.extend(f"      {rect(r)}" for r in obs_rects(pins, layer))
-    lines.append("    LAYER Metal4 ;")     # keeps top-level routing off the hold-cap lid
-    lines.append(f"      {rect([m4_obs.left, m4_obs.bottom, m4_obs.right, m4_obs.top])}")
+    lines.append("    LAYER Metal4 ;")     # the hold-cap lid and the vertical Metal4 routes
+    for m4_obs in m4_obs_list:
+        lines.append(f"      {rect([m4_obs.left, m4_obs.bottom, m4_obs.right, m4_obs.top])}")
     lines += ["  END", f"END {TOP}", "", "END LIBRARY", ""]
     with open(path, "w") as f:
         f.write("\n".join(lines))
@@ -457,7 +478,7 @@ def write_lib():
 
 
 if __name__ == "__main__":
-    pins, m4_obs = build_layout()
-    write_lef(pins, m4_obs)
+    pins, m4_obs_list = build_layout()
+    write_lef(pins, m4_obs_list)
     write_vh()
     write_lib()

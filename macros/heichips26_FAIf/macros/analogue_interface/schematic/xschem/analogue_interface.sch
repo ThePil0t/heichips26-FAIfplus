@@ -177,44 +177,56 @@ value="expr_eng(  ( 1.6e-4 / @w + 1360.0 * ( (@b + 1)* @l + ( 1.081*( @w - 0.04e
 }
 C {lab_pin.sym} 1140 -290 0 0 {name=l136 sig_type=std_logic lab=iVREF}
 C {lab_pin.sym} 1140 -230 0 0 {name=l137 sig_type=std_logic lab=VGND}
-C {sg13cmos5l_pr/cap_cmomi.sym} 1280 -260 0 0 {name=C1
+C {sg13cmos5l_pr/cap_cmomi.sym} 1280 -260 2 0 {name=C1
 model=cap_cmomi
-w=50e-6
-l=2e-6
-mmin=2
-mmax=3
+w=31.79e-6
+l=47.16e-6
+mmin=1
+mmax=2
 feed=double
 subblock=0
 m=1
 mm_ok=1
 spiceprefix=X
 }
-C {lab_pin.sym} 1280 -290 0 0 {name=l138 sig_type=std_logic lab=iVREF}
-C {lab_pin.sym} 1280 -230 0 0 {name=l139 sig_type=std_logic lab=VGND}
+C {lab_pin.sym} 1280 -230 0 0 {name=l138 sig_type=std_logic lab=VGND}
+C {lab_pin.sym} 1280 -290 0 0 {name=l139 sig_type=std_logic lab=iVREF}
+C {sg13cmos5l_pr/sg13_hv_nmos.sym} 1420 -260 0 0 {name=C2
+l=48u
+w=33.5u
+ng=1
+m=1
+model=sg13_hv_nmos
+spiceprefix=X
+}
+C {lab_pin.sym} 1440 -290 0 1 {name=l140 sig_type=std_logic lab=VGND}
+C {lab_pin.sym} 1400 -260 0 0 {name=l141 sig_type=std_logic lab=iVREF}
+C {lab_pin.sym} 1440 -230 0 1 {name=l142 sig_type=std_logic lab=VGND}
+C {lab_pin.sym} 1440 -260 0 1 {name=l143 sig_type=std_logic lab=VGND}
 C {digital_level_translator.sym} 1970 200 0 0 {name=xcap0}
-C {lab_pin.sym} 2150 100 0 1 {name=l140 sig_type=std_logic lab=VAPWR}
-C {lab_pin.sym} 1950 100 0 0 {name=l141 sig_type=std_logic lab=VPWR}
-C {lab_pin.sym} 1950 140 0 0 {name=l142 sig_type=std_logic lab=sh_cap_en[0]}
-C {lab_pin.sym} 2150 140 0 1 {name=l143 sig_type=std_logic lab=cap_out0}
-C {lab_pin.sym} 2050 220 0 1 {name=l144 sig_type=std_logic lab=VGND}
+C {lab_pin.sym} 2150 100 0 1 {name=l144 sig_type=std_logic lab=VAPWR}
+C {lab_pin.sym} 1950 100 0 0 {name=l145 sig_type=std_logic lab=VPWR}
+C {lab_pin.sym} 1950 140 0 0 {name=l146 sig_type=std_logic lab=sh_cap_en[0]}
+C {lab_pin.sym} 2150 140 0 1 {name=l147 sig_type=std_logic lab=cap_out0}
+C {lab_pin.sym} 2050 220 0 1 {name=l148 sig_type=std_logic lab=VGND}
 C {digital_level_translator.sym} 2270 200 0 0 {name=xcap1}
-C {lab_pin.sym} 2450 100 0 1 {name=l145 sig_type=std_logic lab=VAPWR}
-C {lab_pin.sym} 2250 100 0 0 {name=l146 sig_type=std_logic lab=VPWR}
-C {lab_pin.sym} 2250 140 0 0 {name=l147 sig_type=std_logic lab=sh_cap_en[1]}
-C {lab_pin.sym} 2450 140 0 1 {name=l148 sig_type=std_logic lab=cap_out1}
-C {lab_pin.sym} 2350 220 0 1 {name=l149 sig_type=std_logic lab=VGND}
+C {lab_pin.sym} 2450 100 0 1 {name=l149 sig_type=std_logic lab=VAPWR}
+C {lab_pin.sym} 2250 100 0 0 {name=l150 sig_type=std_logic lab=VPWR}
+C {lab_pin.sym} 2250 140 0 0 {name=l151 sig_type=std_logic lab=sh_cap_en[1]}
+C {lab_pin.sym} 2450 140 0 1 {name=l152 sig_type=std_logic lab=cap_out1}
+C {lab_pin.sym} 2350 220 0 1 {name=l153 sig_type=std_logic lab=VGND}
 C {digital_level_translator.sym} 2570 200 0 0 {name=xcap2}
-C {lab_pin.sym} 2750 100 0 1 {name=l150 sig_type=std_logic lab=VAPWR}
-C {lab_pin.sym} 2550 100 0 0 {name=l151 sig_type=std_logic lab=VPWR}
-C {lab_pin.sym} 2550 140 0 0 {name=l152 sig_type=std_logic lab=sh_cap_en[2]}
-C {lab_pin.sym} 2750 140 0 1 {name=l153 sig_type=std_logic lab=cap_out2}
-C {lab_pin.sym} 2650 220 0 1 {name=l154 sig_type=std_logic lab=VGND}
+C {lab_pin.sym} 2750 100 0 1 {name=l154 sig_type=std_logic lab=VAPWR}
+C {lab_pin.sym} 2550 100 0 0 {name=l155 sig_type=std_logic lab=VPWR}
+C {lab_pin.sym} 2550 140 0 0 {name=l156 sig_type=std_logic lab=sh_cap_en[2]}
+C {lab_pin.sym} 2750 140 0 1 {name=l157 sig_type=std_logic lab=cap_out2}
+C {lab_pin.sym} 2650 220 0 1 {name=l158 sig_type=std_logic lab=VGND}
 C {digital_level_translator.sym} 2870 200 0 0 {name=xcap3}
-C {lab_pin.sym} 3050 100 0 1 {name=l155 sig_type=std_logic lab=VAPWR}
-C {lab_pin.sym} 2850 100 0 0 {name=l156 sig_type=std_logic lab=VPWR}
-C {lab_pin.sym} 2850 140 0 0 {name=l157 sig_type=std_logic lab=sh_cap_en[3]}
-C {lab_pin.sym} 3050 140 0 1 {name=l158 sig_type=std_logic lab=cap_out3}
-C {lab_pin.sym} 2950 220 0 1 {name=l159 sig_type=std_logic lab=VGND}
+C {lab_pin.sym} 3050 100 0 1 {name=l159 sig_type=std_logic lab=VAPWR}
+C {lab_pin.sym} 2850 100 0 0 {name=l160 sig_type=std_logic lab=VPWR}
+C {lab_pin.sym} 2850 140 0 0 {name=l161 sig_type=std_logic lab=sh_cap_en[3]}
+C {lab_pin.sym} 3050 140 0 1 {name=l162 sig_type=std_logic lab=cap_out3}
+C {lab_pin.sym} 2950 220 0 1 {name=l163 sig_type=std_logic lab=VGND}
 C {iopin.sym} -300 -2200 0 0 {name=p0 lab=VPWR}
 C {iopin.sym} -300 -2160 0 0 {name=p1 lab=VAPWR}
 C {iopin.sym} -300 -2120 0 0 {name=p2 lab=VGND}

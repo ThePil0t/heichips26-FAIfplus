@@ -22,7 +22,8 @@ x12 VPWR VAPWR dac1_nd7 dac_out[15] dac1_nd6 dac_out[14] dac1_nd5 dac_out[13] da
 + dac_out[10] dac1_nd2 dac1_nd1 dac_out[9] dac_out[8] dac1_nd0 VGND 8x_inverting_digital_level_translator
 RR1 VAPWR iVREF 148.1k $SUB=VGND $[rhigh] w=0.5e-6 l=50e-6 b=0
 RR2 iVREF VGND 148.1k $SUB=VGND $[rhigh] w=0.5e-6 l=50e-6 b=0
-CC1 iVREF VGND cap_cmomi w=50e-6 l=2e-6
+CC1 VGND iVREF cap_cmomi w=31.79e-6 l=47.16e-6
+MC2 VGND iVREF VGND VGND sg13_hv_nmos w=33.5u l=48u ng=1
 xcap0 VAPWR VPWR sh_cap_en[0] cap_out0 VGND digital_level_translator
 xcap1 VAPWR VPWR sh_cap_en[1] cap_out1 VGND digital_level_translator
 xcap2 VAPWR VPWR sh_cap_en[2] cap_out2 VGND digital_level_translator

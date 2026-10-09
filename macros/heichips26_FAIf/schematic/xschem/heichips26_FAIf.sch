@@ -383,12 +383,12 @@ b=0
   mm_ok=1
 value="expr_eng(  ( 1.6e-4 / @w + 1360.0 * ( (@b + 1)* @l + ( 1.081*( @w - 0.04e-6 ) + 0.18e-6 )*@b ) / ( @w - 0.04e-6 ) ) / @m  )"
 }
-C {sg13cmos5l_pr/cap_cmomi.sym} 1280 -260 0 0 {name=C1
+C {sg13cmos5l_pr/cap_cmomi.sym} 1280 -260 2 0 {name=C1
 model=cap_cmomi
-w=50e-6
-l=2e-6
-mmin=2
-mmax=3
+w=31.79e-6
+l=47.16e-6
+mmin=1
+mmax=2
 feed=double
 subblock=0
 m=1
@@ -692,3 +692,16 @@ C {lab_pin.sym} 3050 -890 0 1 {name=p197 lab=uio_in[6]
 }
 C {lab_pin.sym} 3050 -910 0 1 {name=p198 lab=uio_in[7]
 }
+C {sg13cmos5l_pr/sg13_hv_nmos.sym} 1420 -260 0 0 {name=C2
+l=48u
+w=33.5u
+ng=1
+m=1
+model=sg13_hv_nmos
+spiceprefix=X
+}
+C {lab_pin.sym} 1400 -260 0 0 {name=p_c2g sig_type=std_logic lab=iVREF}
+C {lab_pin.sym} 1440 -290 0 1 {name=p_c2d sig_type=std_logic lab=VGND}
+C {lab_pin.sym} 1440 -260 0 1 {name=p_c2b sig_type=std_logic lab=VGND}
+C {lab_pin.sym} 1440 -230 0 1 {name=p_c2s sig_type=std_logic lab=VGND}
+T {C2: HV NMOS cap under the MOM cap C1 (iVREF filter)} 1360 -200 0 0 0.25 0.25 {}
