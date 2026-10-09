@@ -4,10 +4,11 @@
 project-name: FABulous Analogue Interface
 top-cell: "heichips26_FAIf" # Must be a unique name
 team-members:
+- Benedikt Lukat
 - Pascal Gesell
 - Torsten Maehne
 - Graeme Bragg
-- Benedikt Lukat
+
 slot-size: small # small, large, tiny
 analog-pins: 3 # 0-3, only for small or tiny projects
 uses-vapwr: true
@@ -29,9 +30,9 @@ long-description: |
 
   | Pin | Function |
   | --- | -------- |
-  | analog_0 | ADC input |
+  | analog_0 | DAC2 output (buffered) |
   | analog_1 | DAC1 output (buffered) |
-  | analog_2 | DAC2 output (buffered) |
+  | analog_2 | ADC input |
 
   **Digital interface** (all inputs sampled on the rising edge of `clk`)
 
@@ -54,7 +55,7 @@ long-description: |
     then set `ui_in` to the DAC2 value and pulse DAC load with DAC select = 1.
     Both outputs update together on the second load.
   - ADC: set ADC enable = 1. While the ADC is idle, the sample & hold tracks
-    analog_0. Pulse ADC start for one clock: the S&H holds, the SAR decides one
+    analog_2. Pulse ADC start for one clock: the S&H holds, the SAR decides one
     bit per clock (MSB first), and 9 clocks after start ADC tick marks the new
     result on `uo_out`, which stays until the next result. ADC clear stops a
     conversion and clears the result.
@@ -71,16 +72,17 @@ long-description: |
   **Test and PCB needs**
 
   - VAPWR 3.3 V (analogue supply) must be present.
-  - analog_0: a low-impedance source within the ADC input range, e.g. a
+  - analog_2: a low-impedance source within the ADC input range, e.g. a
     function generator or a DAC output looped back externally.
-  - analog_1/analog_2: a test point or SMA connector per output for a scope or
+  - analog_0/analog_1: a test point or SMA connector per output for a scope or
     multimeter; the outputs are buffered on chip but not meant to drive heavy
     loads.
   - The clock is provided by the RP2350 and can be slowed down for the ADC.
-  - Self-test: loop a DAC output back to analog_0 on the PCB and compare the
+  - opt., Self-test: loop a DAC output back to analog_2 on the PCB
+    (DAC1 on analog_1 is the neighbouring pin) and compare the
     ADC result with the DAC code.
 
-  Repository: https://github.com/heliosfa/heichips26-FAIf
+  Repository: https://github.com/ThePil0t/heichips26-FAIfplus
 
 # These paths are used to verify your
 # submission during the precheck.

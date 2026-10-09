@@ -112,20 +112,6 @@ library (heichips26_FAIf) {
     pin("rst_n") {
       direction : input;
       capacitance : 0.0029;
-      timing() {
-        related_pin : "clk";
-        timing_type : hold_rising;
-	rise_constraint(scalar) {
-          values("-0.41143");
-	}
-      }
-      timing() {
-        related_pin : "clk";
-        timing_type : setup_rising;
-	rise_constraint(scalar) {
-          values("1.45036");
-	}
-      }
     }
     bus("ui_in") {
       bus_type : ui_in;
