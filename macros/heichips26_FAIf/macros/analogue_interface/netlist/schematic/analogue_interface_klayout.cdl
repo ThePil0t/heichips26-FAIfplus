@@ -14,10 +14,10 @@ x6 VPWR VAPWR sar_nd7 adc_ref[7] sar_nd6 adc_ref[6] sar_nd5 adc_ref[5] sar_nd4 a
 + sar_nd1 adc_ref[1] adc_ref[0] sar_nd0 VGND 8x_inverting_digital_level_translator
 x7 VPWR VAPWR dac0_nd7 dac_out[7] dac0_nd6 dac_out[6] dac0_nd5 dac_out[5] dac0_nd4 dac_out[4] dac_out[3] dac0_nd3 dac_out[2]
 + dac0_nd2 dac0_nd1 dac_out[1] dac_out[0] dac0_nd0 VGND 8x_inverting_digital_level_translator
-x8 VAPWR iIREF1 sh_in sh_in analog_0 VGND VGND op_amp_ver_2
+x8 VAPWR iIREF1 sh_in sh_in analog_2 VGND VGND op_amp_ver_2
 x9 VAPWR VPWR adc_hold sh_en VGND digital_level_translator
 x10 VAPWR sh_in iSAR_AN sh_en VGND sah_12bit
-x11 VAPWR analog_2 iVREF iIREF4 dac1_nd7 dac1_nd0 dac1_nd2 dac1_nd4 dac1_nd5 dac1_nd6 dac1_nd3 dac1_nd1 VGND VGND r2r_dac
+x11 VAPWR analog_0 iVREF iIREF4 dac1_nd7 dac1_nd0 dac1_nd2 dac1_nd4 dac1_nd5 dac1_nd6 dac1_nd3 dac1_nd1 VGND VGND r2r_dac
 x12 VPWR VAPWR dac1_nd7 dac_out[15] dac1_nd6 dac_out[14] dac1_nd5 dac_out[13] dac1_nd4 dac_out[12] dac_out[11] dac1_nd3
 + dac_out[10] dac1_nd2 dac1_nd1 dac_out[9] dac_out[8] dac1_nd0 VGND 8x_inverting_digital_level_translator
 RR1 VAPWR iVREF 148.1k $SUB=VGND $[rhigh] w=0.5e-6 l=50e-6 b=0

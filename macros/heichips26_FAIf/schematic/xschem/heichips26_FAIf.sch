@@ -20,6 +20,7 @@ T {ANALOG} 1790 -2230 0 0 0.4 0.4 {}
 T {DIGITAL} 1900 -2230 0 0 0.4 0.4 {}
 T {ANALOG} 1790 -180 0 0 0.4 0.4 {}
 T {DIGITAL} 1900 -180 0 0 0.4 0.4 {}
+T {C2: HV NMOS cap under the MOM cap C1 (iVREF filter)} 1360 -200 0 0 0.25 0.25 {}
 N 620 -460 620 -440 {lab=VAPWR}
 N 1530 -2120 1530 -2090 {lab=VAPWR}
 N 620 -280 620 -260 {lab=VGND}
@@ -531,10 +532,10 @@ C {lab_pin.sym} 1650 -650 2 0 {name=p114 sig_type=std_logic lab=VGND
 C {lab_pin.sym} 1650 -700 2 0 {name=p116 sig_type=std_logic lab=iIREF4}
 C {lab_pin.sym} 1650 -720 2 0 {name=p117 sig_type=std_logic lab=iVREF
 }
-C {lab_pin.sym} 700 -2020 0 0 {name=p119 sig_type=std_logic lab=analog_0
+C {lab_pin.sym} 700 -700 0 0 {name=p119 sig_type=std_logic lab=analog_0
 }
 C {lab_pin.sym} 700 -1130 0 0 {name=p85 sig_type=std_logic lab=analog_1}
-C {lab_pin.sym} 700 -700 0 0 {name=p86 sig_type=std_logic lab=analog_2}
+C {lab_pin.sym} 700 -2020 0 0 {name=p86 sig_type=std_logic lab=analog_2}
 C {lab_pin.sym} 800 -260 3 0 {name=p118 sig_type=std_logic lab=iIREF4
 }
 C {lab_pin.sym} 2050 -440 0 1 {name=p120 lab=DAC1_OUT[0]
@@ -704,4 +705,3 @@ C {lab_pin.sym} 1400 -260 0 0 {name=p_c2g sig_type=std_logic lab=iVREF}
 C {lab_pin.sym} 1440 -290 0 1 {name=p_c2d sig_type=std_logic lab=VGND}
 C {lab_pin.sym} 1440 -260 0 1 {name=p_c2b sig_type=std_logic lab=VGND}
 C {lab_pin.sym} 1440 -230 0 1 {name=p_c2s sig_type=std_logic lab=VGND}
-T {C2: HV NMOS cap under the MOM cap C1 (iVREF filter)} 1360 -200 0 0 0.25 0.25 {}

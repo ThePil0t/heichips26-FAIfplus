@@ -101,7 +101,7 @@ C {lab_pin.sym} 860 -2090 0 1 {name=l84 sig_type=std_logic lab=VAPWR}
 C {lab_pin.sym} 820 -1970 0 0 {name=l85 sig_type=std_logic lab=iIREF1}
 C {lab_pin.sym} 780 -2060 0 0 {name=l86 sig_type=std_logic lab=sh_in}
 C {lab_pin.sym} 950 -2040 0 1 {name=l87 sig_type=std_logic lab=sh_in}
-C {lab_pin.sym} 780 -2020 0 0 {name=l88 sig_type=std_logic lab=analog_0}
+C {lab_pin.sym} 780 -2020 0 0 {name=l88 sig_type=std_logic lab=analog_2}
 C {lab_pin.sym} 860 -1990 0 1 {name=l89 sig_type=std_logic lab=VGND}
 C {lab_pin.sym} 820 -2110 0 0 {name=l90 sig_type=std_logic lab=VGND}
 C {digital_level_translator.sym} 1970 -1220 0 1 {name=x9}
@@ -118,7 +118,7 @@ C {lab_pin.sym} 1080 -1960 0 0 {name=l99 sig_type=std_logic lab=sh_en}
 C {lab_pin.sym} 1140 -1960 0 1 {name=l100 sig_type=std_logic lab=VGND}
 C {r2r_dac.sym} 1690 -540 0 1 {name=x11}
 C {lab_pin.sym} 1630 -750 0 1 {name=l101 sig_type=std_logic lab=VAPWR}
-C {lab_pin.sym} 1330 -700 0 0 {name=l102 sig_type=std_logic lab=analog_2}
+C {lab_pin.sym} 1330 -700 0 0 {name=l102 sig_type=std_logic lab=analog_0}
 C {lab_pin.sym} 1630 -720 0 1 {name=l103 sig_type=std_logic lab=iVREF}
 C {lab_pin.sym} 1630 -700 0 1 {name=l104 sig_type=std_logic lab=iIREF4}
 C {lab_pin.sym} 1430 -610 0 0 {name=l105 sig_type=std_logic lab=dac1_nd7}
