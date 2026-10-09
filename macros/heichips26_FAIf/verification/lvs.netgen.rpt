@@ -1,0 +1,610 @@
+
+Cell sg13cmos5l_decap_8 (0) disconnected node: VDD
+Cell sg13cmos5l_decap_8 (0) disconnected node: VSS
+
+Subcircuit pins:
+Circuit 1: sg13cmos5l_decap_8              |Circuit 2: sg13cmos5l_decap_8              
+-------------------------------------------|-------------------------------------------
+VDD                                        |VDD                                        
+VSS                                        |VSS                                        
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13cmos5l_decap_8 and sg13cmos5l_decap_8 are equivalent.
+
+Cell sg13cmos5l_fill_1 (0) disconnected node: VDD
+Cell sg13cmos5l_fill_1 (0) disconnected node: VSS
+Cell sg13cmos5l_fill_1 (1) disconnected node: VDD
+Cell sg13cmos5l_fill_1 (1) disconnected node: VSS
+
+Subcircuit pins:
+Circuit 1: sg13cmos5l_fill_1               |Circuit 2: sg13cmos5l_fill_1               
+-------------------------------------------|-------------------------------------------
+VDD                                        |VDD                                        
+VSS                                        |VSS                                        
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13cmos5l_fill_1 and sg13cmos5l_fill_1 are equivalent.
+
+Cell sg13cmos5l_mux2_1 (0) disconnected node: X
+Cell sg13cmos5l_mux2_1 (0) disconnected node: A0
+Cell sg13cmos5l_mux2_1 (0) disconnected node: A1
+Cell sg13cmos5l_mux2_1 (0) disconnected node: S
+Cell sg13cmos5l_mux2_1 (0) disconnected node: VDD
+Cell sg13cmos5l_mux2_1 (0) disconnected node: VSS
+
+Subcircuit pins:
+Circuit 1: sg13cmos5l_mux2_1               |Circuit 2: sg13cmos5l_mux2_1               
+-------------------------------------------|-------------------------------------------
+X                                          |X                                          
+A0                                         |A0                                         
+A1                                         |A1                                         
+S                                          |S                                          
+VDD                                        |VDD                                        
+VSS                                        |VSS                                        
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13cmos5l_mux2_1 and sg13cmos5l_mux2_1 are equivalent.
+
+Cell sg13cmos5l_inv_1 (0) disconnected node: Y
+Cell sg13cmos5l_inv_1 (0) disconnected node: A
+Cell sg13cmos5l_inv_1 (0) disconnected node: VDD
+Cell sg13cmos5l_inv_1 (0) disconnected node: VSS
+
+Subcircuit pins:
+Circuit 1: sg13cmos5l_inv_1                |Circuit 2: sg13cmos5l_inv_1                
+-------------------------------------------|-------------------------------------------
+Y                                          |Y                                          
+A                                          |A                                          
+VDD                                        |VDD                                        
+VSS                                        |VSS                                        
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13cmos5l_inv_1 and sg13cmos5l_inv_1 are equivalent.
+
+Cell sg13cmos5l_decap_4 (0) disconnected node: VDD
+Cell sg13cmos5l_decap_4 (0) disconnected node: VSS
+
+Subcircuit pins:
+Circuit 1: sg13cmos5l_decap_4              |Circuit 2: sg13cmos5l_decap_4              
+-------------------------------------------|-------------------------------------------
+VDD                                        |VDD                                        
+VSS                                        |VSS                                        
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13cmos5l_decap_4 and sg13cmos5l_decap_4 are equivalent.
+
+Cell sg13cmos5l_a21oi_1 (0) disconnected node: Y
+Cell sg13cmos5l_a21oi_1 (0) disconnected node: A1
+Cell sg13cmos5l_a21oi_1 (0) disconnected node: A2
+Cell sg13cmos5l_a21oi_1 (0) disconnected node: B1
+Cell sg13cmos5l_a21oi_1 (0) disconnected node: VDD
+Cell sg13cmos5l_a21oi_1 (0) disconnected node: VSS
+
+Subcircuit pins:
+Circuit 1: sg13cmos5l_a21oi_1              |Circuit 2: sg13cmos5l_a21oi_1              
+-------------------------------------------|-------------------------------------------
+Y                                          |Y                                          
+A1                                         |A1                                         
+A2                                         |A2                                         
+B1                                         |B1                                         
+VDD                                        |VDD                                        
+VSS                                        |VSS                                        
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13cmos5l_a21oi_1 and sg13cmos5l_a21oi_1 are equivalent.
+
+Cell sg13cmos5l_dlygate4sd3_1 (0) disconnected node: X
+Cell sg13cmos5l_dlygate4sd3_1 (0) disconnected node: A
+Cell sg13cmos5l_dlygate4sd3_1 (0) disconnected node: VDD
+Cell sg13cmos5l_dlygate4sd3_1 (0) disconnected node: VSS
+
+Subcircuit pins:
+Circuit 1: sg13cmos5l_dlygate4sd3_1        |Circuit 2: sg13cmos5l_dlygate4sd3_1        
+-------------------------------------------|-------------------------------------------
+X                                          |X                                          
+A                                          |A                                          
+VDD                                        |VDD                                        
+VSS                                        |VSS                                        
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13cmos5l_dlygate4sd3_1 and sg13cmos5l_dlygate4sd3_1 are equivalent.
+
+Cell sg13cmos5l_fill_2 (0) disconnected node: VDD
+Cell sg13cmos5l_fill_2 (0) disconnected node: VSS
+Cell sg13cmos5l_fill_2 (1) disconnected node: VDD
+Cell sg13cmos5l_fill_2 (1) disconnected node: VSS
+
+Subcircuit pins:
+Circuit 1: sg13cmos5l_fill_2               |Circuit 2: sg13cmos5l_fill_2               
+-------------------------------------------|-------------------------------------------
+VDD                                        |VDD                                        
+VSS                                        |VSS                                        
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13cmos5l_fill_2 and sg13cmos5l_fill_2 are equivalent.
+
+Cell sg13cmos5l_buf_1 (0) disconnected node: X
+Cell sg13cmos5l_buf_1 (0) disconnected node: A
+Cell sg13cmos5l_buf_1 (0) disconnected node: VDD
+Cell sg13cmos5l_buf_1 (0) disconnected node: VSS
+
+Subcircuit pins:
+Circuit 1: sg13cmos5l_buf_1                |Circuit 2: sg13cmos5l_buf_1                
+-------------------------------------------|-------------------------------------------
+X                                          |X                                          
+A                                          |A                                          
+VDD                                        |VDD                                        
+VSS                                        |VSS                                        
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13cmos5l_buf_1 and sg13cmos5l_buf_1 are equivalent.
+
+Cell sg13cmos5l_buf_8 (0) disconnected node: X
+Cell sg13cmos5l_buf_8 (0) disconnected node: A
+Cell sg13cmos5l_buf_8 (0) disconnected node: VDD
+Cell sg13cmos5l_buf_8 (0) disconnected node: VSS
+
+Subcircuit pins:
+Circuit 1: sg13cmos5l_buf_8                |Circuit 2: sg13cmos5l_buf_8                
+-------------------------------------------|-------------------------------------------
+X                                          |X                                          
+A                                          |A                                          
+VDD                                        |VDD                                        
+VSS                                        |VSS                                        
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13cmos5l_buf_8 and sg13cmos5l_buf_8 are equivalent.
+
+Cell sg13cmos5l_nand4_1 (0) disconnected node: Y
+Cell sg13cmos5l_nand4_1 (0) disconnected node: A
+Cell sg13cmos5l_nand4_1 (0) disconnected node: B
+Cell sg13cmos5l_nand4_1 (0) disconnected node: C
+Cell sg13cmos5l_nand4_1 (0) disconnected node: D
+Cell sg13cmos5l_nand4_1 (0) disconnected node: VDD
+Cell sg13cmos5l_nand4_1 (0) disconnected node: VSS
+
+Subcircuit pins:
+Circuit 1: sg13cmos5l_nand4_1              |Circuit 2: sg13cmos5l_nand4_1              
+-------------------------------------------|-------------------------------------------
+Y                                          |Y                                          
+A                                          |A                                          
+B                                          |B                                          
+C                                          |C                                          
+D                                          |D                                          
+VDD                                        |VDD                                        
+VSS                                        |VSS                                        
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13cmos5l_nand4_1 and sg13cmos5l_nand4_1 are equivalent.
+
+Cell sg13cmos5l_nand2b_1 (0) disconnected node: Y
+Cell sg13cmos5l_nand2b_1 (0) disconnected node: A_N
+Cell sg13cmos5l_nand2b_1 (0) disconnected node: B
+Cell sg13cmos5l_nand2b_1 (0) disconnected node: VDD
+Cell sg13cmos5l_nand2b_1 (0) disconnected node: VSS
+
+Subcircuit pins:
+Circuit 1: sg13cmos5l_nand2b_1             |Circuit 2: sg13cmos5l_nand2b_1             
+-------------------------------------------|-------------------------------------------
+Y                                          |Y                                          
+A_N                                        |A_N                                        
+B                                          |B                                          
+VDD                                        |VDD                                        
+VSS                                        |VSS                                        
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13cmos5l_nand2b_1 and sg13cmos5l_nand2b_1 are equivalent.
+
+Cell sg13cmos5l_nand2_1 (0) disconnected node: Y
+Cell sg13cmos5l_nand2_1 (0) disconnected node: A
+Cell sg13cmos5l_nand2_1 (0) disconnected node: B
+Cell sg13cmos5l_nand2_1 (0) disconnected node: VDD
+Cell sg13cmos5l_nand2_1 (0) disconnected node: VSS
+
+Subcircuit pins:
+Circuit 1: sg13cmos5l_nand2_1              |Circuit 2: sg13cmos5l_nand2_1              
+-------------------------------------------|-------------------------------------------
+Y                                          |Y                                          
+A                                          |A                                          
+B                                          |B                                          
+VDD                                        |VDD                                        
+VSS                                        |VSS                                        
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13cmos5l_nand2_1 and sg13cmos5l_nand2_1 are equivalent.
+
+Cell sg13cmos5l_dfrbpq_1 (0) disconnected node: Q
+Cell sg13cmos5l_dfrbpq_1 (0) disconnected node: CLK
+Cell sg13cmos5l_dfrbpq_1 (0) disconnected node: D
+Cell sg13cmos5l_dfrbpq_1 (0) disconnected node: RESET_B
+Cell sg13cmos5l_dfrbpq_1 (0) disconnected node: VDD
+Cell sg13cmos5l_dfrbpq_1 (0) disconnected node: VSS
+
+Subcircuit pins:
+Circuit 1: sg13cmos5l_dfrbpq_1             |Circuit 2: sg13cmos5l_dfrbpq_1             
+-------------------------------------------|-------------------------------------------
+Q                                          |Q                                          
+CLK                                        |CLK                                        
+D                                          |D                                          
+RESET_B                                    |RESET_B                                    
+VDD                                        |VDD                                        
+VSS                                        |VSS                                        
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13cmos5l_dfrbpq_1 and sg13cmos5l_dfrbpq_1 are equivalent.
+
+Cell sg13cmos5l_a21o_1 (0) disconnected node: X
+Cell sg13cmos5l_a21o_1 (0) disconnected node: A1
+Cell sg13cmos5l_a21o_1 (0) disconnected node: A2
+Cell sg13cmos5l_a21o_1 (0) disconnected node: B1
+Cell sg13cmos5l_a21o_1 (0) disconnected node: VDD
+Cell sg13cmos5l_a21o_1 (0) disconnected node: VSS
+
+Subcircuit pins:
+Circuit 1: sg13cmos5l_a21o_1               |Circuit 2: sg13cmos5l_a21o_1               
+-------------------------------------------|-------------------------------------------
+X                                          |X                                          
+A1                                         |A1                                         
+A2                                         |A2                                         
+B1                                         |B1                                         
+VDD                                        |VDD                                        
+VSS                                        |VSS                                        
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13cmos5l_a21o_1 and sg13cmos5l_a21o_1 are equivalent.
+
+Cell sg13cmos5l_nor2b_1 (0) disconnected node: Y
+Cell sg13cmos5l_nor2b_1 (0) disconnected node: A
+Cell sg13cmos5l_nor2b_1 (0) disconnected node: B_N
+Cell sg13cmos5l_nor2b_1 (0) disconnected node: VDD
+Cell sg13cmos5l_nor2b_1 (0) disconnected node: VSS
+
+Subcircuit pins:
+Circuit 1: sg13cmos5l_nor2b_1              |Circuit 2: sg13cmos5l_nor2b_1              
+-------------------------------------------|-------------------------------------------
+Y                                          |Y                                          
+A                                          |A                                          
+B_N                                        |B_N                                        
+VDD                                        |VDD                                        
+VSS                                        |VSS                                        
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13cmos5l_nor2b_1 and sg13cmos5l_nor2b_1 are equivalent.
+
+Cell sg13cmos5l_nor4_1 (0) disconnected node: Y
+Cell sg13cmos5l_nor4_1 (0) disconnected node: A
+Cell sg13cmos5l_nor4_1 (0) disconnected node: B
+Cell sg13cmos5l_nor4_1 (0) disconnected node: C
+Cell sg13cmos5l_nor4_1 (0) disconnected node: D
+Cell sg13cmos5l_nor4_1 (0) disconnected node: VDD
+Cell sg13cmos5l_nor4_1 (0) disconnected node: VSS
+
+Subcircuit pins:
+Circuit 1: sg13cmos5l_nor4_1               |Circuit 2: sg13cmos5l_nor4_1               
+-------------------------------------------|-------------------------------------------
+Y                                          |Y                                          
+A                                          |A                                          
+B                                          |B                                          
+C                                          |C                                          
+D                                          |D                                          
+VDD                                        |VDD                                        
+VSS                                        |VSS                                        
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13cmos5l_nor4_1 and sg13cmos5l_nor4_1 are equivalent.
+
+Cell sg13cmos5l_nor3_1 (0) disconnected node: Y
+Cell sg13cmos5l_nor3_1 (0) disconnected node: A
+Cell sg13cmos5l_nor3_1 (0) disconnected node: B
+Cell sg13cmos5l_nor3_1 (0) disconnected node: C
+Cell sg13cmos5l_nor3_1 (0) disconnected node: VDD
+Cell sg13cmos5l_nor3_1 (0) disconnected node: VSS
+
+Subcircuit pins:
+Circuit 1: sg13cmos5l_nor3_1               |Circuit 2: sg13cmos5l_nor3_1               
+-------------------------------------------|-------------------------------------------
+Y                                          |Y                                          
+A                                          |A                                          
+B                                          |B                                          
+C                                          |C                                          
+VDD                                        |VDD                                        
+VSS                                        |VSS                                        
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13cmos5l_nor3_1 and sg13cmos5l_nor3_1 are equivalent.
+
+Cell sg13cmos5l_and2_1 (0) disconnected node: X
+Cell sg13cmos5l_and2_1 (0) disconnected node: A
+Cell sg13cmos5l_and2_1 (0) disconnected node: B
+Cell sg13cmos5l_and2_1 (0) disconnected node: VDD
+Cell sg13cmos5l_and2_1 (0) disconnected node: VSS
+
+Subcircuit pins:
+Circuit 1: sg13cmos5l_and2_1               |Circuit 2: sg13cmos5l_and2_1               
+-------------------------------------------|-------------------------------------------
+X                                          |X                                          
+A                                          |A                                          
+B                                          |B                                          
+VDD                                        |VDD                                        
+VSS                                        |VSS                                        
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13cmos5l_and2_1 and sg13cmos5l_and2_1 are equivalent.
+
+Cell sg13cmos5l_tielo (0) disconnected node: L_LO
+Cell sg13cmos5l_tielo (0) disconnected node: VDD
+Cell sg13cmos5l_tielo (0) disconnected node: VSS
+
+Subcircuit pins:
+Circuit 1: sg13cmos5l_tielo                |Circuit 2: sg13cmos5l_tielo                
+-------------------------------------------|-------------------------------------------
+L_LO                                       |L_LO                                       
+VDD                                        |VDD                                        
+VSS                                        |VSS                                        
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13cmos5l_tielo and sg13cmos5l_tielo are equivalent.
+
+Cell sg13cmos5l_nand3_1 (0) disconnected node: Y
+Cell sg13cmos5l_nand3_1 (0) disconnected node: A
+Cell sg13cmos5l_nand3_1 (0) disconnected node: B
+Cell sg13cmos5l_nand3_1 (0) disconnected node: C
+Cell sg13cmos5l_nand3_1 (0) disconnected node: VDD
+Cell sg13cmos5l_nand3_1 (0) disconnected node: VSS
+
+Subcircuit pins:
+Circuit 1: sg13cmos5l_nand3_1              |Circuit 2: sg13cmos5l_nand3_1              
+-------------------------------------------|-------------------------------------------
+Y                                          |Y                                          
+A                                          |A                                          
+B                                          |B                                          
+C                                          |C                                          
+VDD                                        |VDD                                        
+VSS                                        |VSS                                        
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13cmos5l_nand3_1 and sg13cmos5l_nand3_1 are equivalent.
+
+Cell analogue_interface (0) disconnected node: adc_ref[0]
+Cell analogue_interface (0) disconnected node: adc_ref[1]
+Cell analogue_interface (0) disconnected node: adc_ref[2]
+Cell analogue_interface (0) disconnected node: adc_ref[3]
+Cell analogue_interface (0) disconnected node: adc_ref[4]
+Cell analogue_interface (0) disconnected node: adc_ref[5]
+Cell analogue_interface (0) disconnected node: adc_ref[6]
+Cell analogue_interface (0) disconnected node: adc_ref[7]
+Cell analogue_interface (0) disconnected node: adc_hold
+Cell analogue_interface (0) disconnected node: adc_comp
+Cell analogue_interface (0) disconnected node: dac_out[0]
+Cell analogue_interface (0) disconnected node: dac_out[1]
+Cell analogue_interface (0) disconnected node: dac_out[2]
+Cell analogue_interface (0) disconnected node: dac_out[3]
+Cell analogue_interface (0) disconnected node: dac_out[4]
+Cell analogue_interface (0) disconnected node: dac_out[5]
+Cell analogue_interface (0) disconnected node: dac_out[6]
+Cell analogue_interface (0) disconnected node: dac_out[7]
+Cell analogue_interface (0) disconnected node: dac_out[8]
+Cell analogue_interface (0) disconnected node: dac_out[9]
+Cell analogue_interface (0) disconnected node: dac_out[10]
+Cell analogue_interface (0) disconnected node: dac_out[11]
+Cell analogue_interface (0) disconnected node: dac_out[12]
+Cell analogue_interface (0) disconnected node: dac_out[13]
+Cell analogue_interface (0) disconnected node: dac_out[14]
+Cell analogue_interface (0) disconnected node: dac_out[15]
+Cell analogue_interface (0) disconnected node: sh_cap_en[0]
+Cell analogue_interface (0) disconnected node: sh_cap_en[1]
+Cell analogue_interface (0) disconnected node: sh_cap_en[2]
+Cell analogue_interface (0) disconnected node: sh_cap_en[3]
+Cell analogue_interface (0) disconnected node: analog_0
+Cell analogue_interface (0) disconnected node: analog_1
+Cell analogue_interface (0) disconnected node: analog_2
+Cell analogue_interface (0) disconnected node: VPWR
+Cell analogue_interface (0) disconnected node: VGND
+Cell analogue_interface (0) disconnected node: VAPWR
+
+Subcircuit pins:
+Circuit 1: analogue_interface              |Circuit 2: analogue_interface              
+-------------------------------------------|-------------------------------------------
+adc_ref[0]                                 |adc_ref[0]                                 
+adc_ref[1]                                 |adc_ref[1]                                 
+adc_ref[2]                                 |adc_ref[2]                                 
+adc_ref[3]                                 |adc_ref[3]                                 
+adc_ref[4]                                 |adc_ref[4]                                 
+adc_ref[5]                                 |adc_ref[5]                                 
+adc_ref[6]                                 |adc_ref[6]                                 
+adc_ref[7]                                 |adc_ref[7]                                 
+adc_hold                                   |adc_hold                                   
+adc_comp                                   |adc_comp                                   
+dac_out[0]                                 |dac_out[0]                                 
+dac_out[1]                                 |dac_out[1]                                 
+dac_out[2]                                 |dac_out[2]                                 
+dac_out[3]                                 |dac_out[3]                                 
+dac_out[4]                                 |dac_out[4]                                 
+dac_out[5]                                 |dac_out[5]                                 
+dac_out[6]                                 |dac_out[6]                                 
+dac_out[7]                                 |dac_out[7]                                 
+dac_out[8]                                 |dac_out[8]                                 
+dac_out[9]                                 |dac_out[9]                                 
+dac_out[10]                                |dac_out[10]                                
+dac_out[11]                                |dac_out[11]                                
+dac_out[12]                                |dac_out[12]                                
+dac_out[13]                                |dac_out[13]                                
+dac_out[14]                                |dac_out[14]                                
+dac_out[15]                                |dac_out[15]                                
+sh_cap_en[0]                               |sh_cap_en[0]                               
+sh_cap_en[1]                               |sh_cap_en[1]                               
+sh_cap_en[2]                               |sh_cap_en[2]                               
+sh_cap_en[3]                               |sh_cap_en[3]                               
+analog_0                                   |analog_0                                   
+analog_1                                   |analog_1                                   
+analog_2                                   |analog_2                                   
+VPWR                                       |VPWR                                       
+VGND                                       |VGND                                       
+VAPWR                                      |VAPWR                                      
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes analogue_interface and analogue_interface are equivalent.
+
+Cell sg13cmos5l_tiehi (0) disconnected node: L_HI
+Cell sg13cmos5l_tiehi (0) disconnected node: VDD
+Cell sg13cmos5l_tiehi (0) disconnected node: VSS
+
+Subcircuit pins:
+Circuit 1: sg13cmos5l_tiehi                |Circuit 2: sg13cmos5l_tiehi                
+-------------------------------------------|-------------------------------------------
+L_HI                                       |L_HI                                       
+VDD                                        |VDD                                        
+VSS                                        |VSS                                        
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13cmos5l_tiehi and sg13cmos5l_tiehi are equivalent.
+
+Cell sg13cmos5l_nor2_1 (0) disconnected node: Y
+Cell sg13cmos5l_nor2_1 (0) disconnected node: A
+Cell sg13cmos5l_nor2_1 (0) disconnected node: B
+Cell sg13cmos5l_nor2_1 (0) disconnected node: VDD
+Cell sg13cmos5l_nor2_1 (0) disconnected node: VSS
+
+Subcircuit pins:
+Circuit 1: sg13cmos5l_nor2_1               |Circuit 2: sg13cmos5l_nor2_1               
+-------------------------------------------|-------------------------------------------
+Y                                          |Y                                          
+A                                          |A                                          
+B                                          |B                                          
+VDD                                        |VDD                                        
+VSS                                        |VSS                                        
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13cmos5l_nor2_1 and sg13cmos5l_nor2_1 are equivalent.
+
+Cell sg13cmos5l_a221oi_1 (0) disconnected node: Y
+Cell sg13cmos5l_a221oi_1 (0) disconnected node: A1
+Cell sg13cmos5l_a221oi_1 (0) disconnected node: A2
+Cell sg13cmos5l_a221oi_1 (0) disconnected node: B1
+Cell sg13cmos5l_a221oi_1 (0) disconnected node: B2
+Cell sg13cmos5l_a221oi_1 (0) disconnected node: C1
+Cell sg13cmos5l_a221oi_1 (0) disconnected node: VDD
+Cell sg13cmos5l_a221oi_1 (0) disconnected node: VSS
+
+Subcircuit pins:
+Circuit 1: sg13cmos5l_a221oi_1             |Circuit 2: sg13cmos5l_a221oi_1             
+-------------------------------------------|-------------------------------------------
+Y                                          |Y                                          
+A1                                         |A1                                         
+A2                                         |A2                                         
+B1                                         |B1                                         
+B2                                         |B2                                         
+C1                                         |C1                                         
+VDD                                        |VDD                                        
+VSS                                        |VSS                                        
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13cmos5l_a221oi_1 and sg13cmos5l_a221oi_1 are equivalent.
+
+Cell heichips26_FAIf (0) disconnected node: ena
+Cell heichips26_FAIf (0) disconnected node: uio_in[3]
+Cell heichips26_FAIf (0) disconnected node: uio_in[4]
+Cell heichips26_FAIf (1) disconnected node: ena
+Cell heichips26_FAIf (1) disconnected node: uio_in[4]
+Cell heichips26_FAIf (1) disconnected node: uio_in[3]
+Class heichips26_FAIf (0):  Merged 2401 parallel devices.
+Class heichips26_FAIf (1):  Merged 2401 parallel devices.
+Cell heichips26_FAIf (0) disconnected node: ena
+Cell heichips26_FAIf (0) disconnected node: uio_in[3]
+Cell heichips26_FAIf (0) disconnected node: uio_in[4]
+Cell heichips26_FAIf (1) disconnected node: ena
+Cell heichips26_FAIf (1) disconnected node: uio_in[4]
+Cell heichips26_FAIf (1) disconnected node: uio_in[3]
+Subcircuit summary:
+Circuit 1: heichips26_FAIf                 |Circuit 2: heichips26_FAIf                 
+-------------------------------------------|-------------------------------------------
+sg13cmos5l_decap_8 (2215->1)               |sg13cmos5l_decap_8 (2215->1)               
+sg13cmos5l_fill_1 (80->1)                  |sg13cmos5l_fill_1 (80->1)                  
+sg13cmos5l_mux2_1 (29)                     |sg13cmos5l_mux2_1 (29)                     
+sg13cmos5l_inv_1 (6)                       |sg13cmos5l_inv_1 (6)                       
+sg13cmos5l_decap_4 (38->1)                 |sg13cmos5l_decap_4 (38->1)                 
+sg13cmos5l_a21oi_1 (14)                    |sg13cmos5l_a21oi_1 (14)                    
+sg13cmos5l_dlygate4sd3_1 (77)              |sg13cmos5l_dlygate4sd3_1 (77)              
+sg13cmos5l_fill_2 (72->1)                  |sg13cmos5l_fill_2 (72->1)                  
+sg13cmos5l_buf_1 (44)                      |sg13cmos5l_buf_1 (44)                      
+sg13cmos5l_buf_8 (9)                       |sg13cmos5l_buf_8 (9)                       
+sg13cmos5l_nand4_1 (2)                     |sg13cmos5l_nand4_1 (2)                     
+sg13cmos5l_nand2b_1 (10)                   |sg13cmos5l_nand2b_1 (10)                   
+sg13cmos5l_nand2_1 (8)                     |sg13cmos5l_nand2_1 (8)                     
+sg13cmos5l_dfrbpq_1 (55)                   |sg13cmos5l_dfrbpq_1 (55)                   
+sg13cmos5l_a21o_1 (8)                      |sg13cmos5l_a21o_1 (8)                      
+sg13cmos5l_nor2b_1 (10)                    |sg13cmos5l_nor2b_1 (10)                    
+sg13cmos5l_nor4_1 (3)                      |sg13cmos5l_nor4_1 (3)                      
+sg13cmos5l_nor3_1 (16)                     |sg13cmos5l_nor3_1 (16)                     
+sg13cmos5l_and2_1 (1)                      |sg13cmos5l_and2_1 (1)                      
+sg13cmos5l_tielo (12)                      |sg13cmos5l_tielo (12)                      
+sg13cmos5l_nand3_1 (1)                     |sg13cmos5l_nand3_1 (1)                     
+analogue_interface (1)                     |analogue_interface (1)                     
+sg13cmos5l_tiehi (2)                       |sg13cmos5l_tiehi (2)                       
+sg13cmos5l_nor2_1 (2)                      |sg13cmos5l_nor2_1 (2)                      
+sg13cmos5l_a221oi_1 (1)                    |sg13cmos5l_a221oi_1 (1)                    
+Number of devices: 315                     |Number of devices: 315                     
+Number of nets: 333                        |Number of nets: 333                        
+---------------------------------------------------------------------------------------
+Resolving symmetries by property value.
+Resolving symmetries by pin name.
+Netlists match uniquely.
+
+Subcircuit pins:
+Circuit 1: heichips26_FAIf                 |Circuit 2: heichips26_FAIf                 
+-------------------------------------------|-------------------------------------------
+analog_0                                   |analog_0                                   
+analog_1                                   |analog_1                                   
+analog_2                                   |analog_2                                   
+VAPWR                                      |VAPWR                                      
+clk                                        |clk                                        
+uio_oe[0]                                  |uio_oe[0]                                  
+uio_oe[1]                                  |uio_oe[1]                                  
+uio_oe[2]                                  |uio_oe[2]                                  
+uio_oe[5]                                  |uio_oe[5]                                  
+uio_oe[6]                                  |uio_oe[6]                                  
+uio_oe[7]                                  |uio_oe[7]                                  
+uio_out[0]                                 |uio_out[0]                                 
+uio_out[1]                                 |uio_out[1]                                 
+uio_out[2]                                 |uio_out[2]                                 
+uio_out[5]                                 |uio_out[5]                                 
+uio_out[6]                                 |uio_out[6]                                 
+uio_out[7]                                 |uio_out[7]                                 
+uio_oe[3]                                  |uio_oe[3]                                  
+uio_oe[4]                                  |uio_oe[4]                                  
+uio_in[2]                                  |uio_in[2]                                  
+uio_in[1]                                  |uio_in[1]                                  
+uio_in[7]                                  |uio_in[7]                                  
+uio_in[0]                                  |uio_in[0]                                  
+ui_in[3]                                   |ui_in[3]                                   
+ui_in[2]                                   |ui_in[2]                                   
+ui_in[1]                                   |ui_in[1]                                   
+ui_in[0]                                   |ui_in[0]                                   
+uio_in[6]                                  |uio_in[6]                                  
+uio_in[5]                                  |uio_in[5]                                  
+ui_in[5]                                   |ui_in[5]                                   
+ui_in[7]                                   |ui_in[7]                                   
+ui_in[6]                                   |ui_in[6]                                   
+ui_in[4]                                   |ui_in[4]                                   
+rst_n                                      |rst_n                                      
+uio_out[4]                                 |uio_out[4]                                 
+uio_out[3]                                 |uio_out[3]                                 
+uo_out[4]                                  |uo_out[4]                                  
+uo_out[6]                                  |uo_out[6]                                  
+uo_out[7]                                  |uo_out[7]                                  
+uo_out[5]                                  |uo_out[5]                                  
+uo_out[0]                                  |uo_out[0]                                  
+uo_out[1]                                  |uo_out[1]                                  
+uo_out[3]                                  |uo_out[3]                                  
+uo_out[2]                                  |uo_out[2]                                  
+VPWR                                       |VPWR                                       
+VGND                                       |VGND                                       
+ena                                        |ena                                        
+uio_in[3]                                  |uio_in[3]                                  
+uio_in[4]                                  |uio_in[4]                                  
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes heichips26_FAIf and heichips26_FAIf are equivalent.
+
+Final result: Circuits match uniquely.
+.
